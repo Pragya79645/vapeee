@@ -102,7 +102,7 @@ function Collection() {
                 <div className={`border border-gray-300 pl-5 py-3 mt-6 ${showFilter ? '' : 'hidden'} sm:block`}>
                     <p className="mb-3 font-medium text-sm">CATEGORIES</p>
                     <div className="flex flex-col gap-2 text-sm font-light text-gray-700">
-                        {['Men', 'Women', 'Kids'].map(label => {
+                        {['Accessories', 'Device Type', 'Brand'].map(label => {
                             const id = `category-${label}`;
                             return (
                                 <div key={label} className="flex gap-2 items-center">
@@ -124,7 +124,7 @@ function Collection() {
                 <div className={`border border-gray-300 pl-5 py-3 mt-6 my-5 ${showFilter ? '' : 'hidden'} sm:block`}>
                     <p className="mb-3 text-sm font-medium">TYPE</p>
                     <div className="flex flex-col gap-2 text-sm font-light text-gray-700">
-                        {['Topwear', 'Bottomwear', 'Winterwear'].map(label => {
+                        {['Price', 'Flavor', 'Brand'].map(label => {
                             const id = `subcategory-${label}`;
                             return (
                                 <div key={label} className="flex gap-2 items-center">

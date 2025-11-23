@@ -18,7 +18,9 @@ import PrivateRoute from "./routes/PrivateRoute";
 import RecentBlogs from "./components/recentblog";
 import LocationMap from "./components/locationMap";
 import FAQ from "./components/faq";
-
+import ProductHighlights from "./components/highlights";
+import Hero from "./components/Hero";
+import Highlights from "./components/highlights";
 
 const App = () => {
   return (
@@ -37,7 +39,9 @@ const App = () => {
         <Route path="/orders" element={<PrivateRoute><Orders /></PrivateRoute>} />
         <Route path="/place-order" element={<PrivateRoute><PlaceOrder /></PrivateRoute>} />
       </Routes>
+      
       <RecentBlogs />
+    <Highlights />
       <FAQ />
       <LocationMap />
       <Footer />

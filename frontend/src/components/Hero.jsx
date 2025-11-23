@@ -14,7 +14,7 @@ const Hero = () => {
             {/* Main Hero Banner */}
             <div className="relative w-full h-[400px] rounded-lg overflow-hidden mb-6 group">
                 <img 
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                    className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105" 
                     src={images.mainBanner}
                     alt="Main Banner" 
                 />
@@ -42,7 +42,7 @@ const Hero = () => {
                 {/* Grid Item 1 */}
                 <div className="relative h-[300px] rounded-lg overflow-hidden group cursor-pointer">
                     <img 
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                        className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105" 
                         src={images.product1}
                         alt="Product 1" 
                     />
@@ -63,7 +63,7 @@ const Hero = () => {
                 {/* Grid Item 2 */}
                 <div className="relative h-[300px] rounded-lg overflow-hidden group cursor-pointer">
                     <img 
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                        className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105" 
                         src={images.product2}
                         alt="Product 2" 
                     />
@@ -84,7 +84,7 @@ const Hero = () => {
                 {/* Grid Item 3 */}
                 <div className="relative h-[300px] rounded-lg overflow-hidden group cursor-pointer">
                     <img 
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                        className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105" 
                         src={images.product3}
                         alt="Product 3" 
                     />
