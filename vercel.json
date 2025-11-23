@@ -1,0 +1,5 @@
+{
+  "buildCommand": "cd admin && pnpm run build",
+  "outputDirectory": "admin/dist"
+}
+
