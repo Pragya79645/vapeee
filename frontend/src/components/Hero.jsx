@@ -3,10 +3,10 @@ import React from "react";
 const Hero = () => {
     // You can import your images and replace these placeholder paths
     const images = {
-        mainBanner: "/pic1.jpg", // Large top banner
-        product1: "/pic3.jpg",     // Grid item 1
-        product2: "/pic2.jpg",     // Grid item 2
-        product3: "/pic1.jpg"      // Grid item 3
+        mainBanner: "/Banana.png", // Large top banner
+        product1: "/Double-Mango.jpg",     // Grid item 1
+        product2: "/Ice.jpg",     // Grid item 2
+        product3: "/Peach-Ice.jpg"      // Grid item 3
     };
 
     return (
@@ -25,7 +25,7 @@ const Hero = () => {
                             <p className="font-medium text-sm md:text-base tracking-wider">FEATURED COLLECTION</p>
                         </div>
                         <h1 className="text-4xl md:text-6xl font-bold mb-4 leading-tight">
-                            Beco Better Taste<br/>Better Choice!
+                           Banana Ice <br/>20mg E-LIQUID - Family
                         </h1>
                         <button className="flex items-center gap-2 bg-white text-black px-6 py-3 rounded-md font-semibold hover:bg-gray-100 transition-colors">
                             SHOP NOW
@@ -48,8 +48,8 @@ const Hero = () => {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
                         <div className="text-white p-6 w-full">
-                            <h3 className="text-2xl font-bold mb-2">RIVO Bar</h3>
-                            <p className="text-sm mb-3 opacity-90">Unmatched Performance</p>
+                            <h3 className="text-2xl font-bold mb-2">BC10000-Double-Mango</h3>
+                            <p className="text-sm mb-3 opacity-90"></p>
                             <div className="flex items-center gap-2 text-sm font-semibold">
                                 <span>Explore</span>
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -69,8 +69,8 @@ const Hero = () => {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
                         <div className="text-white p-6 w-full">
-                            <h3 className="text-2xl font-bold mb-2">RBT Twist</h3>
-                            <p className="text-sm mb-3 opacity-90">Twist on Flavor</p>
+                            <h3 className="text-2xl font-bold mb-2">Sniper Peach Ice</h3>
+                            <p className="text-sm mb-3 opacity-90"></p>
                             <div className="flex items-center gap-2 text-sm font-semibold">
                                 <span>Explore</span>
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -90,8 +90,8 @@ const Hero = () => {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
                         <div className="text-white p-6 w-full">
-                            <h3 className="text-2xl font-bold mb-2">New Arrivals</h3>
-                            <p className="text-sm mb-3 opacity-90">Discover Latest</p>
+                            <h3 className="text-2xl font-bold mb-2">BC10000-Double-Mango</h3>
+                            <p className="text-sm mb-3 opacity-90"></p>
                             <div className="flex items-center gap-2 text-sm font-semibold">
                                 <span>Explore</span>
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

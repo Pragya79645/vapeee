@@ -12,11 +12,14 @@ function Contact() {
             <div className='my-10 flex flex-col justify-center md:flex-row gap-10 mb-28'>
                 <img className='w-full md:max-w-[480px]' src={assets.contact_img} />
                 <div className='flex flex-col justify-center items-start gap-6'>
-                    <p className='font-semibold text-xl text-gray-600'>Our Store</p>
-                    <p className='text-gray-500'>54709 Willms Station <br /> Suite 350, Washington, USA</p>
-                    <p className='text-gray-500'>Tel: (415) 111-1111 <br />Email: admin@forever</p>
-                    <p className='font-semibold text-xl text-gray-600'>Careers at Forever</p>
-                    <p className='text-gray-500'>Learn more about our teams and job openings.</p>
+                    <p className='font-semibold text-xl text-gray-600'>Location</p>
+                    <p className='text-gray-500'>1365 E 41st Ave <br /> Vancouver, BC V5W 1R7</p>
+                    <p className='font-semibold text-xl text-gray-600'>Phone</p>
+                    <p className='text-gray-500'>+1 (604) 559-7833</p>
+                    <p className='font-semibold text-xl text-gray-600'>Email</p>
+                    <p className='text-gray-500'>abc@gmail.com</p>
+                    <p className='font-semibold text-xl text-gray-600'></p>
+                    <p className='text-gray-500'></p>
                     <button className='border border-black px-8 py-4 text-sm hover:bg-black hover:text-white transition-all duration-500'>Explore Job</button>
                 </div>
             </div>

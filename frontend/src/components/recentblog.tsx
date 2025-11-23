@@ -7,7 +7,7 @@ const BLOG_POSTS = [
     excerpt: "lorem ipsum dolor sit.",
     date: "November 18, 2025",
     readTime: "6 min read",
-    image: "/pic1.jpg",
+    image: "/Triple.jpg",
     slug: "/blog/beginners-pod-system-guide",
   },
   {
@@ -16,7 +16,7 @@ const BLOG_POSTS = [
     excerpt: "lorem ipsum dolor sit.",
     date: "October 31, 2025",
     readTime: "2 min read",
-    image: "/pic3.jpg",
+    image: "/Flavour.png",
     slug: "/blog/geek-bar-pulse-review",
   },
   {
@@ -25,7 +25,7 @@ const BLOG_POSTS = [
     excerpt: "lorem ipsum dolor sit.",
     date: "October 24, 2025",
     readTime: "2 min read",
-    image: "/pic1.jpg",
+    image: "/Bease.png",
     slug: "/blog/winter-vaping-101",
   },
   {
@@ -34,7 +34,7 @@ const BLOG_POSTS = [
     excerpt: "lorem ipsum dolor sit.",
     date: "October 17, 2025",
     readTime: "2 min read",
-    image: "/pic2.jpg",
+    image: "/Grape.jpg",
     slug: "/blog/travel-proof-vaping",
   },
 ];

@@ -15,7 +15,7 @@ const Navbar = () => {
                 {/* Top navigation */}
                 <div className='flex items-center justify-between py-4 font-medium'>
                     <Link to='/' className='flex items-center'>
-                        <img src={assets.logo} className='h-10' alt="ForeverBuy Logo" />
+                        <h1 className='text-2xl font-bold text-[#FFB81C]'>Knight St. Vape</h1>
                     </Link>
 
                     {/* Desktop navigation */}
