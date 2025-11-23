@@ -17,7 +17,20 @@ const PORT = process.env.PORT || 4000;
 // Middleware
 app.use(express.json());
 app.use(cors({
-    origin: [process.env.FRONTEND_URL, process.env.ADMIN_URL],
+    origin: function(origin, callback) {
+        const allowedOrigins = [
+            process.env.FRONTEND_URL,
+            process.env.ADMIN_URL,
+            'http://localhost:5173',
+            'http://localhost:5176'
+        ];
+        
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     credentials: true
 }));
 app.use(cookieParser())
