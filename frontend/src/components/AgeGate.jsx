@@ -46,18 +46,18 @@ const AgeGate = ({ storageKey = "ageVerified", defaultMinAge = 19 }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="bg-white rounded-lg w-full max-w-lg mx-4 p-10 text-center shadow-2xl">
-        <h2 className="text-4xl font-extrabold mb-2">Welcome!</h2>
-        <p className="text-gray-600 mb-6">You must be of legal smoking age to enter this site. Please verify your age.</p>
+      <div className="bg-white rounded-lg w-full max-w-lg mx-4 p-6 sm:p-10 text-center shadow-2xl">
+        <h2 className="text-2xl sm:text-4xl font-extrabold mb-2">Welcome!</h2>
+        <p className="text-gray-600 text-sm sm:text-base mb-6">This site is intended for adults only. Verify that you meet the legal age requirement.</p>
 
-        <div className="flex items-center justify-center gap-4 mb-4">
-          <select aria-label="Day" value={day} onChange={(e) => setDay(Number(e.target.value))} className="border-2 rounded-lg px-4 py-2 shadow-sm appearance-none">
+        <div className="flex items-center justify-center gap-2 sm:gap-4 mb-4">
+          <select aria-label="Day" value={day} onChange={(e) => setDay(Number(e.target.value))} className="border rounded-md px-3 py-2 sm:px-4 sm:py-2 shadow-sm appearance-none text-sm">
             {Array.from({ length: 31 }, (_, i) => i + 1).map(d => (
               <option key={d} value={d}>{d}</option>
             ))}
           </select>
 
-          <select aria-label="Month" value={month} onChange={(e) => setMonth(Number(e.target.value))} className="border-2 rounded-lg px-4 py-2 shadow-sm appearance-none">
+          <select aria-label="Month" value={month} onChange={(e) => setMonth(Number(e.target.value))} className="border rounded-md px-3 py-2 sm:px-4 sm:py-2 shadow-sm appearance-none text-sm">
             {[
               "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"
             ].map((mName, idx) => (
@@ -65,7 +65,7 @@ const AgeGate = ({ storageKey = "ageVerified", defaultMinAge = 19 }) => {
             ))}
           </select>
 
-          <select aria-label="Year" value={year} onChange={(e) => setYear(Number(e.target.value))} className="border-2 rounded-lg px-4 py-2 shadow-sm appearance-none">
+          <select aria-label="Year" value={year} onChange={(e) => setYear(Number(e.target.value))} className="border rounded-md px-3 py-2 sm:px-4 sm:py-2 shadow-sm appearance-none text-sm">
             {Array.from({ length: 100 }, (_, i) => currentYear - i).map(y => (
               <option key={y} value={y}>{y}</option>
             ))}
@@ -74,9 +74,9 @@ const AgeGate = ({ storageKey = "ageVerified", defaultMinAge = 19 }) => {
 
         {/* Minimum age is enforced internally (default 19) */}
 
-        <div className="flex items-center justify-center gap-6 mt-4">
-          <button onClick={onAgree} className="bg-black text-white py-3 px-8 rounded-xl shadow-md">Agree</button>
-          <button onClick={onDisagree} className="border-2 border-black text-black py-3 px-8 rounded-xl">Disagree</button>
+        <div className="flex items-center justify-center gap-4 mt-4">
+          <button onClick={onAgree} className="bg-black text-white py-2 px-6 sm:py-3 sm:px-8 rounded-xl shadow-md text-sm sm:text-base">Agree</button>
+          <button onClick={onDisagree} className="border-2 border-black text-black py-2 px-6 sm:py-3 sm:px-8 rounded-xl text-sm sm:text-base">Disagree</button>
         </div>
       </div>
     </div>
