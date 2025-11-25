@@ -50,8 +50,8 @@ const LocationMap = () => {
                       Address
                     </h3>
                     <p className="text-gray-700 text-sm leading-relaxed font-light">
-                      1365 E 41st Ave<br />
-                      Vancouver, BC V5W 1R7<br />
+                      1365 East 41st<br />
+                      Vancouver, BC, V5W1R7<br />
                       Canada
                     </p>
                   </div>
@@ -71,10 +71,10 @@ const LocationMap = () => {
                       Phone
                     </h3>
                     <a 
-                      href="tel:+16045597833" 
+                      href="tel:6045597833" 
                       className="text-gray-700 text-sm hover:text-[#FFB81C] transition-colors font-light"
                     >
-                      +1 (604) 559-7833
+                      6045597833
                     </a>
                   </div>
                 </div>
@@ -94,13 +94,18 @@ const LocationMap = () => {
                     </h3>
                     <div className="space-y-3 text-sm font-light">
                       <div className="flex justify-between items-center">
-                        <span className="text-gray-600">Monday - Saturday</span>
-                        <span className="text-gray-900">9AM - 10PM</span>
+                        <span className="text-gray-600">Monday - Thursday</span>
+                        <span className="text-gray-900">8AM - 10PM</span>
+                      </div>
+                      <div className="h-px bg-gray-200"></div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-gray-600">Friday - Saturday</span>
+                        <span className="text-gray-900">9AM - 12AM</span>
                       </div>
                       <div className="h-px bg-gray-200"></div>
                       <div className="flex justify-between items-center">
                         <span className="text-gray-600">Sunday</span>
-                        <span className="text-gray-900">9AM - 9PM</span>
+                        <span className="text-gray-900">9AM - 10PM</span>
                       </div>
                     </div>
                   </div>
@@ -122,7 +127,7 @@ const LocationMap = () => {
                 Get Directions
               </a>
               <a 
-                href="tel:+16045597833"
+                href="tel:6045597833"
                 className="flex items-center justify-center w-full border border-gray-300 text-gray-900 hover:border-[#FFB81C] hover:text-[#FFB81C] font-light py-3.5 px-6 transition-all duration-300 text-sm tracking-wide group"
               >
                 <svg className="w-4 h-4 mr-2.5 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -146,12 +151,12 @@ const LocationMap = () => {
               <div>
                 <h4 className="font-medium text-gray-900 text-base mb-1">Need Help Finding Us?</h4>
                 <p className="text-gray-600 text-sm font-light leading-relaxed max-w-xl">
-                  We're located on Knight Street, easily accessible with plenty of parking available.
+                  We're located next to Lucky's Exotic Bodega and plenty of parking is available in the back.
                 </p>
               </div>
             </div>
             <a 
-              href="tel:+16045597833"
+              href="tel:6045597833"
               className="bg-[#FFB81C] hover:bg-gray-900 text-gray-900 hover:text-white font-light py-3 px-8 text-sm tracking-wide transition-all duration-300 whitespace-nowrap"
             >
               Call for Directions
