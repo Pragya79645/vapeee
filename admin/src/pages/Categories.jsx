@@ -9,7 +9,10 @@ const Categories = () => {
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/category/list`);
+      const backend = import.meta.env.VITE_BACKEND_URL || '';
+      const url = `${backend}/api/category/list`;
+      console.log('Fetching categories from:', url);
+      const res = await axios.get(url, { withCredentials: true });
       if (res.data.success) setCategories(res.data.categories);
     } catch (err) {
       console.error(err);
@@ -26,7 +29,10 @@ const Categories = () => {
     if (!name.trim()) return toast.error('Category name is required');
     setLoading(true);
     try {
-      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/category/create`, { name }, { withCredentials: true });
+      const backend = import.meta.env.VITE_BACKEND_URL || '';
+      const url = `${backend}/api/category/create`;
+      console.log('Creating category POST ->', url, 'payload:', { name });
+      const res = await axios.post(url, { name }, { withCredentials: true });
       if (res.data.success) {
         toast.success('Category created');
         setName('');
