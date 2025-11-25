@@ -17,15 +17,31 @@ const placeOrderCOD = async (req, res) => {
             return res.status(400).json({ error: "Complete address is required." });
         }
 
-        // Validate each product exists and size is available
+        // Validate each product exists and requested size/variant is available
         for (let item of items) {
             const product = await Product.findById(item.productId);
             if (!product) {
                 return res.status(404).json({ error: `Product not found: ${item.name}` });
             }
-            if (!product.sizes.includes(item.size)) {
-                return res.status(400).json({ error: `Size ${item.size} not available for product ${item.name}` });
+            // Figure out requested size from either `variantSize` or legacy `size` field
+            const requestedSize = item.variantSize || item.size || 'default';
+
+            // Prefer validating against `variants` (new schema). Fall back to `sizes` if present.
+            const variantSizes = Array.isArray(product.variants) && product.variants.length
+                ? product.variants.map(v => v.size)
+                : (Array.isArray(product.sizes) ? product.sizes : []);
+
+            if (variantSizes.length > 0 && !variantSizes.includes(requestedSize)) {
+                return res.status(400).json({ error: `Size ${requestedSize} not available for product ${item.name}` });
             }
+
+            // Attach snapshot of product image URL to the order item so order reflects the image at booking time
+            try {
+                item.image = (product.images && product.images.length) ? product.images[0].url : '';
+            } catch (err) {
+                item.image = '';
+            }
+            // If no variantSizes are provided on product, accept any size (or 'default')
         }
 
         // Create new order
@@ -61,7 +77,7 @@ const allOrders = async (req, res) => {
         const orders = await Order.find()
             .sort({ createdAt: -1 })
             .populate("userId", "name email")
-            .populate("items.productId", "image name");
+            .populate("items.productId", "images variants name");
 
         return res.status(200).json({ success: true, orders });
     } catch (error) {
@@ -78,7 +94,7 @@ const userOrders = async (req, res) => {
         // Find orders by user ID, sorted by most recent first
         const orders = await Order.find({ userId })
             .sort({ createdAt: -1 })
-            .populate("items.productId", "image");
+            .populate("items.productId", "images variants");
 
         return res.status(200).json({ success: true, orders });
     } catch (error) {
@@ -91,7 +107,7 @@ const userOrders = async (req, res) => {
 // Update order status
 const orderStatus = async (req, res) => {
     try {
-        const { orderId, status } = req.body;
+        const { orderId, status, itemId } = req.body;
 
         // Validate input
         if (!orderId || !status) {
@@ -103,7 +119,23 @@ const orderStatus = async (req, res) => {
             return res.status(400).json({ success: false, message: "Invalid status value." });
         }
 
-        // Update the order
+        // If itemId provided, update only that item's status
+        if (itemId) {
+            // Use positional operator to update nested item
+            const updatedOrder = await Order.findOneAndUpdate(
+                { _id: orderId, 'items._id': itemId },
+                { $set: { 'items.$.status': status } },
+                { new: true }
+            ).populate("userId", "name email");
+
+            if (!updatedOrder) {
+                return res.status(404).json({ success: false, message: "Order or item not found." });
+            }
+
+            return res.status(200).json({ success: true, message: "Order item status updated successfully.", order: updatedOrder });
+        }
+
+        // Otherwise update whole order-level status
         const updatedOrder = await Order.findByIdAndUpdate(
             orderId,
             { status },
@@ -114,11 +146,7 @@ const orderStatus = async (req, res) => {
             return res.status(404).json({ success: false, message: "Order not found." });
         }
 
-        return res.status(200).json({
-            success: true,
-            message: "Order status updated successfully.",
-            order: updatedOrder,
-        });
+        return res.status(200).json({ success: true, message: "Order status updated successfully.", order: updatedOrder });
 
     } catch (error) {
         console.error("Error updating order status:", error);

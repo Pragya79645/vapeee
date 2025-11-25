@@ -16,7 +16,8 @@ function Orders() {
                 let allOrdersItem = [];
                 res.data.orders.forEach((order) => {
                     order.items.forEach((item) => {
-                        item.status = order.status;
+                        // Prefer per-item status if present, otherwise fall back to order-level status
+                        item.status = item.status || order.status;
                         item.payment = order.payment;
                         item.paymentMethod = order.paymentMethod;
                         item.date = order.createdAt;
@@ -49,7 +50,7 @@ function Orders() {
                         <div className='flex items-start gap-6 text-sm'>
                             <img
                                 className='w-16 sm:w-20 object-cover border border-gray-200 bg-gray-50'
-                                src={product.productId?.image?.[0]?.url || '/no-image.jpg'}
+                                src={product.image || product.productId?.images?.[0]?.url || '/no-image.svg'}
                                 alt={product.name}
                             />
                             <div>
@@ -57,14 +58,26 @@ function Orders() {
                                 <div className='flex items-center gap-3 mt-1 text-base text-gray-700'>
                                     <p>{currency}{product.price.toFixed(2)}</p>
                                     <p>Quantity: {product.quantity}</p>
-                                    <p>Size: {product.size}</p>
+                                    <p>
+                                        Size: {
+                                            (product.variantSize && product.variantSize !== 'default')
+                                                ? product.variantSize
+                                                : (product.productId?.variants && product.productId.variants.length > 0
+                                                    ? product.productId.variants[0].size
+                                                    : (product.size && product.size !== 'default' ? product.size : ''))
+                                        }
+                                    </p>
                                 </div>
                                 <p className='mt-1'>Date: <span className='text-gray-400'>{new Date(product.date).toLocaleDateString()}</span></p>
                             </div>
                         </div>
                         <div className='flex justify-between md:w-1/2'>
                             <div className='flex items-center gap-2'>
-                                <p className='min-w-2 h-2 rounded-full bg-green-500'></p>
+                                {(() => {
+                                    const s = (product.status || '').toLowerCase();
+                                    const color = s === 'shipped' || s === 'delivered' ? 'bg-green-500' : s === 'processing' ? 'bg-yellow-400' : s === 'pending' ? 'bg-gray-400' : s === 'cancelled' ? 'bg-red-500' : 'bg-gray-400';
+                                    return <p className={`min-w-2 h-2 rounded-full ${color}`}></p>;
+                                })()}
                                 <p className='text-sm md:text-base'>{product.status}</p>
                             </div>
                             <button className='border border-gray-300 px-4 py-2 text-sm font-medium rounded-sm cursor-pointer'>

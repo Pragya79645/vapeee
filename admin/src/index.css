@@ -10,3 +10,49 @@ select, input, textarea {
   outline-color: #c586c5;
   border-radius: 4px;
 }
+
+:root{
+  --brand: #FFB81C; /* gold */
+  --brand-100: #fff6e0;
+  --bg: #ffffff;
+  --muted: #f7f7f7;
+  --text: #1f2937;
+  --border: #e6e6e6;
+}
+
+body{
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Form focus and selects use brand */
+select:focus, input:focus, textarea:focus{ outline-color: var(--brand); border-color: rgba(0,0,0,0.06); }
+
+/* Admin-specific helpers */
+.admin-sidebar { background: var(--bg); border-right: 1px solid var(--border); }
+.admin-sidebar .active { background: var(--brand-100) !important; border-color: var(--brand) !important; }
+.admin-active { background: var(--brand-100) !important; border-color: var(--brand) !important; }
+.btn-gold { background: var(--brand); color: #111827; }
+.btn-gold-outline { border: 1px solid var(--brand); color: var(--brand); background: transparent; }
+
+/* Small status dot colors */
+.status-dot { width:8px; height:8px; border-radius:9999px; display:inline-block; }
+.status-shipped{ background: #10B981; } /* green */
+.status-delivered{ background: #059669; }
+.status-processing{ background: #F59E0B; }
+.status-pending{ background: #9CA3AF; }
+.status-cancelled{ background: #EF4444; }
+
+/* Category list / chip styles for admin Add product */
+.category-chip{
+  background: var(--brand-100);
+  color: #111827;
+  padding: 6px 10px;
+  border-radius: 9999px;
+  font-size: 13px;
+  border: 1px solid rgba(0,0,0,0.04);
+}
+.category-list{ background: var(--bg); }
+.category-item{ cursor: pointer; border: 1px solid transparent; }
+.category-item:hover{ background: #fffaf0; }
+.category-item-checked{ background: #fff6e6; border-color: rgba(255,184,28,0.2); }

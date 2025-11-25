@@ -9,6 +9,7 @@ import productRouter from './routes/productRoute.js';
 import adminRouter from './routes/adminRoute.js';
 import cartRoute from './routes/cartRoute.js';
 import orderRoute from './routes/orderRoute.js';
+import categoryRoute from './routes/categoryRoute.js';
 
 // App Config
 const app = express();
@@ -41,6 +42,7 @@ connectCloudinary();
 app.use('/api/user', userRouter);
 app.use('/api/product', productRouter);
 app.use('/api/admin', adminRouter);
+app.use('/api/category', categoryRoute);
 app.use('/api/cart/', cartRoute);
 app.use('/api/order', orderRoute);
 

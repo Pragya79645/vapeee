@@ -5,9 +5,12 @@ import { useAuth } from "../context/AuthContext";
 const Navbar = () => {
     const { logout } = useAuth();
     return (
-        <div className="flex items-center py-2 px-[4%] justify-between">
-            <img className="w-[max(10%,80px)]" src={assets.logo} alt="Forever Logo" />
-            <button onClick={logout} className="bg-gray-600 text-white px-5 py-2 sm:px-7 sm:py-2 rounded-full text-xs sm:text-sm cursor-pointer">Logout</button>
+        <div className="flex items-center py-2 px-[4%] justify-between" style={{background:'var(--bg)'}}>
+            <div className="flex items-center gap-3">
+                <span className="text-2xl font-extrabold" style={{ color: 'var(--brand)' }}>Knight St. Vapes</span>
+                <span className="text-2xl text-black">Admin</span>
+            </div>
+            <button onClick={logout} className="px-5 py-2 sm:px-7 sm:py-2 rounded-full text-xs sm:text-sm cursor-pointer btn-gold">Logout</button>
         </div>
     )
 };

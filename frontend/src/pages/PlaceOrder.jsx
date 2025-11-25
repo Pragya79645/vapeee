@@ -13,8 +13,10 @@ function PlaceOrder() {
     const [loading, setLoading] = useState(false);
     const {
         products,
+        currency,
         deliveryFee,
         cartItems,
+        cartDetails,
         getCartAmount,
         navigate,
         backendUrl,
@@ -44,19 +46,30 @@ function PlaceOrder() {
         try {
             let orderItems = [];
 
-            for (const productId in cartItems) {
-                for (const size in cartItems[productId]) {
-                    const quantity = cartItems[productId][size];
-                    if (quantity > 0) {
-                        const product = products.find(p => p._id === productId);
-                        if (product) {
-                            orderItems.push({
-                                productId: product._id,
-                                name: product.name,
-                                size,
-                                quantity,
-                                price: product.price
-                            });
+            if (cartDetails && cartDetails.length) {
+                // Use backend-provided cart details (contain variant price)
+                orderItems = cartDetails.map(d => ({
+                    productId: d.productId,
+                    name: d.name,
+                    variantSize: d.variantSize || d.size || 'default',
+                    quantity: d.quantity,
+                    price: d.price
+                }));
+            } else {
+                for (const productId in cartItems) {
+                    for (const size in cartItems[productId]) {
+                        const quantity = cartItems[productId][size];
+                        if (quantity > 0) {
+                            const product = products.find(p => p._id === productId);
+                            if (product) {
+                                orderItems.push({
+                                    productId: product._id,
+                                    name: product.name,
+                                    variantSize: size,
+                                    quantity,
+                                    price: product.price
+                                });
+                            }
                         }
                     }
                 }
@@ -132,39 +145,66 @@ function PlaceOrder() {
 
             {/* Right Side */}
             <div className='mt-8'>
-                <div className='mt-8 min-w-80'>
-                    <CartTotal />
-                </div>
+                    <div className='mt-8 w-full sm:w-[420px]'>
+                        <div className='bg-white p-4 border rounded'>
+                            <h3 className='text-lg font-medium mb-4'>Your Order</h3>
 
-                <div className='mt-12'>
-                    <Title text1='PAYMENT' text2='METHOD' />
-                    <div className='flex flex-col gap-3 lg:flex-row'>
-                        <div
-                            onClick={() => toast.warning('Cash on delivery only')}
-                            className='flex items-center gap-3 border border-gray-300 p-2 px-3 cursor-pointer'
-                        >
-                            <p className={`min-w-3.5 h-3.5 border border-gray-300 rounded-full ${paymentMethod === 'stripe' ? 'bg-green-400' : ''}`}></p>
-                            <img className='h-5 mx-4' src={assets.stripe_logo} alt="Stripe Logo" />
-                        </div>
-                        <div
-                            onClick={() => setPaymentMethod('cod')}
-                            className='flex items-center gap-3 border border-gray-300 p-2 px-3 cursor-pointer'
-                        >
-                            <p className={`min-w-3.5 h-3.5 border border-gray-300 rounded-full ${paymentMethod === 'cod' ? 'bg-green-400' : ''}`}></p>
-                            <p className='text-gray-500 text-sm font-medium mx-4'>CASH ON DELIVERY</p>
+                            <div className='space-y-3'>
+                                {(cartDetails && cartDetails.length ? cartDetails : Object.keys(cartItems).flatMap(pid => {
+                                    const sizes = cartItems[pid] || {};
+                                    return Object.keys(sizes).map(size => ({ productId: pid, variantSize: size, quantity: sizes[size] }));
+                                })).map((it, idx) => {
+                                    const pid = it.productId || it.productId;
+                                    const size = it.variantSize || it.size;
+                                    const quantity = it.quantity || 0;
+                                    const product = products.find(p => p._id === pid) || {};
+                                    const image = it.image || product.images?.[0]?.url || '';
+                                    const name = it.name || product.name || '';
+                                    const price = it.price ?? product.price ?? 0;
+
+                                    return (
+                                        <div key={`${pid}-${size}-${idx}`} className='flex items-center gap-3'>
+                                            <img src={image} className='w-16 h-16 object-cover' />
+                                            <div className='flex-1'>
+                                                <div className='text-sm font-medium'>{name}</div>
+                                                <div className='text-xs text-gray-500'>{size}</div>
+                                                <div className='text-sm mt-1'>{currency}{(price * quantity).toFixed(2)}</div>
+                                            </div>
+                                            <div className='text-sm text-gray-700'>{quantity} x</div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+
+                            <div className='mt-4'>
+                                <div className='flex justify-between text-sm'>
+                                    <div>Subtotal</div>
+                                    <div>{currency}{getCartAmount().toFixed(2)}</div>
+                                </div>
+                                <div className='flex justify-between text-sm mt-2'>
+                                    <div>Shipping</div>
+                                    <div>{currency}{deliveryFee.toFixed(2)}</div>
+                                </div>
+                                <div className='flex justify-between text-sm mt-2'>
+                                    <div>Estimated taxes</div>
+                                    <div>{currency}{(getCartAmount() * 0.06).toFixed(2)}</div>
+                                </div>
+                                <hr className='my-3' />
+                                <div className='flex justify-between text-base font-semibold'>
+                                    <div>Total</div>
+                                    <div>{currency}{(getCartAmount() + deliveryFee + (getCartAmount() * 0.06)).toFixed(2)}</div>
+                                </div>
+                            </div>
+
+                            <div className='mt-4'>
+                                <input placeholder='Discount code or gift card' className='w-full border p-2 text-sm' />
+                                <div className='flex gap-2 mt-3'>
+                                    <button type='button' onClick={() => navigate('/cart')} className='w-1/2 border py-2'>Go to cart</button>
+                                    <button type='submit' disabled={loading} className='w-1/2 bg-black text-white py-2'>{loading ? 'Placing Order...' : 'Checkout'}</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-
-                    <div className='w-full text-end mt-8'>
-                        <button
-                            type='submit'
-                            disabled={loading}
-                            className='bg-black text-white px-16 py-3 text-sm cursor-pointer disabled:opacity-50'
-                        >
-                            {loading ? "Placing Order..." : "PLACE ORDER"}
-                        </button>
-                    </div>
-                </div>
             </div>
         </form>
     );

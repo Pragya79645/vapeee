@@ -74,32 +74,33 @@ const List = () => {
         <>
             <p className="mb-2">All Products List</p>
             <div className="flex flex-col gap-2">
-                <div className="hidden md:grid grid-cols-[1fr_3fr_1fr_1fr_1fr] items-center py-1 px-2 border border-gray-200 bg-gray-100 text-sm">
-                    <b>Image</b>
+                <div className="hidden md:grid grid-cols-[0.5fr_2fr_1fr_1fr_1fr_1fr_1fr] items-center py-1 px-2 border border-gray-200 bg-gray-100 text-sm">
+                    <b></b>
                     <b>Name</b>
-                    <b>Category</b>
                     <b>Price</b>
-                    <b className="text-center">Action</b>
+                    <b>Category</b>
+                    <b>In Stock</b>
+                    <b>Stock Count</b>
+                    <b className="text-center">Show on POS</b>
                 </div>
 
-                {products.map((product, index) => {
+                        {products.map((product, index) => {
                     const isLast = index === products.length - 1;
                     return (
                         <div
                             key={product._id}
                             ref={isLast ? lastProductRef : null}
-                            className="grid grid-cols-[1fr_3fr_1fr] md:grid-cols-[1fr_3fr_1fr_1fr_1fr] items-center gap-2 py-1 px-2 border border-gray-200 text-sm"
+                                    className="grid grid-cols-[0.5fr_3fr_1fr_1fr_1fr_1fr_1fr] items-center gap-2 py-1 px-2 border border-gray-200 text-sm"
                         >
-                            <img className="w-12" src={product.image[0]?.url} alt={product.name} />
-                            <p>{product.name}</p>
-                            <p>{product.category}</p>
-                            <p>{currency + product.price}</p>
-                            <p
-                                onClick={() => removeProduct(product._id)}
-                                className="text-right md:text-center cursor-pointer text-lg"
-                            >
-                                X
-                            </p>
+                                    <div>
+                                        <input type="checkbox" />
+                                    </div>
+                                    <p>{product.name}</p>
+                                    <p>{currency + product.price}</p>
+                                    <p>{(product.categories || []).join(', ') || ''}</p>
+                                    <p>{product.inStock ? 'Yes' : 'No'}</p>
+                                    <p>{product.stockCount ?? 0}</p>
+                                    <p className="text-center">{product.showOnPOS ? 'Yes' : 'No'}</p>
                         </div>
                     );
                 })}

@@ -5,11 +5,11 @@ import { productSchema } from "../validation/productValidation.js";
 // Function to add product
 const addProduct = async (req, res) => {
     try {
-        const { name, description, price, category, subCategory, sizes, bestseller } = req.body;
+        const { productId, name, description, price, categories, flavour, variants, stockCount, inStock, showOnPOS, otherFlavours, bestseller } = req.body;
 
         // Validate input using Joi
         const { error, value } = productSchema.validate(
-            { name, description, price, category, subCategory, sizes, bestseller },
+            { productId, name, description, price, categories, flavour, variants, stockCount, inStock, showOnPOS, otherFlavours, bestseller },
             { abortEarly: false }
         );
 
@@ -21,8 +21,14 @@ const addProduct = async (req, res) => {
             });
         }
 
-        // Parse sizes if sent as string
-        const parsedSizes = typeof value.sizes === "string" ? JSON.parse(value.sizes) : value.sizes;
+        // Parse variants and otherFlavours if sent as string
+        const parsedVariants = value.variants 
+            ? (typeof value.variants === "string" ? JSON.parse(value.variants) : value.variants)
+            : [];
+        
+        const parsedOtherFlavours = value.otherFlavours
+            ? (typeof value.otherFlavours === "string" ? JSON.parse(value.otherFlavours) : value.otherFlavours)
+            : [];
 
         // Process uploaded images
         const image1 = req?.files?.image1?.[0];
@@ -36,25 +42,53 @@ const addProduct = async (req, res) => {
             return res.status(400).json({ success: false, message: "At least one image is required" });
         }
 
-        const imagesResults = await Promise.all(
-            images.map(async (image) => {
+        // Upload images to Cloudinary with per-image error handling + debug logs
+        const imagesResults = [];
+        for (const image of images) {
+            try {
+                console.log('Uploading image to Cloudinary, path:', image.path);
                 const result = await cloudinary.uploader.upload(image.path, { resource_type: "image", folder: "products" });
-                return {
+                imagesResults.push({
                     url: result.secure_url.toString(),
                     public_id: result.public_id.toString(),
-                };
-            })
-        );
+                });
+            } catch (uploadErr) {
+                // Masked env values for debugging
+                const mask = (s) => (typeof s === 'string' && s.length > 6) ? s.slice(0, 3) + '...' + s.slice(-3) : s;
+                console.error('Cloudinary upload failed for file:', image.path);
+                console.error('Upload error full:', uploadErr);
+                console.error('CLOUDINARY_CLOUD_NAME:', process.env.CLOUDINARY_CLOUD_NAME ? process.env.CLOUDINARY_CLOUD_NAME : 'missing');
+                console.error('CLOUDINARY_API_KEY:', mask(process.env.CLOUDINARY_API_KEY));
+                console.error('CLOUDINARY_API_SECRET:', mask(process.env.CLOUDINARY_API_SECRET));
+
+                // Return helpful error for frontend
+                return res.status(500).json({
+                    success: false,
+                    message: `Cloudinary upload error: ${uploadErr.message || 'unknown error'}`,
+                    details: uploadErr && uploadErr.http_code ? { http_code: uploadErr.http_code, error: uploadErr } : undefined
+                });
+            }
+        }
 
         // Construct and save product
+        // Ensure categories is an array
+        const parsedCategories = value.categories
+            ? (typeof value.categories === 'string' ? JSON.parse(value.categories) : value.categories)
+            : [];
+
         const product = new Product({
+            productId: value.productId,
             name: value.name,
             description: value.description,
             price: Number(value.price),
-            image: imagesResults,
-            category: value.category,
-            subCategory: value.subCategory,
-            sizes: parsedSizes,
+            images: imagesResults,
+            categories: parsedCategories,
+            flavour: value.flavour || "",
+            variants: parsedVariants,
+            stockCount: Number(value.stockCount),
+            inStock: value.inStock === undefined ? (Number(value.stockCount) > 0) : Boolean(value.inStock),
+            showOnPOS: value.showOnPOS === undefined ? true : Boolean(value.showOnPOS),
+            otherFlavours: parsedOtherFlavours,
             bestseller: value.bestseller,
         });
 
@@ -81,7 +115,7 @@ const listProducts = async (req, res) => {
         const products = await Product.find(query)
             .sort({ _id: -1 }) // Newest first by ObjectId
             .limit(queryLimit)
-            .select("name price image category subCategory sizes bestseller");
+            .select("productId name price images categories flavour variants stockCount inStock showOnPOS bestseller");
 
         if (!products || products.length === 0) {
             return res.status(200).json({
@@ -131,7 +165,7 @@ const removeProduct = async (req, res) => {
 
         // Delete each image from Cloudinary
         await Promise.all(
-            product.image.map(async (img) => {
+            product.images.map(async (img) => {
                 if (img.public_id) {
                     await cloudinary.uploader.destroy(img.public_id);
                 }

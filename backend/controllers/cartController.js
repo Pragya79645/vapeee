@@ -1,9 +1,10 @@
-import User from "../models/userModel.js";
+import Cart from "../models/cartModel.js";
+import Product from "../models/productModel.js";
 
 // Utility function for input validation
-const validateCartInput = ({ itemId, size, quantity = null }) => {
+const validateCartInput = ({ itemId, variantSize, quantity = null }) => {
     if (!itemId || typeof itemId !== 'string') return "'itemId' is invalid or missing";
-    if (!size || typeof size !== 'string') return "'size' is invalid or missing";
+    if (!variantSize || typeof variantSize !== 'string') return "'variantSize' is invalid or missing";
     if (quantity !== null) {
         if (typeof quantity !== 'number' || quantity < 0 || !Number.isInteger(quantity)) {
             return "'quantity' must be a non-negative integer";
@@ -12,25 +13,61 @@ const validateCartInput = ({ itemId, size, quantity = null }) => {
     return null;
 };
 
-// Add product to cart (increments by 1)
+// Add product to cart
 const addToCart = async (req, res) => {
     try {
         const userId = req.user._id;
-        const { itemId, size } = req.body;
+        const { itemId, variantSize, quantity = 1 } = req.body;
 
-        const error = validateCartInput({ itemId, size });
+        const error = validateCartInput({ itemId, variantSize, quantity });
         if (error) return res.status(400).json({ success: false, message: error });
 
-        // Atomic increment
-        const updateResult = await User.findByIdAndUpdate(
-            userId,
-            { $inc: { [`cartData.${itemId}.${size}`]: 1 } },
-            { new: true, upsert: false }
+        // Fetch product to get details
+        const product = await Product.findById(itemId);
+        if (!product) {
+            return res.status(404).json({ success: false, message: "Product not found" });
+        }
+
+        // Find the variant price
+        let variantPrice = product.price;
+        if (product.variants && product.variants.length > 0) {
+            const variant = product.variants.find(v => v.size === variantSize);
+            if (variant) {
+                variantPrice = variant.price;
+            }
+        }
+
+        // Find or create cart
+        let cart = await Cart.findOne({ userId });
+        
+        if (!cart) {
+            cart = new Cart({
+                userId,
+                items: []
+            });
+        }
+
+        // Check if item with same variant already exists
+        const existingItemIndex = cart.items.findIndex(
+            item => item.productId.toString() === itemId && item.variantSize === variantSize
         );
 
-        if (!updateResult) {
-            return res.status(404).json({ success: false, message: "User not found" });
+        if (existingItemIndex > -1) {
+            // Update quantity
+            cart.items[existingItemIndex].quantity += quantity;
+        } else {
+            // Add new item
+            cart.items.push({
+                productId: itemId,
+                name: product.name,
+                variantSize,
+                quantity,
+                price: variantPrice,
+                image: product.images[0]?.url || ""
+            });
         }
+
+        await cart.save();
 
         res.status(200).json({ success: true, message: "Added to cart" });
     } catch (error) {
@@ -43,33 +80,35 @@ const addToCart = async (req, res) => {
 const updateCart = async (req, res) => {
     try {
         const userId = req.user._id;
-        const { itemId, size, quantity } = req.body;
+        const { itemId, variantSize, quantity } = req.body;
 
-        const error = validateCartInput({ itemId, size, quantity });
+        const error = validateCartInput({ itemId, variantSize, quantity });
         if (error) return res.status(400).json({ success: false, message: error });
 
-        const user = await User.findById(userId);
-        if (!user) {
-            return res.status(404).json({ success: false, message: "User not found" });
+        const cart = await Cart.findOne({ userId });
+        if (!cart) {
+            return res.status(404).json({ success: false, message: "Cart not found" });
         }
-
-        let updateQuery = {};
 
         if (quantity === 0) {
-            // Remove the size key
-            updateQuery.$unset = { [`cartData.${itemId}.${size}`]: "" };
-
-            // If it's the last size under the itemId, remove the itemId too
-            const sizes = user.cartData?.[itemId];
-            if (sizes && Object.keys(sizes).length === 1 && sizes[size] !== undefined) {
-                updateQuery.$unset = { [`cartData.${itemId}`]: "" };
-            }
+            // Remove item from cart
+            cart.items = cart.items.filter(
+                item => !(item.productId.toString() === itemId && item.variantSize === variantSize)
+            );
         } else {
-            // Set the quantity
-            updateQuery.$set = { [`cartData.${itemId}.${size}`]: quantity };
+            // Update quantity
+            const itemIndex = cart.items.findIndex(
+                item => item.productId.toString() === itemId && item.variantSize === variantSize
+            );
+
+            if (itemIndex > -1) {
+                cart.items[itemIndex].quantity = quantity;
+            } else {
+                return res.status(404).json({ success: false, message: "Item not found in cart" });
+            }
         }
 
-        await User.findByIdAndUpdate(userId, updateQuery, { new: true });
+        await cart.save();
 
         res.status(200).json({ success: true, message: "Cart updated" });
     } catch (error) {
@@ -83,14 +122,13 @@ const updateCart = async (req, res) => {
 const getUserCart = async (req, res) => {
     try {
         const userId = req.user._id;
-        const userData = await User.findById(userId).lean();
-        if (!userData) {
-            return res.status(404).json({ success: false, message: "User not found" });
+        const cart = await Cart.findOne({ userId }).populate('items.productId', 'name images');
+        
+        if (!cart) {
+            return res.status(200).json({ success: true, cartData: { items: [] } });
         }
 
-        const cartData = userData.cartData || {};
-
-        res.status(200).json({ success: true, cartData });
+        res.status(200).json({ success: true, cartData: cart });
     } catch (error) {
         console.error(error);
         res.status(500).json({ success: false, message: error.message });

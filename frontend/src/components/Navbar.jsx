@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { assets } from '../assets/frontend_assets/assets';
 import { Link, NavLink } from 'react-router';
 import { useShop } from '../context/ShopContex';
@@ -8,6 +8,31 @@ const Navbar = () => {
     const [visible, setVisible] = useState(false);
     const { setShowSearch, getCartCount } = useShop();
     const { logout, user, navigate } = useAuth();
+    const [query, setQuery] = useState('');
+    const searchTimer = useRef(null);
+
+    // Debounced live-search: update URL q param as user types
+    const scheduleSearch = (term) => {
+        if (searchTimer.current) clearTimeout(searchTimer.current);
+        searchTimer.current = setTimeout(() => {
+            const t = (term || '').trim();
+            // hide any secondary search UI
+            setShowSearch(false);
+            if (t) navigate(`/collection?q=${encodeURIComponent(t)}`);
+            else navigate(`/collection`);
+        }, 350);
+    };
+
+    const handleSearch = () => {
+        const term = (query || '').trim();
+        if (!term) return;
+        setShowSearch(false);
+        navigate(`/collection?q=${encodeURIComponent(term)}`);
+    }
+
+    useEffect(() => {
+        return () => { if (searchTimer.current) clearTimeout(searchTimer.current); };
+    }, []);
     
     return (
         <div className='bg-white shadow-sm sticky top-0 z-50'>
@@ -18,49 +43,27 @@ const Navbar = () => {
                         <h1 className='text-2xl font-bold text-[#FFB81C]'>Knight St. Vape</h1>
                     </Link>
 
-                    {/* Desktop navigation */}
-                    <ul className='hidden sm:flex gap-8 text-sm font-medium'>
-                        <NavLink to="/" className="flex flex-col items-center gap-1 group">
-                            {({ isActive }) => (
-                                <>
-                                    <p className={`transition-colors ${isActive ? 'text-[#FFB81C]' : 'text-gray-700 hover:text-[#FFB81C]'}`}>
-                                        HOME
-                                    </p>
-                                    <div className={`h-0.5 transition-all duration-300 ${isActive ? 'w-full bg-[#FFB81C]' : 'w-0 bg-[#FFB81C] group-hover:w-full'}`} />
-                                </>
-                            )}
-                        </NavLink>
-                        <NavLink to="/collection" className="flex flex-col items-center gap-1 group">
-                            {({ isActive }) => (
-                                <>
-                                    <p className={`transition-colors ${isActive ? 'text-[#FFB81C]' : 'text-gray-700 hover:text-[#FFB81C]'}`}>
-                                        COLLECTION
-                                    </p>
-                                    <div className={`h-0.5 transition-all duration-300 ${isActive ? 'w-full bg-[#FFB81C]' : 'w-0 bg-[#FFB81C] group-hover:w-full'}`} />
-                                </>
-                            )}
-                        </NavLink>
-                        <NavLink to="/about" className="flex flex-col items-center gap-1 group">
-                            {({ isActive }) => (
-                                <>
-                                    <p className={`transition-colors ${isActive ? 'text-[#FFB81C]' : 'text-gray-700 hover:text-[#FFB81C]'}`}>
-                                        ABOUT
-                                    </p>
-                                    <div className={`h-0.5 transition-all duration-300 ${isActive ? 'w-full bg-[#FFB81C]' : 'w-0 bg-[#FFB81C] group-hover:w-full'}`} />
-                                </>
-                            )}
-                        </NavLink>
-                        <NavLink to="/contact" className="flex flex-col items-center gap-1 group">
-                            {({ isActive }) => (
-                                <>
-                                    <p className={`transition-colors ${isActive ? 'text-[#FFB81C]' : 'text-gray-700 hover:text-[#FFB81C]'}`}>
-                                        CONTACT
-                                    </p>
-                                    <div className={`h-0.5 transition-all duration-300 ${isActive ? 'w-full bg-[#FFB81C]' : 'w-0 bg-[#FFB81C] group-hover:w-full'}`} />
-                                </>
-                            )}
-                        </NavLink>
-                    </ul>
+                    {/* Desktop controls (brand + icons). Nav links moved below header */}
+                    <div className='hidden sm:flex items-center gap-6'>
+                        <div className='relative'>
+                            <input
+                                type='text'
+                                placeholder='Search products...'
+                                value={query}
+                                onChange={e => { setQuery(e.target.value); scheduleSearch(e.target.value); }}
+                                onKeyDown={e => { if (e.key === 'Enter') handleSearch(); }}
+                                className='w-64 px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-[#FFB81C]'
+                                aria-label='Search products'
+                            />
+                            <button
+                                onClick={handleSearch}
+                                className='absolute right-1 top-1.5 w-6 h-6 flex items-center justify-center'
+                                aria-label='Search'
+                            >
+                                <img className='w-4' src={assets.search_icon} alt="search icon" />
+                            </button>
+                        </div>
+                    </div>
 
                     {/* Icons - Search, Profile, Cart, Hamburger */}
                     <div className='flex items-center gap-6'>
@@ -127,6 +130,54 @@ const Navbar = () => {
                             <img src={assets.menu_icon} alt="menu icon" className='w-5' />
                         </button>
                     </div>
+                </div>
+            </div>
+
+            {/* Nav links below header (desktop) */}
+            <div className='border-t border-gray-100 bg-white'>
+                <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+                    <nav className='hidden sm:flex items-center justify-center gap-8 text-sm font-medium py-2'>
+                        <NavLink to="/" className="flex flex-col items-center gap-1 group">
+                            {({ isActive }) => (
+                                <>
+                                    <p className={`transition-colors ${isActive ? 'text-[#FFB81C]' : 'text-gray-700 hover:text-[#FFB81C]'}`}>
+                                        HOME
+                                    </p>
+                                    <div className={`h-0.5 transition-all duration-300 ${isActive ? 'w-full bg-[#FFB81C]' : 'w-0 bg-[#FFB81C] group-hover:w-full'}`} />
+                                </>
+                            )}
+                        </NavLink>
+                        <NavLink to="/collection" className="flex flex-col items-center gap-1 group">
+                            {({ isActive }) => (
+                                <>
+                                    <p className={`transition-colors ${isActive ? 'text-[#FFB81C]' : 'text-gray-700 hover:text-[#FFB81C]'}`}>
+                                        COLLECTION
+                                    </p>
+                                    <div className={`h-0.5 transition-all duration-300 ${isActive ? 'w-full bg-[#FFB81C]' : 'w-0 bg-[#FFB81C] group-hover:w-full'}`} />
+                                </>
+                            )}
+                        </NavLink>
+                        <NavLink to="/about" className="flex flex-col items-center gap-1 group">
+                            {({ isActive }) => (
+                                <>
+                                    <p className={`transition-colors ${isActive ? 'text-[#FFB81C]' : 'text-gray-700 hover:text-[#FFB81C]'}`}>
+                                        ABOUT
+                                    </p>
+                                    <div className={`h-0.5 transition-all duration-300 ${isActive ? 'w-full bg-[#FFB81C]' : 'w-0 bg-[#FFB81C] group-hover:w-full'}`} />
+                                </>
+                            )}
+                        </NavLink>
+                        <NavLink to="/contact" className="flex flex-col items-center gap-1 group">
+                            {({ isActive }) => (
+                                <>
+                                    <p className={`transition-colors ${isActive ? 'text-[#FFB81C]' : 'text-gray-700 hover:text-[#FFB81C]'}`}>
+                                        CONTACT
+                                    </p>
+                                    <div className={`h-0.5 transition-all duration-300 ${isActive ? 'w-full bg-[#FFB81C]' : 'w-0 bg-[#FFB81C] group-hover:w-full'}`} />
+                                </>
+                            )}
+                        </NavLink>
+                    </nav>
                 </div>
             </div>
 

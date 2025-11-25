@@ -10,7 +10,10 @@ const ShopProvider = ({ children }) => {
     const [search, setSearch] = useState('');
     const [showSearch, setShowSearch] = useState(false);
     const [cartItems, setCartItems] = useState({});
+    const [cartDetails, setCartDetails] = useState([]); // detailed cart items from backend
+    const [showCartDrawer, setShowCartDrawer] = useState(false);
     const [products, setProducts] = useState([]);
+    const [mergedOnLogin, setMergedOnLogin] = useState(false);
     const limit = 10;
     const [nextCursor, setNextCursor] = useState(null);
     const [hasMore, setHasMore] = useState(true);
@@ -48,11 +51,37 @@ const ShopProvider = ({ children }) => {
         }
     }, [nextCursor, hasMore]);
 
-    // Get user cart data from DB
+    // Get user cart data from DB and normalize for frontend
     const userCartData = useCallback(async () => {
         try {
             const res = await axios.get(`${backendUrl}/api/cart/get`, { withCredentials: true });
-            setCartItems(res.data.cartData);
+            if (res.data?.success && res.data.cartData) {
+                const cart = res.data.cartData;
+                const items = Array.isArray(cart.items) ? cart.items : [];
+
+                // Build cart mapping { productId: { variantSize: quantity } }
+                const mapping = {};
+                const details = items.map((it) => {
+                    // productId may be populated object or id string
+                    const prodId = (it.productId && it.productId._id) ? it.productId._id : (it.productId || it.product);
+                    const variantSize = it.variantSize || it.size || 'default';
+                    const quantity = it.quantity || 0;
+                    if (!mapping[prodId]) mapping[prodId] = {};
+                    mapping[prodId][variantSize] = quantity;
+
+                    return {
+                        productId: prodId,
+                        name: it.name || (it.productId && it.productId.name) || '',
+                        variantSize,
+                        quantity,
+                        price: it.price ?? (it.productId && it.productId.price) ?? 0,
+                        image: it.image || (it.productId && it.productId.images && it.productId.images[0]?.url) || ''
+                    };
+                });
+
+                setCartItems(mapping);
+                setCartDetails(details);
+            }
         } catch (error) {
             console.error(error);
             toast.error(error?.response?.data?.message || error.message);
@@ -67,23 +96,73 @@ const ShopProvider = ({ children }) => {
         }
     }, [fetchProducts, user, userCartData]);
 
+    // Merge local guest cart into server cart once when user logs in
+    useEffect(() => {
+        const mergeLocalCart = async () => {
+            try {
+                if (!user) return;
+                if (mergedOnLogin) return;
+                // if no local items, nothing to merge
+                const hasLocal = Object.keys(cartItems).length > 0;
+                if (!hasLocal) {
+                    setMergedOnLogin(true);
+                    return;
+                }
+
+                // For each productId and variantSize, call backend add with quantity
+                for (const productId in cartItems) {
+                    const sizes = cartItems[productId];
+                    for (const variantSize in sizes) {
+                        const quantity = sizes[variantSize];
+                        if (!quantity) continue;
+                        try {
+                            await axios.post(`${backendUrl}/api/cart/add`, { itemId: productId, variantSize, quantity }, { withCredentials: true });
+                        } catch (err) {
+                            console.error('Failed to merge cart item', productId, variantSize, err?.response?.data || err.message);
+                        }
+                    }
+                }
+
+                // Refresh server cart and local mapping
+                await userCartData();
+                // mark merged to avoid repeating
+                setMergedOnLogin(true);
+                // clear local-only cartItems since now server holds merged cart
+                setCartItems({});
+            } catch (err) {
+                console.error('Error merging cart on login', err);
+            }
+        };
+
+        mergeLocalCart();
+    }, [user]);
+
     const addToCart = useCallback(async (itemId, size) => {
-        if (!size) {
+        // Determine product and whether variant selection is required
+        const product = products.find(p => p._id === itemId);
+        const hasVariants = !!(product && product.variants && product.variants.length);
+
+        if (hasVariants && !size) {
             toast.error('Select Product Size');
             return;
         }
 
+        // Use a default placeholder for products without variants
+        const variantSize = size || 'default';
+
         setCartItems(prev => {
             const updated = { ...prev };
             if (!updated[itemId]) updated[itemId] = {};
-            updated[itemId][size] = (updated[itemId][size] || 0) + 1;
+            updated[itemId][variantSize] = (updated[itemId][variantSize] || 0) + 1;
             return updated;
         });
+        // open mini cart drawer after add
+        setShowCartDrawer(true);
         if (user) {
             try {
                 await axios.post(
                     `${backendUrl}/api/cart/add`,
-                    { itemId, size },
+                    { itemId, variantSize },
                     { withCredentials: true }
                 );
             } catch (error) {
@@ -91,7 +170,7 @@ const ShopProvider = ({ children }) => {
                 toast.error(error?.response?.data?.message || error.message);
             }
         }
-    }, [user]);
+    }, [user, products]);
 
 
 
@@ -103,25 +182,30 @@ const ShopProvider = ({ children }) => {
         );
     }, [cartItems]);
 
-    const updateQuantity = useCallback(async (itemId, size, quantity) => {
+    const updateQuantity = useCallback(async (itemId, variantSize, quantity) => {
+        // Update local mapping
         setCartItems(prev => {
             const updated = { ...prev };
             if (quantity === 0) {
-                delete updated[itemId]?.[size];
+                delete updated[itemId]?.[variantSize];
                 if (updated[itemId] && Object.keys(updated[itemId]).length === 0) {
                     delete updated[itemId];
                 }
             } else {
                 if (!updated[itemId]) updated[itemId] = {};
-                updated[itemId][size] = quantity;
+                updated[itemId][variantSize] = quantity;
             }
             return updated;
         });
+
+        // Update cartDetails for UI (best-effort local update)
+        setCartDetails(prev => prev.map(d => d.productId === itemId && d.variantSize === variantSize ? { ...d, quantity } : d));
+
         if (user) {
             try {
                 await axios.put(
                     `${backendUrl}/api/cart/update`,
-                    { itemId, size, quantity },
+                    { itemId, variantSize, quantity },
                     { withCredentials: true }
                 );
             } catch (error) {
@@ -132,6 +216,10 @@ const ShopProvider = ({ children }) => {
     }, [user]);
 
     const getCartAmount = useCallback(() => {
+        // Prefer prices from cartDetails if available (backend stores variant price)
+        if (cartDetails && cartDetails.length) {
+            return cartDetails.reduce((sum, item) => sum + (item.price || 0) * (item.quantity || 0), 0);
+        }
         let totalAmount = 0;
         for (const productId in cartItems) {
             const product = products.find(p => p._id === productId);
@@ -144,7 +232,7 @@ const ShopProvider = ({ children }) => {
             }
         }
         return totalAmount;
-    }, [cartItems, products]);
+    }, [cartItems, products, cartDetails]);
 
     const contextValue = useMemo(() => ({
         products,
@@ -155,13 +243,17 @@ const ShopProvider = ({ children }) => {
         showSearch,
         setShowSearch,
         cartItems,
+        cartDetails,
         addToCart,
         getCartCount,
         updateQuantity,
         getCartAmount,
         navigate,
         backendUrl,
-        setCartItems
+        setCartItems,
+        setCartDetails,
+        showCartDrawer,
+        setShowCartDrawer
     }), [search, showSearch, cartItems, addToCart, getCartCount, updateQuantity, getCartAmount, navigate, products]);
 
     return (

@@ -6,8 +6,20 @@ import CartTotal from '../components/CartTotal';
 import { toast } from 'react-toastify';
 
 function Cart() {
-    const { products, currency, cartItems, updateQuantity, navigate, getCartAmount } = useShop();
+    const { products, currency, cartItems, cartDetails, updateQuantity, navigate, getCartAmount } = useShop();
+
+    // Prefer using cartDetails returned from backend when available
     const cartData = useMemo(() => {
+        if (cartDetails && cartDetails.length) {
+            return cartDetails.map(d => ({
+                _id: d.productId,
+                size: d.variantSize,
+                quantity: d.quantity,
+                name: d.name,
+                price: d.price,
+                image: d.image
+            }));
+        }
         const result = [];
         for (const productId in cartItems) {
             const sizes = cartItems[productId];
@@ -19,7 +31,7 @@ function Cart() {
             }
         }
         return result;
-    }, [cartItems]);
+    }, [cartItems, cartDetails]);
 
     return (
         <div className='border-t-2 border-gray-300 pt-14'>
@@ -29,15 +41,20 @@ function Cart() {
             <div>
                 {
                     cartData.map((item) => {
-                        const productData = products.find(product => product._id === item._id);
+                        // If cartDetails provided, item may already contain name/price/image
+                        const productData = products.find(product => product._id === item._id) || {};
+                        const imageSrc = item.image || productData.images?.[0]?.url || productData.image?.[0]?.url || '';
+                        const displayName = item.name || productData.name || '';
+                        const displayPrice = item.price ?? productData.price ?? 0;
+
                         return (
                             <div key={`${item._id}-${item.size}`} className='py-4 border-y border-gray-300 text-gray-700 grid grid-cols-[4fr_0.5fr_0.5fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4'>
                                 <div className='flex items-start gap-6'>
-                                    <img className='w-16 sm:w-20 ' src={productData.image[0]?.url} />
+                                    <img className='w-16 sm:w-20 ' src={imageSrc} />
                                     <div className=''>
-                                        <p className='text-xs sm:text-lg font-medium'>{productData.name}</p>
+                                        <p className='text-xs sm:text-lg font-medium'>{displayName}</p>
                                         <div className='flex items-center gap-5 mt-2'>
-                                            <p>{`${currency} ${productData.price}`}</p>
+                                            <p>{`${currency} ${displayPrice}`}</p>
                                             <p className='px-2 sm:px-3 sm:py-1 border border-gray-300 bg-slate-50'>{item.size}</p>
                                         </div>
                                     </div>

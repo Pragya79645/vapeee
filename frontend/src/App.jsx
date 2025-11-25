@@ -12,6 +12,7 @@ import { Routes, Route } from "react-router";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import SearchBar from "./components/SearchBar";
+import CartDrawer from './components/CartDrawer';
 import { ToastContainer } from 'react-toastify';
 import PublicRoute from "./routes/PublicRoute";
 import PrivateRoute from "./routes/PrivateRoute";
@@ -28,6 +29,7 @@ const App = () => {
       <ToastContainer />
       <Navbar />
       <SearchBar />
+      <CartDrawer />
       <Routes>
         <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
         <Route path="/" element={<Home />} />

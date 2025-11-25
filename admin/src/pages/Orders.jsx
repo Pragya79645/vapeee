@@ -53,6 +53,34 @@ const Orders = () => {
         }
     };
 
+    // Handle individual order item status update
+    const itemStatusHandler = async (newStatus, orderId, itemId) => {
+        try {
+            const res = await axios.put(
+                `${import.meta.env.VITE_BACKEND_URL}/api/order/status`,
+                { orderId, itemId, status: newStatus },
+                { withCredentials: true }
+            );
+
+            if (res.data.success) {
+                // Update the specific item status in state
+                setOrders(prev => prev.map(order => {
+                    if (order._id !== orderId) return order;
+                    return {
+                        ...order,
+                        items: order.items.map(item => item._id === itemId ? { ...item, status: newStatus } : item)
+                    };
+                }));
+                toast.success('Order item status updated successfully.');
+            } else {
+                toast.error(res.data.message || 'Failed to update item status.');
+            }
+        } catch (error) {
+            console.error('Error updating item status:', error);
+            toast.error('Something went wrong while updating the item status.');
+        }
+    };
+
     useEffect(() => {
         fetchAllOrders();
     }, []);
@@ -67,17 +95,30 @@ const Orders = () => {
                 {orders.map((order) => (
                     <article
                         key={order._id}
-                        className="grid grid-cols-1 sm:grid-cols-[0.5fr_2fr_1fr] lg:grid-cols-[0.5fr_2fr_1fr_1fr_1fr] gap-3 items-start border-2 border-gray-200 p-5 md:p-8 my-3 text-xs sm:text-sm text-gray-700 rounded-md"
+                        className="grid grid-cols-1 sm:grid-cols-[0.5fr_2fr_1fr] lg:grid-cols-[0.5fr_2fr_1fr_1fr] gap-3 items-start border-2 border-gray-200 p-5 md:p-8 my-3 text-xs sm:text-sm text-gray-700 rounded-md"
                     >
                         <img className="w-12" src={assets.parcel_icon} alt="Parcel Icon" />
 
                         <div>
                             <div>
                                 {order.items.map((item, index) => (
-                                    <p className="p-0.5" key={index}>
-                                        {item.name} x {item.quantity} <span>{item.size}</span>
-                                        {index !== order.items.length - 1 && ","}
-                                    </p>
+                                    <div className="p-0.5 flex items-center justify-between" key={item._id || index}>
+                                        <div>
+                                            <span className="mr-2">{item.name} x {item.quantity}</span>
+                                            <span className="text-gray-500">{item.variantSize || item.size || ''}</span>
+                                        </div>
+                                        <div>
+                                            <select
+                                                value={item.status || "Pending"}
+                                                onChange={(e) => itemStatusHandler(e.target.value, order._id, item._id)}
+                                                className="p-1 border border-gray-300 rounded"
+                                            >
+                                                {["Pending", "Processing", "Shipped", "Delivered", "Cancelled"].map(opt => (
+                                                    <option key={opt} value={opt}>{opt}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </div>
                                 ))}
                             </div>
                             <p className="mt-3 mb-2 font-medium">{order.userId?.name}</p>
@@ -104,19 +145,7 @@ const Orders = () => {
                             </p>
                         </div>
 
-                        <div>
-                            <select
-                                value={order.status}
-                                onChange={(e) => statusHandler(e.target.value, order._id)}
-                                className="p-2 font-semibold border border-gray-300 rounded-md"
-                            >
-                                {["Pending", "Processing", "Shipped", "Delivered", "Cancelled"].map((option) => (
-                                    <option key={option} value={option}>
-                                        {option}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
+                        {/* Order-level status removed — using per-item status selectors only */}
                     </article>
                 ))}
             </div>

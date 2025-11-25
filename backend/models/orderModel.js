@@ -7,7 +7,13 @@ const orderSchema = new mongoose.Schema({
         {
             productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true },
             name: { type: String, required: true },
-            size: { type: String, required: true },
+            variantSize: { type: String, required: true }, // e.g., "10ml", "20ml"
+            image: { type: String },
+            status: {
+                type: String,
+                enum: ["Pending", "Processing", "Shipped", "Delivered", "Cancelled"],
+                default: "Pending"
+            },
             quantity: { type: Number, required: true },
             price: { type: Number, required: true }
         }

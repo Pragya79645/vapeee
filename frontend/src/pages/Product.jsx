@@ -1,22 +1,43 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { useShop } from '../context/ShopContex';
+import axios from 'axios';
 import { assets } from '../assets/frontend_assets/assets';
 import RelatedProducts from '../components/RelatedProducts';
 
 function Product() {
     const { productId } = useParams();
-    const { products, currency, addToCart } = useShop();
+    const { products, currency, addToCart, backendUrl } = useShop();
 
     const [productDetails, setProductDetails] = useState(null);
-    const [image, setImage] = useState('');
+    const [selectedImage, setSelectedImage] = useState(null);
     const [size, setSize] = useState('');
 
     useEffect(() => {
         const product = products.find(item => item._id === productId);
         if (product) {
             setProductDetails(product);
-            setImage(product.image?.[0]);
+            // set first image as selected (support new `images` array)
+            const firstImg = (product.images && product.images.length) ? product.images[0] : null;
+            setSelectedImage(firstImg);
+            // set default size to first variant size if available
+            const firstVariantSize = product.variants && product.variants.length ? product.variants[0].size : '';
+            setSize(firstVariantSize);
+        } else {
+            // fallback: fetch single product from backend
+            (async () => {
+                try {
+                    const res = await axios.get(`${backendUrl}/api/product/single/${productId}`);
+                    if (res.data?.success && res.data.product) {
+                        const p = res.data.product;
+                        setProductDetails(p);
+                        setSelectedImage((p.images && p.images.length) ? p.images[0] : null);
+                        setSize((p.variants && p.variants.length) ? p.variants[0].size : '');
+                    }
+                } catch (err) {
+                    console.error('Failed to fetch single product', err);
+                }
+            })();
         }
     }, [productId, products]);
     
@@ -30,18 +51,18 @@ function Product() {
                 {/* Product Images */}
                 <div className='flex-1 flex flex-col-reverse gap-3 sm:flex-row'>
                     <div className='flex sm:flex-col overflow-x-auto sm:overflow-y-scroll justify-between sm:justify-normal sm:w-[18.7%] w-full'>
-                        {productDetails.image.map((img) => (
+                        {(productDetails.images || []).map((img) => (
                             <img
-                                onClick={() => setImage(img)}
+                                onClick={() => setSelectedImage(img)}
                                 src={img.url}
-                                key={img._id}
-                                alt={img._id}
+                                key={img._id || img.public_id || img.url}
+                                alt={img._id || img.public_id}
                                 className='w-[24%] sm:w-full sm:mb-3 flex-shrink-0 cursor-pointer'
                             />
                         ))}
                     </div>
                     <div className='w-full sm:w-[80%]'>
-                        <img src={image.url} alt="Selected product" className='w-full h-auto' />
+                        <img src={selectedImage?.url} alt="Selected product" className='w-full h-auto' />
                     </div>
                 </div>
 
@@ -60,19 +81,32 @@ function Product() {
                         <p className='pl-2'>(122)</p>
                     </div>
                     <p className='mt-5 text-3xl font-medium'>{currency}{productDetails.price}</p>
+                    <p className='mt-2 text-sm text-gray-600'>Flavour: {productDetails.flavour || '—'}</p>
                     <p className='mt-5 text-gray-500 md:w-4/5'>{productDetails.description}</p>
+
+                    {/* Stock & POS */}
+                    <div className='mt-3'>
+                        {productDetails.inStock ? (
+                            <p className='text-green-600'>In stock: {productDetails.stockCount ?? '—'}</p>
+                        ) : (
+                            <p className='text-red-600'>Out of stock</p>
+                        )}
+                        {productDetails.showOnPOS === false && (
+                            <p className='text-sm text-gray-500'>Not shown on POS</p>
+                        )}
+                    </div>
 
                     {/* Size Selection */}
                     <div className='flex flex-col gap-4 my-8'>
-                        <p>Select Size</p>
+                        <p>Select Variant</p>
                         <div className='flex gap-2'>
-                            {productDetails.sizes?.map((item, index) => (
+                            {(productDetails.variants || []).map((variant, index) => (
                                 <button
                                     key={index}
-                                    onClick={() => setSize(item)}
-                                    className={`border py-2 px-4 bg-gray-100 cursor-pointer ${item === size ? 'border-orange-500' : 'border-gray-300'}`}
+                                    onClick={() => setSize(variant.size)}
+                                    className={`border py-2 px-4 bg-gray-100 cursor-pointer ${variant.size === size ? 'border-orange-500' : 'border-gray-300'}`}
                                 >
-                                    {item}
+                                    {variant.size} — {currency}{variant.price}
                                 </button>
                             ))}
                         </div>
@@ -105,7 +139,7 @@ function Product() {
             </div>
 
             {/* Related Products */}
-            <RelatedProducts category={productDetails.category} subcategory={productDetails.subcategory} />
+                <RelatedProducts category={productDetails.categories?.[0]} subcategory={productDetails.subcategory} />
         </div>
     );
 }

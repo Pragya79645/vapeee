@@ -1,4 +1,5 @@
 import React, { useEffect, useReducer, useMemo } from 'react';
+import { useLocation } from 'react-router';
 import { useShop } from '../context/ShopContex';
 import { assets } from '../assets/frontend_assets/assets';
 import Title from '../components/Title';
@@ -50,6 +51,23 @@ function Collection() {
     const { products, search, showSearch } = useShop();
     const [state, dispatch] = useReducer(reducer, initialState);
     const { category, subCategory, showFilter, filterProducts, sortOrder } = state;
+    const location = useLocation();
+
+    const qParam = useMemo(() => {
+        try {
+            return new URLSearchParams(location.search).get('q') || '';
+        } catch (e) {
+            return '';
+        }
+    }, [location.search]);
+
+    // Active search term used for filtering and highlighting
+    const activeQuery = useMemo(() => {
+        const urlQ = (qParam || '').trim();
+        if (urlQ) return urlQ;
+        if (showSearch && search) return String(search).trim();
+        return '';
+    }, [qParam, showSearch, search]);
 
     const memoizedProducts = useMemo(() => products, [products]);
 
@@ -70,17 +88,41 @@ function Collection() {
             if (subCategory.length) {
                 filtered = filtered.filter(item => subCategory.includes(item.subCategory));
             }
-            if (showSearch && search) {
-                filtered = filtered.filter(item =>
-                    item.name.toLowerCase().includes(search.toLowerCase())
-                );
+            // support searching across name, brand, category, subCategory, description and variants
+            if (activeQuery) {
+                const qLower = activeQuery.toLowerCase();
+                const matchesQuery = (item) => {
+                    if (!item) return false;
+                    const fields = [];
+                    if (item.name) fields.push(String(item.name));
+                    if (item.brand) fields.push(String(item.brand));
+                    if (item.category) fields.push(String(item.category));
+                    if (item.subCategory) fields.push(String(item.subCategory));
+                    if (item.description) fields.push(String(item.description));
+                    // variants may be array of strings or objects
+                    if (Array.isArray(item.variants)) {
+                        item.variants.forEach(v => {
+                            if (!v) return;
+                            if (typeof v === 'string') fields.push(v);
+                            else if (typeof v === 'object') {
+                                if (v.size) fields.push(String(v.size));
+                                if (v.label) fields.push(String(v.label));
+                                if (v.name) fields.push(String(v.name));
+                            }
+                        });
+                    }
+
+                    return fields.some(f => String(f).toLowerCase().includes(qLower));
+                };
+
+                filtered = filtered.filter(item => matchesQuery(item));
             }
             const sorted = sortProducts(filtered, sortOrder);
             dispatch({ type: 'SET_FILTER_PRODUCTS', payload: sorted });
         }, 100); // debounce delay
 
         return () => clearTimeout(timeout);
-    }, [memoizedProducts, category, subCategory, sortOrder, search, showSearch]);
+    }, [memoizedProducts, category, subCategory, sortOrder, search, showSearch, activeQuery]);
 
     return (
         <div className="flex flex-col gap-1 sm:flex-row sm:gap-10 pt-10 border-t-2 border-gray-300">
@@ -167,9 +209,10 @@ function Collection() {
                             <ProductItem
                                 key={item._id}
                                 id={item._id}
-                                image={item.image}
+                                images={item.images || item.image}
                                 name={item.name}
                                 price={item.price}
+                                highlight={activeQuery}
                             />
                         ))}
                     </div>
