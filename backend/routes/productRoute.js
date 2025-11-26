@@ -1,5 +1,5 @@
 import express from 'express';
-import { addProduct, listProducts, removeProduct, singleProduct } from '../controllers/productController.js';
+import { addProduct, listProducts, removeProduct, singleProduct, updateProduct } from '../controllers/productController.js';
 import upload from '../middleware/multer.js';
 import multer from 'multer';
 import { verifyAdmin } from '../middleware/authMiddleware.js';
@@ -19,6 +19,16 @@ productRouter.post(
 productRouter.get('/list', listProducts);
 productRouter.delete('/remove/:id', verifyAdmin , removeProduct);
 productRouter.get('/single/:id', singleProduct);
+productRouter.put(
+    '/update/:id', verifyAdmin,
+    upload.fields([
+        { name: 'image1', maxCount: 1 },
+        { name: 'image2', maxCount: 1 },
+        { name: 'image3', maxCount: 1 },
+        { name: 'image4', maxCount: 1 }
+    ]),
+    updateProduct
+);
 
 // Error handling middleware for Multer
 productRouter.use((err, req, res, next) => {

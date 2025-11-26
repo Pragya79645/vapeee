@@ -2,11 +2,14 @@ import React, { useState, useEffect } from "react";
 import { assets } from "../assets/admin_assets/assets";
 import axios from "axios";
 import { toast } from 'react-toastify';
+import { useParams, useNavigate } from "react-router";
 
 const CATEGORIES = ["Vape", "E-cigarette", "Pods", "Accessories", "E-liquid"];
 const MAX_IMAGE_SIZE_MB = 2;
 
 const Add = () => {
+    const { id } = useParams();
+    const navigate = useNavigate();
     const [images, setImages] = useState([null, null, null, null]);
     const [productId, setProductId] = useState("");
     const [name, setName] = useState("");
@@ -79,14 +82,27 @@ const Add = () => {
                 if (img) formData.append(`image${index + 1}`, img);
             });
 
-            const res = await axios.post(
-                `${import.meta.env.VITE_BACKEND_URL}/api/product/add`,
-                formData,
-                {
-                    withCredentials: true,
-                    headers: { "Content-Type": "multipart/form-data" },
-                }
-            );
+            let res;
+            if (id) {
+                // update
+                res = await axios.put(
+                    `${import.meta.env.VITE_BACKEND_URL}/api/product/update/${id}`,
+                    formData,
+                    {
+                        withCredentials: true,
+                        headers: { "Content-Type": "multipart/form-data" },
+                    }
+                );
+            } else {
+                res = await axios.post(
+                    `${import.meta.env.VITE_BACKEND_URL}/api/product/add`,
+                    formData,
+                    {
+                        withCredentials: true,
+                        headers: { "Content-Type": "multipart/form-data" },
+                    }
+                );
+            }
             if (res.data.success) {
                 toast.success(res.data.message);
                 // Reset form
@@ -102,6 +118,10 @@ const Add = () => {
                 setInStock(true);
                 setShowOnPOS(true);
                 setBestseller(false);
+                if (id) {
+                    // navigate back to list after update
+                    navigate('/list');
+                }
             } else{
                 toast.error(res.data.message);
             }
@@ -130,6 +150,40 @@ const Add = () => {
         fetchCategories();
     }, []);
 
+    // If editing (id present), fetch product and prefill
+    useEffect(() => {
+        const fetchProduct = async () => {
+            if (!id) return;
+            try {
+                const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/product/single/${id}`);
+                if (res.data.success && res.data.product) {
+                    const p = res.data.product;
+                    setProductId(p.productId || "");
+                    setName(p.name || "");
+                    setDescription(p.description || "");
+                    setPrice(p.price ?? "");
+                    setSelectedCategories(p.categories || []);
+                    setFlavour(p.flavour || "");
+                    setVariants((p.variants && p.variants.length > 0) ? p.variants : [{ size: "", price: "", quantity: "" }]);
+                    setStockCount(p.stockCount ?? 0);
+                    setInStock(p.inStock ?? true);
+                    setShowOnPOS(p.showOnPOS ?? true);
+                    setBestseller(p.bestseller ?? false);
+                    // Prefill images with existing URLs (strings)
+                    const imgs = (p.images || []).map(img => img.url);
+                    while (imgs.length < 4) imgs.push(null);
+                    setImages(imgs.slice(0,4));
+                } else {
+                    toast.error(res.data.message || 'Failed to load product');
+                }
+            } catch (err) {
+                console.error(err);
+                toast.error('Failed to fetch product');
+            }
+        };
+        fetchProduct();
+    }, [id]);
+
     return (
         <form onSubmit={onSubmitHandler} className="flex flex-col w-full items-start gap-3">
             <div>
@@ -139,7 +193,7 @@ const Add = () => {
                         <label key={index} htmlFor={`image${index}`}>
                             <img
                                 className="w-20 h-20 object-cover border"
-                                src={img ? URL.createObjectURL(img) : assets.upload_area}
+                                src={img ? (typeof img === 'string' ? img : URL.createObjectURL(img)) : assets.upload_area}
                                 alt={`Image ${index + 1}`}
                             />
                             <input
@@ -371,7 +425,7 @@ const Add = () => {
                 className="w-28 py-3 mt-4 bg-black text-white"
                 disabled={loading}
             >
-                {loading ? "ADDING..." : "ADD"}
+                {loading ? (id ? "UPDATING..." : "ADDING...") : (id ? "UPDATE" : "ADD")}
             </button>
         </form>
     );

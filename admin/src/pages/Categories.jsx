@@ -48,8 +48,7 @@ const Categories = () => {
     }
   };
 
-  const onDelete = async (id) => {
-    if (!confirm('Delete this category?')) return;
+  const deleteCategory = async (id) => {
     try {
       const res = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/category/${id}`, { withCredentials: true });
       if (res.data.success) {
@@ -62,6 +61,31 @@ const Categories = () => {
       console.error(err);
       toast.error('Failed to delete category');
     }
+  };
+
+  const onDelete = (id, name) => {
+    const tId = toast.info(
+      (
+        <div className="flex flex-col text-sm">
+          <div className="mb-3">Delete <strong>{name}</strong>? This action cannot be undone.</div>
+          <div className="flex gap-2 justify-end">
+            <button
+              onClick={() => toast.dismiss(tId)}
+              className="px-3 py-1 border rounded text-sm"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={async () => { toast.dismiss(tId); await deleteCategory(id); }}
+              className="px-3 py-1 bg-red-600 text-white rounded text-sm"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      ),
+      { autoClose: false, closeOnClick: false }
+    );
   };
 
   return (

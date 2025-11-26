@@ -25,13 +25,15 @@ const CartDrawer = () => {
                     <div className="text-center text-gray-500">Your cart is empty</div>
                 ) : (
                     items.map((it, idx) => {
-                        const pid = it.productId || it._id || it.productId;
+                        const pid = (it.productId && it.productId._id) ? it.productId._id : (it.productId || it._id || it.product);
                         const variantSize = it.variantSize || it.size || it.variantSize;
                         const quantity = it.quantity || it.qty || 0;
                         const product = products.find(p => p._id === pid) || {};
                         const image = it.image || product.images?.[0]?.url || '';
                         const name = it.name || product.name || '';
-                        const price = it.price ?? (product.price ?? 0);
+                        // Prefer explicit price from cartDetails; otherwise use variant price if available, else base product price
+                        const variantObj = product.variants ? product.variants.find(v => v.size === variantSize) : null;
+                        const price = it.price ?? (variantObj ? variantObj.price : (product.price ?? 0));
 
                         return (
                             <div key={`${pid}-${variantSize}-${idx}`} className="flex items-center gap-3">

@@ -64,6 +64,8 @@ const ShopProvider = ({ children }) => {
                 const details = items.map((it) => {
                     // productId may be populated object or id string
                     const prodId = (it.productId && it.productId._id) ? it.productId._id : (it.productId || it.product);
+                    // Skip items where product was removed and populate yields null
+                    if (!prodId) return null;
                     const variantSize = it.variantSize || it.size || 'default';
                     const quantity = it.quantity || 0;
                     if (!mapping[prodId]) mapping[prodId] = {};
@@ -77,7 +79,7 @@ const ShopProvider = ({ children }) => {
                         price: it.price ?? (it.productId && it.productId.price) ?? 0,
                         image: it.image || (it.productId && it.productId.images && it.productId.images[0]?.url) || ''
                     };
-                });
+                }).filter(Boolean);
 
                 setCartItems(mapping);
                 setCartDetails(details);
@@ -227,7 +229,10 @@ const ShopProvider = ({ children }) => {
             for (const size in cartItems[productId]) {
                 const quantity = cartItems[productId][size];
                 if (quantity) {
-                    totalAmount += product.price * quantity;
+                    // If product has variants, use variant price for the selected size
+                    const variant = product.variants && product.variants.length ? product.variants.find(v => v.size === size) : null;
+                    const price = variant ? variant.price : product.price;
+                    totalAmount += price * quantity;
                 }
             }
         }

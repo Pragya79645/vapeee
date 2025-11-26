@@ -127,29 +127,42 @@ const Highlights = () => {
                                 <span className="text-sm text-gray-600 ml-2">(500+ reviews)</span>
                             </div>
 
-                            <h3 className="text-2xl md:text-3xl font-bold text-black mb-3">
-                                Lorem Ipsum Dolor
-                            </h3>
-                            
-                            <p className="text-gray-600 mb-6 leading-relaxed text-sm">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                            </p>
+                            <h3 className="text-2xl md:text-3xl font-bold text-black mb-3">Location</h3>
+
+                            <p className="text-gray-800 mb-2 font-semibold">1365 East 41st</p>
+                            <p className="text-gray-800 mb-4">Vancouver, BC, V5W 1R7</p>
+
+                            <div className="mb-4 text-sm text-gray-700">
+                                <div className="font-semibold mb-2">Hours</div>
+                                <div>Monday - Thursday: 8AM - 10PM</div>
+                                <div>Friday - Saturday: 9AM - 12AM</div>
+                                <div>Sunday: 9AM - 10PM</div>
+                            </div>
 
                             <div className="flex items-start gap-3 mb-6">
                                 <MapPin className="w-5 h-5 text-[#FFB81C] shrink-0 mt-1" />
                                 <div>
-                                    <p className="font-semibold text-black">Lorem Ipsum, Dolor Sit Amet</p>
-                                    <p className="text-gray-600 text-sm">Open Daily: 9AM - 10PM</p>
+                                    <p className="font-semibold text-black">Get Directions</p>
+                                    <p className="text-gray-600 text-sm">Click to open in your maps app</p>
                                 </div>
                             </div>
 
                             <div className="flex flex-wrap gap-3">
-                                <button className="bg-black text-white hover:bg-gray-900 font-semibold px-6 py-3 rounded-md transition-colors duration-300">
+                                <a
+                                    href="https://www.google.com/maps/dir//1365+E+41st+Ave,+Vancouver,+BC+V5W+1R7,+Canada/@22.5050624,88.3326976,15z/data=!4m8!4m7!1m0!1m5!1m1!1s0x54867419c2280f43:0x6dc7f8c90ecf6763!2m2!1d-123.077982!2d49.2329544?entry=ttu&g_ep=EgoyMDI1MTEyMy4xIKXMDSoASAFQAw%3D%3D"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center justify-center bg-black text-white hover:bg-gray-900 font-semibold px-6 py-3 rounded-md transition-colors duration-300"
+                                >
                                     Get Directions
-                                </button>
-                                <button className="border border-black text-black hover:bg-black hover:text-white font-semibold px-6 py-3 rounded-md transition-colors duration-300">
+                                </a>
+                                <a
+                                    href="tel:+16045597833"
+                                    className="border border-black text-black hover:bg-black hover:text-white font-semibold px-6 py-3 rounded-md transition-colors duration-300 inline-flex items-center justify-center"
+                                    aria-label="Call Store"
+                                >
                                     Call Store
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </div>

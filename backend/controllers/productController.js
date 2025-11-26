@@ -1,5 +1,6 @@
 import { v2 as cloudinary } from 'cloudinary';
 import Product from '../models/productModel.js';
+import Cart from '../models/cartModel.js';
 import { productSchema } from "../validation/productValidation.js";
 
 // Function to add product
@@ -172,6 +173,14 @@ const removeProduct = async (req, res) => {
             })
         )
         await product.deleteOne();
+
+        // Remove references to this product from all user carts so deleted products don't remain in carts
+        try {
+            await Cart.updateMany({}, { $pull: { items: { productId: product._id } } });
+        } catch (cartErr) {
+            console.error('Failed to remove product references from carts:', cartErr);
+        }
+
         res.status(200).json({ success: true, message: "Product removed successfully" });
 
     } catch (error) {
@@ -205,4 +214,99 @@ const singleProduct = async (req, res) => {
 };
 
 
-export { addProduct, listProducts, removeProduct, singleProduct };
+ 
+
+// Update product by id (supports replacing specific images)
+const updateProduct = async (req, res) => {
+    try {
+        const { id } = req.params;
+        if (!id || id.length !== 24) {
+            return res.status(400).json({ success: false, message: "Invalid product ID" });
+        }
+
+        const product = await Product.findById(id);
+        if (!product) return res.status(404).json({ success: false, message: "Product not found" });
+
+        const { productId, name, description, price, categories, flavour, variants, stockCount, inStock, showOnPOS, otherFlavours, bestseller } = req.body;
+
+        // Validate core fields (images optional on update)
+        const { error, value } = productSchema.validate(
+            { productId, name, description, price, categories, flavour, variants, stockCount, inStock, showOnPOS, otherFlavours, bestseller },
+            { abortEarly: false }
+        );
+
+        if (error) {
+            return res.status(400).json({ success: false, message: "Validation failed", errors: error.details.map((err) => err.message) });
+        }
+
+        // Parse arrays if strings
+        const parsedVariants = value.variants
+            ? (typeof value.variants === "string" ? JSON.parse(value.variants) : value.variants)
+            : [];
+
+        const parsedCategories = value.categories
+            ? (typeof value.categories === 'string' ? JSON.parse(value.categories) : value.categories)
+            : [];
+
+        const parsedOtherFlavours = value.otherFlavours
+            ? (typeof value.otherFlavours === 'string' ? JSON.parse(value.otherFlavours) : value.otherFlavours)
+            : [];
+
+        // Handle uploaded images: replace the corresponding image slot if new file provided
+        const image1 = req?.files?.image1?.[0];
+        const image2 = req?.files?.image2?.[0];
+        const image3 = req?.files?.image3?.[0];
+        const image4 = req?.files?.image4?.[0];
+
+        const newFiles = [image1, image2, image3, image4];
+
+        for (let i = 0; i < newFiles.length; i++) {
+            const file = newFiles[i];
+            if (file) {
+                try {
+                    const result = await cloudinary.uploader.upload(file.path, { resource_type: "image", folder: "products" });
+                    // If slot exists, remove old image from cloudinary
+                    if (product.images && product.images[i] && product.images[i].public_id) {
+                        try {
+                            await cloudinary.uploader.destroy(product.images[i].public_id);
+                        } catch (err) {
+                            console.error('Failed to destroy old image:', err);
+                        }
+                    }
+                    // Replace or append
+                    product.images[i] = {
+                        url: result.secure_url.toString(),
+                        public_id: result.public_id.toString()
+                    };
+                } catch (uploadErr) {
+                    console.error('Cloudinary upload failed during update for file:', file.path, uploadErr);
+                    return res.status(500).json({ success: false, message: `Cloudinary upload error: ${uploadErr.message || 'unknown error'}` });
+                }
+            }
+        }
+
+        // Clean up product.images if some indices are empty, keep existing ones
+        product.productId = value.productId;
+        product.name = value.name;
+        product.description = value.description;
+        product.price = Number(value.price);
+        product.categories = parsedCategories;
+        product.flavour = value.flavour || "";
+        product.variants = parsedVariants;
+        product.stockCount = Number(value.stockCount);
+        product.inStock = value.inStock === undefined ? (Number(value.stockCount) > 0) : Boolean(value.inStock);
+        product.showOnPOS = value.showOnPOS === undefined ? product.showOnPOS : Boolean(value.showOnPOS);
+        product.otherFlavours = parsedOtherFlavours;
+        product.bestseller = value.bestseller;
+
+        await product.save();
+
+        res.status(200).json({ success: true, message: "Product updated successfully" });
+
+    } catch (error) {
+        console.error("Update Product Error:", error);
+        res.status(500).json({ success: false, message: "Failed to update product" });
+    }
+};
+
+export { addProduct, listProducts, removeProduct, singleProduct, updateProduct };

@@ -77,24 +77,18 @@ const Navbar = () => {
                     </Link>
 
                     {/* Desktop controls (brand + icons). Nav links moved below header */}
-                    <div className='hidden sm:flex items-center gap-6'>
-                        <div className='relative w-full'>
+                    <div className='hidden sm:flex items-center gap-6 flex-1 ml-6'>
+                        <div className='relative w-full min-w-0'>
                             <input
                                 type='text'
                                 placeholder='Search products...'
                                 value={query}
                                 onChange={e => { setQuery(e.target.value); scheduleSearch(e.target.value); }}
                                 onKeyDown={e => { if (e.key === 'Enter') handleSearch(); }}
-                                className='w-full max-w-lg md:max-w-2xl lg:max-w-4xl px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-[#FFB81C]'
+                                className='w-full max-w-4xl px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-[#FFB81C]'
                                 aria-label='Search products'
                             />
-                            <button
-                                onClick={handleSearch}
-                                className='absolute right-1 top-1.5 w-6 h-6 flex items-center justify-center'
-                                aria-label='Search'
-                            >
-                                <img className='w-4' src={assets.search_icon} alt="search icon" />
-                            </button>
+                            
                         </div>
                     </div>
 

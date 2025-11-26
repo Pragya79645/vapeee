@@ -40,6 +40,16 @@ function Product() {
             })();
         }
     }, [productId, products]);
+
+    // Ensure we scroll to top when navigating to a product so the product view is visible
+    useEffect(() => {
+        try {
+            window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+        } catch (e) {
+            // fallback
+            window.scrollTo(0, 0);
+        }
+    }, [productId]);
     
 
     if (!productDetails) return <div>Loading...</div>;
@@ -96,21 +106,23 @@ function Product() {
                         )}
                     </div>
 
-                    {/* Size Selection */}
-                    <div className='flex flex-col gap-4 my-8'>
-                        <p>Select Variant</p>
-                        <div className='flex gap-2'>
-                            {(productDetails.variants || []).map((variant, index) => (
-                                <button
-                                    key={index}
-                                    onClick={() => setSize(variant.size)}
-                                    className={`border py-2 px-4 bg-gray-100 cursor-pointer ${variant.size === size ? 'border-orange-500' : 'border-gray-300'}`}
-                                >
-                                    {variant.size} — {currency}{variant.price}
-                                </button>
-                            ))}
+                    {/* Size Selection - only show when variants exist */}
+                    {productDetails.variants && productDetails.variants.length > 0 && (
+                        <div className='flex flex-col gap-4 my-8'>
+                            <p>Select Variant</p>
+                            <div className='flex gap-2'>
+                                {productDetails.variants.map((variant, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => setSize(variant.size)}
+                                        className={`border py-2 px-4 bg-gray-100 cursor-pointer ${variant.size === size ? 'border-orange-500' : 'border-gray-300'}`}
+                                    >
+                                        {variant.size} — {currency}{variant.price}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
-                    </div>
+                    )}
 
                     <button onClick={() => addToCart(productDetails._id, size)} className='bg-black text-white px-8 py-3 text-sm active:bg-gray-700'>ADD TO CART</button>
 
@@ -138,7 +150,7 @@ function Product() {
             </div>
 
             {/* Related Products */}
-                <RelatedProducts category={productDetails.categories?.[0]} subcategory={productDetails.subcategory} />
+                    <RelatedProducts product={productDetails} selectedSize={size} />
         </div>
     );
 }

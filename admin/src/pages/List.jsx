@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState, useCallback } from "react";
+import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 
 const List = () => {
@@ -53,6 +54,8 @@ const List = () => {
         }
     };
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         fetchProducts();
     }, [fetchProducts]);
@@ -104,10 +107,37 @@ const List = () => {
                                     <p className="text-center">{product.showOnPOS ? 'Yes' : 'No'}</p>
                                     <div className="flex items-center justify-center gap-2">
                                         <button
-                                            onClick={async () => {
-                                                const ok = window.confirm('Delete this product? This action cannot be undone.');
-                                                if (!ok) return;
-                                                await removeProduct(product._id);
+                                            onClick={() => navigate(`/add/${product._id}`)}
+                                            className="px-2 py-1 bg-blue-600 text-white rounded text-xs hover:bg-blue-700"
+                                            aria-label={`Edit product ${product.name}`}
+                                        >
+                                            Edit
+                                        </button>
+                                        <button
+                                            onClick={() => {
+                                                // show a confirm toast with Cancel and Delete buttons
+                                                const tId = toast.info(
+                                                    (
+                                                        <div className="flex flex-col text-sm">
+                                                            <div className="mb-3">Delete <strong>{product.name}</strong>? This action cannot be undone.</div>
+                                                            <div className="flex gap-2 justify-end">
+                                                                <button
+                                                                    onClick={() => toast.dismiss(tId)}
+                                                                    className="px-3 py-1 border rounded text-sm"
+                                                                >
+                                                                    Cancel
+                                                                </button>
+                                                                <button
+                                                                    onClick={async () => { toast.dismiss(tId); await removeProduct(product._id); }}
+                                                                    className="px-3 py-1 bg-red-600 text-white rounded text-sm"
+                                                                >
+                                                                    Delete
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    ),
+                                                    { autoClose: false, closeOnClick: false }
+                                                );
                                             }}
                                             className="px-2 py-1 bg-red-600 text-white rounded text-xs hover:bg-red-700"
                                             aria-label={`Delete product ${product.name}`}

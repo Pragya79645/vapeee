@@ -45,7 +45,9 @@ function Cart() {
                         const productData = products.find(product => product._id === item._id) || {};
                         const imageSrc = item.image || productData.images?.[0]?.url || productData.image?.[0]?.url || '';
                         const displayName = item.name || productData.name || '';
-                        const displayPrice = item.price ?? productData.price ?? 0;
+                        // Determine price: prefer item.price (from backend cartDetails), else variant price if product has variants, else base product price
+                        const variantObj = productData.variants ? productData.variants.find(v => v.size === item.size) : null;
+                        const displayPrice = item.price ?? (variantObj ? variantObj.price : (productData.price ?? 0));
 
                         return (
                             <div key={`${item._id}-${item.size}`} className='py-4 border-y border-gray-300 text-gray-700 grid grid-cols-[4fr_0.5fr_0.5fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4'>
