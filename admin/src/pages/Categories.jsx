@@ -92,52 +92,52 @@ const Categories = () => {
     <div>
       <h2 className="text-xl mb-4">Categories</h2>
 
-      <form onSubmit={onCreate} className="flex flex-col sm:flex-row gap-2 mb-4">
+      <form onSubmit={onCreate} className="bg-white p-4 rounded-md shadow-sm mb-4 flex flex-col sm:flex-row gap-3 items-center">
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Category Name"
-          className="px-3 py-2 border w-full sm:w-auto flex-1"
+          className="px-3 py-2 border rounded w-full sm:flex-1"
         />
         <button
           type="submit"
-          className="px-3 py-2 bg-black text-white w-full sm:w-auto"
+          className="px-4 py-2 bg-black text-white rounded-md"
           disabled={loading}
         >
           {loading ? 'Creating...' : 'Create'}
         </button>
       </form>
 
-      <div className="overflow-x-auto">
-        <table className="w-full text-sm min-w-[640px]">
-          <thead>
-            <tr className="text-left border-b">
-              <th className="px-2 py-2 hidden sm:table-cell">Select</th>
-              <th className="px-2 py-2">Category Name</th>
-              <th className="px-2 py-2 hidden md:table-cell">Category ID</th>
-              <th className="px-2 py-2">Items</th>
-              <th className="px-2 py-2">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {categories.map(cat => (
-              <tr key={cat._id} className="border-b">
-                <td className="px-2 py-2 hidden sm:table-cell"><input type="checkbox" /></td>
-                <td className="px-2 py-2 break-words">{cat.name}</td>
-                <td className="px-2 py-2 hidden md:table-cell">{cat.categoryId}</td>
-                <td className="px-2 py-2">{cat.items}</td>
-                <td className="px-2 py-2">
-                  <button
-                    onClick={() => onDelete(cat._id)}
-                    className="text-red-600 inline-flex items-center justify-center px-3 py-1.5 rounded-sm"
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="grid gap-3">
+        {categories.map(cat => (
+          <div key={cat._id} className="flex items-center justify-between bg-white border border-gray-100 rounded-md p-3 shadow-sm">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="hidden sm:block">
+                <input type="checkbox" aria-label={`select ${cat.name}`} />
+              </div>
+              <div className="min-w-0">
+                <p className="font-medium text-base truncate">{cat.name}</p>
+                <p className="text-xs text-gray-400 truncate">ID: <span className="text-gray-600">{cat.categoryId}</span></p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-6">
+              <div className="text-center">
+                <p className="text-sm text-gray-500">Items</p>
+                <p className="font-medium">{cat.items ?? 0}</p>
+              </div>
+
+              <div>
+                <button
+                  onClick={() => onDelete(cat._id, cat.name)}
+                  className="text-red-600 inline-flex items-center justify-center px-3 py-1.5 rounded-md border border-red-100 hover:bg-red-50"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

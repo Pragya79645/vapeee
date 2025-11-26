@@ -26,15 +26,17 @@ const App = () => {
               <hr className="border border-gray-300" />
               <div className="flex w-full">
                 <Sidebar />
-                <div className="w-[70%] mx-auto ml-[max(5vw,25px)] my-8 text-gray-600 text-base">
-                  <Routes>
-                    <Route path="/add" element={<Add />} />
-                    <Route path="/add/:id" element={<Add />} />
-                    <Route path="/list" element={<List />} />
-                    <Route path="/orders" element={<Orders />} />
-                    <Route path="/categories" element={<Categories />} />
-                  </Routes>
-                </div>
+                <main className="flex-1 my-8 px-6">
+                  <div className="max-w-6xl mx-auto bg-white rounded-lg shadow-sm p-6 text-gray-600 text-base">
+                    <Routes>
+                      <Route path="/add" element={<Add />} />
+                      <Route path="/add/:id" element={<Add />} />
+                      <Route path="/list" element={<List />} />
+                      <Route path="/orders" element={<Orders />} />
+                      <Route path="/categories" element={<Categories />} />
+                    </Routes>
+                  </div>
+                </main>
               </div>
             </>
           )

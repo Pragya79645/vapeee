@@ -76,75 +76,93 @@ const List = () => {
     return (
         <>
             <p className="mb-2">All Products List</p>
-            <div className="flex flex-col gap-2">
-                <div className="hidden md:grid grid-cols-[0.5fr_3fr_1fr_1fr_1fr_1fr_1fr_1fr] items-center py-1 px-2 border border-gray-200 bg-gray-100 text-sm">
-                    <b></b>
-                    <b>Name</b>
-                    <b>Price</b>
+            <div className="flex flex-col gap-3">
+                {/* Header for medium+ screens */}
+                <div className="hidden md:grid grid-cols-[0.5fr_2.5fr_1fr_1fr_1fr_1fr_1fr_160px] items-center py-3 px-3 border border-gray-200 bg-gray-50 text-sm rounded-sm">
+                    <div className="pl-1"></div>
+                    <b className="pl-2">Name</b>
+                    <b className="text-center">Price</b>
                     <b>Category</b>
-                    <b>In Stock</b>
-                    <b>Stock Count</b>
+                    <b className="text-center">In Stock</b>
+                    <b className="text-center">Stock Count</b>
                     <b className="text-center">Show on POS</b>
                     <b className="text-center">Actions</b>
                 </div>
 
-                        {products.map((product, index) => {
+                {products.map((product, index) => {
                     const isLast = index === products.length - 1;
+                    const thumb = (product.images && product.images[0] && (product.images[0].secure_url || product.images[0].url)) || product.image || '';
                     return (
                         <div
                             key={product._id}
                             ref={isLast ? lastProductRef : null}
-                                    className="grid grid-cols-[0.5fr_3fr_1fr_1fr_1fr_1fr_1fr_1fr] items-center gap-2 py-1 px-2 border border-gray-200 text-sm"
+                            className={`grid grid-cols-[0.5fr_2.5fr_1fr_1fr_1fr_1fr_1fr_160px] items-center gap-3 py-3 px-3 border border-gray-200 text-sm rounded-sm hover:shadow-sm transition-shadow even:bg-white odd:bg-gray-50`}
                         >
-                                    <div>
-                                        <input type="checkbox" />
-                                    </div>
-                                    <p>{product.name}</p>
-                                    <p>{currency + product.price}</p>
-                                    <p>{(product.categories || []).join(', ') || ''}</p>
-                                    <p>{product.inStock ? 'Yes' : 'No'}</p>
-                                    <p>{product.stockCount ?? 0}</p>
-                                    <p className="text-center">{product.showOnPOS ? 'Yes' : 'No'}</p>
-                                    <div className="flex items-center justify-center gap-2">
-                                        <button
-                                            onClick={() => navigate(`/add/${product._id}`)}
-                                            className="px-2 py-1 bg-blue-600 text-white rounded text-xs hover:bg-blue-700"
-                                            aria-label={`Edit product ${product.name}`}
-                                        >
-                                            Edit
-                                        </button>
-                                        <button
-                                            onClick={() => {
-                                                // show a confirm toast with Cancel and Delete buttons
-                                                const tId = toast.info(
-                                                    (
-                                                        <div className="flex flex-col text-sm">
-                                                            <div className="mb-3">Delete <strong>{product.name}</strong>? This action cannot be undone.</div>
-                                                            <div className="flex gap-2 justify-end">
-                                                                <button
-                                                                    onClick={() => toast.dismiss(tId)}
-                                                                    className="px-3 py-1 border rounded text-sm"
-                                                                >
-                                                                    Cancel
-                                                                </button>
-                                                                <button
-                                                                    onClick={async () => { toast.dismiss(tId); await removeProduct(product._id); }}
-                                                                    className="px-3 py-1 bg-red-600 text-white rounded text-sm"
-                                                                >
-                                                                    Delete
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    ),
-                                                    { autoClose: false, closeOnClick: false }
-                                                );
-                                            }}
-                                            className="px-2 py-1 bg-red-600 text-white rounded text-xs hover:bg-red-700"
-                                            aria-label={`Delete product ${product.name}`}
-                                        >
-                                            Delete
-                                        </button>
-                                    </div>
+                            <div className="pl-1">
+                                <input type="checkbox" />
+                            </div>
+
+                            {/* Name + thumbnail (responsive) */}
+                            <div className="flex items-center gap-3">
+                                <div className="w-12 h-12 rounded overflow-hidden bg-gray-100 flex-shrink-0">
+                                    {thumb ? (
+                                        <img src={thumb} alt={product.name} className="w-full h-full object-cover" />
+                                    ) : (
+                                        <div className="w-full h-full flex items-center justify-center text-xs text-gray-400">No Image</div>
+                                    )}
+                                </div>
+                                <div className="min-w-0">
+                                    <p className="truncate font-medium">{product.name}</p>
+                                    <p className="text-xs text-gray-500 truncate">{(product.categories || []).join(', ')}</p>
+                                </div>
+                            </div>
+
+                            <p className="font-medium text-center">{currency + (product.price ?? 0)}</p>
+                            <p className="hidden md:block">{(product.categories || []).join(', ') || ''}</p>
+                            <p className="text-center">{product.inStock ? 'Yes' : 'No'}</p>
+                            <p className="text-center">{product.stockCount ?? 0}</p>
+                            <p className="text-center">{product.showOnPOS ? 'Yes' : 'No'}</p>
+
+                            <div className="flex items-center justify-end gap-2 mr-1">
+                                <button
+                                    onClick={() => navigate(`/add/${product._id}`)}
+                                    className="px-2 py-1 bg-white border border-blue-100 text-blue-700 rounded-sm text-sm hover:bg-blue-50 flex items-center gap-2"
+                                    aria-label={`Edit product ${product.name}`}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536M9 11l6 6L21 11l-6-6-6 6z"/></svg>
+                                    <span className="hidden sm:inline">Edit</span>
+                                </button>
+
+                                <button
+                                    onClick={() => {
+                                        const tId = toast.info(
+                                            (
+                                                <div className="flex flex-col text-sm">
+                                                    <div className="mb-3">Delete <strong>{product.name}</strong>? This action cannot be undone.</div>
+                                                    <div className="flex gap-2 justify-end">
+                                                        <button
+                                                            onClick={() => toast.dismiss(tId)}
+                                                            className="px-3 py-1 border rounded text-sm"
+                                                        >
+                                                            Cancel
+                                                        </button>
+                                                        <button
+                                                            onClick={async () => { toast.dismiss(tId); await removeProduct(product._id); }}
+                                                            className="px-3 py-1 bg-red-600 text-white rounded text-sm"
+                                                        >
+                                                            Delete
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            ),
+                                            { autoClose: false, closeOnClick: false }
+                                        );
+                                    }}
+                                    className="px-2 py-1 bg-white border border-red-100 text-red-700 rounded-sm text-sm hover:bg-red-50 flex items-center gap-2"
+                                    aria-label={`Delete product ${product.name}`}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                    <span className="hidden sm:inline">Delete</span>
+                                </button>
+                            </div>
                         </div>
                     );
                 })}

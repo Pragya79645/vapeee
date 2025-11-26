@@ -30,8 +30,13 @@ select:focus, input:focus, textarea:focus{ outline-color: var(--brand); border-c
 
 /* Admin-specific helpers */
 .admin-sidebar { background: var(--bg); border-right: 1px solid var(--border); }
+.admin-sidebar { box-shadow: 0 1px 0 rgba(0,0,0,0.04); }
 .admin-sidebar .active { background: var(--brand-100) !important; border-color: var(--brand) !important; }
 .admin-active { background: var(--brand-100) !important; border-color: var(--brand) !important; }
+
+/* make the sidebar visually distinct and sticky */
+.admin-sidebar { position: relative; }
+.admin-sidebar .nav-item-active { background: var(--brand-100); border-left: 3px solid var(--brand); }
 .btn-gold { background: var(--brand); color: #111827; }
 .btn-gold-outline { border: 1px solid var(--brand); color: var(--brand); background: transparent; }
 

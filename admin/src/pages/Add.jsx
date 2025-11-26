@@ -54,6 +54,22 @@ const Add = () => {
         setVariants(newVariants);
     };
 
+    // local reset helper to reuse across UI
+    const resetLocalForm = () => {
+        setImages([null, null, null, null]);
+        setProductId("");
+        setName("");
+        setDescription("");
+        setPrice("");
+        setSelectedCategories([]);
+        setFlavour("");
+        setVariants([{ size: "", price: "", quantity: "" }]);
+        setStockCount(0);
+        setInStock(true);
+        setShowOnPOS(true);
+        setBestseller(false);
+    };
+
     const onSubmitHandler = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -185,17 +201,64 @@ const Add = () => {
     }, [id]);
 
     return (
-        <form onSubmit={onSubmitHandler} className="flex flex-col w-full items-start gap-3">
+        <form onSubmit={onSubmitHandler} className="w-full max-w-5xl mx-auto bg-white p-8 rounded-md shadow-sm text-base">
+
+            {/* Header - title and quick actions */}
+            <div className="w-full flex items-center justify-between mb-2">
+                <div className="flex items-center gap-4">
+                    <div className="p-2 bg-gray-100 rounded-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V7M8 3h8v4H8V3z"/></svg>
+                    </div>
+                    <div>
+                        <h1 className="text-2xl font-semibold">{id ? 'Edit Product' : 'Add Product'}</h1>
+                        <p className="text-sm text-gray-500">Fill product details. Fields marked required must be completed.</p>
+                    </div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                    <button
+                        type="button"
+                        onClick={resetLocalForm}
+                        className="px-3 py-2 border rounded-md text-sm bg-white hover:bg-gray-50"
+                    >
+                        Reset
+                    </button>
+                    <button
+                        type="submit"
+                        className="px-4 py-2 bg-black text-white rounded-md text-sm"
+                        disabled={loading}
+                    >
+                        {loading ? (id ? 'UPDATING...' : 'ADDING...') : (id ? 'UPDATE' : 'ADD')}
+                    </button>
+                </div>
+            </div>
+
+            <hr className="w-full border-t border-gray-200 mb-4" />
+
+            <section className="mb-4">
+                <p className="mb-3 text-base font-semibold">Images</p>
+                <p className="text-sm text-gray-500 mb-2">Upload up to 4 images. Click a box to replace.</p>
+                <div>
+                </div>
+            </section>
+
             <div>
-                <p className="mb-2">Upload Images</p>
-                <div className="flex gap-2">
+                <p className="mb-2 text-base font-medium">Upload Images</p>
+                <div className="grid grid-cols-4 gap-3">
                     {images.map((img, index) => (
-                        <label key={index} htmlFor={`image${index}`}>
-                            <img
-                                className="w-20 h-20 object-cover border"
-                                src={img ? (typeof img === 'string' ? img : URL.createObjectURL(img)) : assets.upload_area}
-                                alt={`Image ${index + 1}`}
-                            />
+                        <label key={index} htmlFor={`image${index}`} className="group relative w-24 h-24 rounded-md overflow-hidden border-2 border-dashed border-gray-200 flex items-center justify-center bg-gray-50 hover:border-gray-300 cursor-pointer">
+                            {img ? (
+                                <img
+                                    className="w-full h-full object-cover"
+                                    src={typeof img === 'string' ? img : URL.createObjectURL(img)}
+                                    alt={`Image ${index + 1}`}
+                                />
+                            ) : (
+                                <div className="flex flex-col items-center text-gray-400 text-xs">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16v-4a1 1 0 011-1h3m4 6v-6a1 1 0 00-1-1h-2M3 7h18"/></svg>
+                                    <span>Upload</span>
+                                </div>
+                            )}
                             <input
                                 type="file"
                                 id={`image${index}`}
@@ -209,10 +272,10 @@ const Add = () => {
             </div>
 
             <div className="w-full">
-                <p className="mb-2">Product ID</p>
+                <p className="mb-2 text-base font-medium">Product ID</p>
                 <input
                     type="text"
-                    className="w-full max-w-[500px] px-3 py-2 border"
+                    className="w-full max-w-[560px] px-3 py-3 border rounded-md text-sm"
                     placeholder="e.g., VAPE-001"
                     value={productId}
                     onChange={(e) => setProductId(e.target.value)}
@@ -221,10 +284,10 @@ const Add = () => {
             </div>
 
             <div className="w-full">
-                <p className="mb-2">Product Name</p>
+                <p className="mb-2 text-base font-medium">Product Name</p>
                 <input
                     type="text"
-                    className="w-full max-w-[500px] px-3 py-2 border"
+                    className="w-full max-w-[560px] px-3 py-3 border rounded-md text-sm"
                     placeholder="Type here"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
@@ -233,24 +296,24 @@ const Add = () => {
             </div>
 
             <div className="w-full">
-                <p className="mb-2">Product Description</p>
+                <p className="mb-2 text-base font-medium">Product Description</p>
                 <textarea
-                    className="w-full max-w-[500px] px-3 py-2 border"
+                    className="w-full max-w-[760px] px-3 py-3 border rounded-md text-sm"
                     placeholder="Write content here"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     required
-                    rows={4}
+                    rows={5}
                 />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full items-start">
                 {/* Left: categories (span 2 columns on desktop) */}
                 <div className="sm:col-span-2">
-                    <p className="mb-2">Product Categories</p>
+                    <p className="mb-2 text-base font-medium">Product Categories</p>
 
                     {/* Selected category chips */}
-                    <div className="flex flex-wrap gap-2 mb-2">
+                    <div className="flex flex-wrap gap-2 mb-3">
                         {selectedCategories.length === 0 && (
                             <span className="text-sm text-gray-400">No categories selected</span>
                         )}
@@ -267,7 +330,7 @@ const Add = () => {
                     </div>
 
                     {/* Checkbox list for better differentiation */}
-                    <div className="category-list border rounded p-2 h-32 overflow-auto bg-white">
+                    <div className="category-list border rounded p-3 h-40 overflow-auto bg-white">
                         {categoriesList.map((cat) => {
                             const name = cat.name || cat;
                             const checked = selectedCategories.includes(name);
@@ -297,10 +360,10 @@ const Add = () => {
                 {/* Right: stacked inputs */}
                 <div className="flex flex-col gap-4">
                     <div>
-                        <p className="mb-2">Flavour (Optional)</p>
+                        <p className="mb-2 text-base font-medium">Flavour (Optional)</p>
                         <input
                             type="text"
-                            className="w-full px-3 py-2 border"
+                            className="w-full px-3 py-3 border rounded-md text-sm"
                             placeholder="e.g., Mango, Mint"
                             value={flavour}
                             onChange={(e) => setFlavour(e.target.value)}
@@ -308,10 +371,10 @@ const Add = () => {
                     </div>
 
                     <div>
-                        <p className="mb-2">Base Price</p>
+                        <p className="mb-2 text-base font-medium">Base Price</p>
                         <input
                             type="number"
-                            className="w-full px-3 py-2 sm:w-[120px] border"
+                            className="w-full px-3 py-3 sm:w-40 border rounded-md text-sm"
                             placeholder="25"
                             value={price}
                             onChange={(e) => setPrice(e.target.value)}
@@ -320,10 +383,10 @@ const Add = () => {
                     </div>
 
                     <div>
-                        <p className="mb-2">Stock Count</p>
+                        <p className="mb-2 text-base font-medium">Stock Count</p>
                         <input
                             type="number"
-                            className="w-full px-3 py-2 sm:w-[120px] border"
+                            className="w-full px-3 py-3 sm:w-40 border rounded-md text-sm"
                             placeholder="100"
                             value={stockCount}
                             onChange={(e) => setStockCount(Number(e.target.value))}
@@ -332,28 +395,30 @@ const Add = () => {
                     </div>
 
                     <div>
-                        <p className="mb-2">In Stock</p>
-                        <div>
+                        <p className="mb-2 text-base font-medium">In Stock</p>
+                        <div className="flex items-center gap-3">
                             <input
                                 type="checkbox"
                                 id="inStock"
                                 checked={inStock}
                                 onChange={() => setInStock(prev => !prev)}
+                                className="h-4 w-4"
                             />
-                            <label htmlFor="inStock" className="ml-2">In Stock</label>
+                            <label htmlFor="inStock" className="ml-1 text-sm">In Stock</label>
                         </div>
                     </div>
 
                     <div>
-                        <p className="mb-2">Show on POS</p>
-                        <div>
+                        <p className="mb-2 text-base font-medium">Show on POS</p>
+                        <div className="flex items-center gap-3">
                             <input
                                 type="checkbox"
                                 id="showOnPOS"
                                 checked={showOnPOS}
                                 onChange={() => setShowOnPOS(prev => !prev)}
+                                className="h-4 w-4"
                             />
-                            <label htmlFor="showOnPOS" className="ml-2">Show on POS</label>
+                            <label htmlFor="showOnPOS" className="ml-1 text-sm">Show on POS</label>
                         </div>
                     </div>
                 </div>
@@ -366,7 +431,7 @@ const Add = () => {
                     <button
                         type="button"
                         onClick={addVariant}
-                        className="px-3 py-1 bg-blue-500 text-white rounded text-sm"
+                        className="px-3 py-1 bg-white border border-gray-200 text-gray-700 rounded-md text-sm hover:bg-gray-50"
                     >
                         + Add Variant
                     </button>
@@ -376,21 +441,21 @@ const Add = () => {
                         <div key={index} className="flex gap-2 items-center">
                             <input
                                 type="text"
-                                className="px-3 py-2 border flex-1"
+                                className="px-3 py-2 border rounded-md flex-1"
                                 placeholder="Size (e.g., 10ml, 20ml)"
                                 value={variant.size}
                                 onChange={(e) => updateVariant(index, "size", e.target.value)}
                             />
                             <input
                                 type="number"
-                                className="px-3 py-2 border w-32"
+                                className="px-3 py-2 border rounded-md w-32"
                                 placeholder="Price"
                                 value={variant.price}
                                 onChange={(e) => updateVariant(index, "price", e.target.value)}
                             />
                             <input
                                 type="number"
-                                className="px-3 py-2 border w-32"
+                                className="px-3 py-2 border rounded-md w-32"
                                 placeholder="Quantity"
                                 value={variant.quantity}
                                 onChange={(e) => updateVariant(index, "quantity", e.target.value)}
@@ -399,9 +464,9 @@ const Add = () => {
                                 <button
                                     type="button"
                                     onClick={() => removeVariant(index)}
-                                    className="px-3 py-2 bg-red-500 text-white rounded"
+                                    className="px-2 py-1 bg-red-100 text-red-700 rounded-md"
                                 >
-                                    X
+                                    ✕
                                 </button>
                             )}
                         </div>
@@ -409,24 +474,18 @@ const Add = () => {
                 </div>
             </div>
 
-            <div className="flex gap-2 mt-2">
-                <input
-                    type="checkbox"
-                    id="bestseller"
-                    checked={bestseller}
-                    onChange={() => setBestseller((prev) => !prev)}
-                />
-                <label htmlFor="bestseller" className="cursor-pointer">
-                    Add to bestseller
-                </label>
+            <div className="flex items-center gap-4 mt-3 w-full">
+                <div className="flex items-center gap-2">
+                    <input
+                        type="checkbox"
+                        id="bestseller"
+                        checked={bestseller}
+                        onChange={() => setBestseller((prev) => !prev)}
+                        className="h-4 w-4"
+                    />
+                    <label htmlFor="bestseller" className="cursor-pointer text-sm">Add to bestseller</label>
+                </div>
             </div>
-            <button
-                type="submit"
-                className="w-28 py-3 mt-4 bg-black text-white"
-                disabled={loading}
-            >
-                {loading ? (id ? "UPDATING..." : "ADDING...") : (id ? "UPDATE" : "ADD")}
-            </button>
         </form>
     );
 };
