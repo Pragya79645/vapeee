@@ -20,6 +20,7 @@ const Chatbot = () => {
 
     const messagesRef = useRef(null);
     const inputRef = useRef(null);
+    const [viewportHeight, setViewportHeight] = useState(null);
 
     useEffect(() => {
         // Auto-scroll so the newest message's top is visible
@@ -43,6 +44,56 @@ const Chatbot = () => {
             try { inputRef.current.focus(); } catch (e) { /* ignore */ }
         }
     }, [open]);
+
+    // Adjust chat height on mobile when on-screen keyboard appears (visualViewport)
+    useEffect(() => {
+        if (typeof window === 'undefined') return;
+
+        const updateViewport = () => {
+            try {
+                const isMobile = window.matchMedia && window.matchMedia('(max-width: 767px)').matches;
+                if (isMobile && window.visualViewport) {
+                    setViewportHeight(window.visualViewport.height);
+                } else {
+                    setViewportHeight(null);
+                }
+            } catch (e) {
+                setViewportHeight(null);
+            }
+        };
+
+        updateViewport();
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', updateViewport);
+            window.visualViewport.addEventListener('scroll', updateViewport);
+        }
+        window.addEventListener('resize', updateViewport);
+
+        return () => {
+            if (window.visualViewport) {
+                window.visualViewport.removeEventListener('resize', updateViewport);
+                window.visualViewport.removeEventListener('scroll', updateViewport);
+            }
+            window.removeEventListener('resize', updateViewport);
+        };
+    }, []);
+
+    // When viewportHeight changes (keyboard appears), ensure messages scroll so input is visible
+    useEffect(() => {
+        if (!messagesRef.current) return;
+        const container = messagesRef.current;
+        // small timeout to allow layout to update when keyboard opens
+        const t = setTimeout(() => {
+            const nodes = container.querySelectorAll('[data-chat-msg]');
+            if (nodes && nodes.length) {
+                const last = nodes[nodes.length - 1];
+                try { last.scrollIntoView({ behavior: 'smooth', block: 'end' }); } catch (e) { container.scrollTop = container.scrollHeight; }
+            } else {
+                container.scrollTop = container.scrollHeight;
+            }
+        }, 80);
+        return () => clearTimeout(t);
+    }, [viewportHeight]);
 
     const push = (msg) => {
         setMessages((m) => {
@@ -226,7 +277,7 @@ const Chatbot = () => {
             )}
 
             {open && (
-                <div className="fixed inset-0 md:inset-auto md:right-6 md:bottom-6 md:left-auto md:w-[34rem] bg-white border border-gray-200 md:rounded-lg shadow-lg overflow-hidden z-50 h-screen md:h-[80vh] flex flex-col">
+                <div style={viewportHeight ? { height: `${viewportHeight}px` } : undefined} className="fixed inset-0 md:inset-auto md:right-6 md:bottom-6 md:left-auto md:w-[34rem] bg-white border border-gray-200 md:rounded-lg shadow-lg overflow-hidden z-50 md:h-[80vh] flex flex-col">
                             <div className="p-3 bg-black text-white flex items-center gap-3">
                                 <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-sm font-bold">K</div>
                                 <div className="flex-1">
