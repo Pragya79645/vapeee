@@ -226,7 +226,7 @@ const Chatbot = () => {
             )}
 
             {open && (
-                <div className="fixed right-6 bottom-6 w-[30rem] md:w-[34rem] bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden z-50">
+                <div className="fixed inset-0 md:right-6 md:bottom-6 md:left-auto md:w-[34rem] bg-white border border-gray-200 md:rounded-lg shadow-lg overflow-hidden z-50 md:max-h-[90vh]">
                             <div className="p-3 bg-black text-white flex items-center gap-3">
                                 <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-sm font-bold">K</div>
                                 <div className="flex-1">
@@ -236,7 +236,7 @@ const Chatbot = () => {
                                 <button onClick={() => setOpen(false)} className="text-sm opacity-80 px-2 py-1 bg-white/10 rounded">Close</button>
                             </div>
 
-                            <div ref={messagesRef} className="p-3 h-80 overflow-auto bg-gray-50">
+                            <div ref={messagesRef} className="p-3 h-[55vh] md:h-80 overflow-auto bg-gray-50">
                                 <div className="flex flex-col gap-3">
                                 {messages.map((m, i) => (
                                     m.from === 'bot' ? (
@@ -262,11 +262,11 @@ const Chatbot = () => {
                             </div>
 
                             <div className="p-3 border-t bg-white">
-                                <form onSubmit={handleSubmit} className="flex gap-2 items-center">
-                                    <input ref={inputRef} value={input} onChange={(e) => setInput(e.target.value)} placeholder="Type a command or order id" className="flex-1 border rounded px-3 py-2 text-sm focus:outline-none" />
-                                    <button type="submit" className="bg-black text-white px-3 rounded">Send</button>
+                                <form onSubmit={handleSubmit} className="flex gap-2 items-center flex-col sm:flex-row">
+                                    <input ref={inputRef} value={input} onChange={(e) => setInput(e.target.value)} placeholder="Type a command or order id" className="w-full sm:flex-1 border rounded px-3 py-2 text-sm focus:outline-none" />
+                                    <button type="submit" className="w-full sm:w-auto bg-black text-white px-3 rounded">Send</button>
                                 </form>
-                                <div className="mt-2 flex gap-2">
+                                <div className="mt-2 flex gap-2 flex-wrap">
                                     <button onClick={showOrders} className="text-xs px-3 py-1 bg-white border rounded-full">Orders</button>
                                     <button onClick={showCart} className="text-xs px-3 py-1 bg-white border rounded-full">Cart</button>
                                     <button onClick={handleSupport} className="text-xs px-3 py-1 bg-white border rounded-full">Contact</button>

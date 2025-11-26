@@ -56,15 +56,15 @@ const Navbar = () => {
     return (
         <div className='bg-white sticky top-0 z-50'>
             {/* Health Canada warning banner (black & white) - full width */}
-            <div className='relative left-1/2 -translate-x-1/2 w-screen bg-black text-white text-center text-xs sm:text-sm py-1 border-b border-gray-800'>
+            <div className='relative left-1/2 -translate-x-1/2 w-screen bg-black text-white text-center text-[10px] sm:text-sm py-1 border-b border-gray-800'>
                 <div className='max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 text-center'>
                     Vaping products contain nicotine, a highly addictive chemical. Health Canada
                 </div>
             </div>
             {/* Shipping update banner (red & white) */}
-            <div className='relative left-1/2 -translate-x-1/2 w-screen bg-red-900 text-white text-xs sm:text-sm py-1 border-b border-red-700'>
+            <div className='relative left-1/2 -translate-x-1/2 w-screen bg-red-900 text-white text-[10px] sm:text-sm py-1 border-b border-red-700'>
                 <div className='max-w-7xl mx-auto px-2 sm:px-6 lg:px-8'>
-                    <div className='text-center text-xs sm:text-sm'>
+                    <div className='text-center text-[10px] sm:text-sm'>
                         ⚠️ Shipping Update: Canada Post Strike — Alternate Carriers Now in Use. For More Information, <Link to="/shipping-info" className='underline font-semibold text-white'>Click Here</Link>. ⚠️ Due to the strike, some online packages may be delayed. We’re still shipping daily, and if your package is affected, we’ll work with you to make it right.
                     </div>
                 </div>
@@ -72,7 +72,7 @@ const Navbar = () => {
 
             <div className='relative left-1/2 -translate-x-1/2 w-screen bg-white'>
                 <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
-                    <div className='flex flex-col sm:flex-row items-center justify-between text-xs sm:text-sm text-gray-700 py-2 gap-2'>
+                    <div className='flex flex-col sm:flex-row items-center justify-between text-[10px] sm:text-sm text-gray-700 py-2 gap-2'>
                         <div className='flex items-center gap-3 text-center sm:text-left'>
                             <span className='leading-none'>🚚</span>
                             <span className='whitespace-normal'>Next Day Delivery Now Available In The Greater Vancouver Area</span>
