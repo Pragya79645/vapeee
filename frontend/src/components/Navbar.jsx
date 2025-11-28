@@ -193,22 +193,21 @@ const Navbar = () => {
 
                     {/* Desktop controls (brand + icons). Nav links moved below header */}
                     <div className='hidden sm:flex items-center gap-6 flex-1 ml-6'>
-                        <div className='relative w-full min-w-0'>
+                        <div className='relative w-full min-w-0 flex justify-center'>
                             <input
                                 type='text'
                                 placeholder='Search products...'
                                 value={query}
                                 onChange={e => { setQuery(e.target.value); scheduleSearch(e.target.value); }}
                                 onKeyDown={e => { if (e.key === 'Enter') handleSearch(); }}
-                                className='w-full max-w-xl px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-[#FFB81C]'
+                                className='w-full max-w-xl md:max-w-2xl px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-[#FFB81C]'
                                 aria-label='Search products'
                             />
-                            
                         </div>
                     </div>
 
                     {/* Icons - Search, Profile, Cart, Hamburger */}
-                    <div className='flex-1 flex items-center justify-center gap-2 sm:gap-6'>
+                    <div className='flex items-center justify-center gap-2 sm:gap-6'>
                         {/* Mobile search toggle (visible on small screens) */}
                         <button
                             onClick={() => setMobileSearchVisible(v => !v)}
