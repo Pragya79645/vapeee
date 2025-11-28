@@ -1,7 +1,9 @@
 import { v2 as cloudinary } from 'cloudinary';
 import Product from '../models/productModel.js';
+import User from '../models/userModel.js';
 import Cart from '../models/cartModel.js';
 import { productSchema } from "../validation/productValidation.js";
+import { getIO } from '../socket.js';
 
 // Function to add product
 const addProduct = async (req, res) => {
@@ -293,13 +295,56 @@ const updateProduct = async (req, res) => {
         product.categories = parsedCategories;
         product.flavour = value.flavour || "";
         product.variants = parsedVariants;
-        product.stockCount = Number(value.stockCount);
-        product.inStock = value.inStock === undefined ? (Number(value.stockCount) > 0) : Boolean(value.inStock);
+        // detect previous stock to notify waitlist users when stock moves 0 -> >0
+        const prevStock = product.stockCount || 0;
+        const newStock = Number(value.stockCount);
+        product.stockCount = newStock;
+        product.inStock = value.inStock === undefined ? (newStock > 0) : Boolean(value.inStock);
         product.showOnPOS = value.showOnPOS === undefined ? product.showOnPOS : Boolean(value.showOnPOS);
         product.otherFlavours = parsedOtherFlavours;
         product.bestseller = value.bestseller;
 
+        // If product was previously out of stock and now restocked, notify waitlist
+        if (prevStock === 0 && newStock > 0) {
+            try {
+                // find users who are waiting for this product
+                const key = product._id.toString();
+                const waitingUsers = await User.find({ [`notifications_waitlist.${key}`]: true });
+                for (const u of waitingUsers) {
+                    u.notifications = u.notifications || [];
+                    // Deduplicate: skip if there is already an unread notification for this product
+                    const alreadyUnread = (u.notifications || []).some(n => n.productId && n.productId.toString() === key && !n.read);
+                    if (!alreadyUnread) {
+                        u.notifications.push({ productId: product._id, message: `${product.name} is back in stock` });
+                    }
+                    // remove from waitlist map
+                    if (u.notifications_waitlist && u.notifications_waitlist.delete) {
+                        try { u.notifications_waitlist.delete(key); } catch (e) { /* ignore */ }
+                    } else if (u.notifications_waitlist && u.notifications_waitlist[key]) {
+                        delete u.notifications_waitlist[key];
+                    }
+                    await u.save();
+                }
+            } catch (notifErr) {
+                console.error('Failed to notify waitlist users:', notifErr);
+            }
+        }
+
         await product.save();
+
+        // Emit product update via Socket.IO so clients can refresh UI live
+        try {
+            const io = getIO();
+            if (io) {
+                io.emit('productUpdated', {
+                    productId: product._id.toString(),
+                    stockCount: product.stockCount,
+                    inStock: product.inStock
+                });
+            }
+        } catch (e) {
+            console.error('Failed to emit socket productUpdated:', e);
+        }
 
         res.status(200).json({ success: true, message: "Product updated successfully" });
 

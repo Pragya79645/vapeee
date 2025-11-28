@@ -1,4 +1,6 @@
 import express from 'express'
+import { createServer } from 'http';
+import { initSocket } from './socket.js';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import 'dotenv/config';
@@ -48,6 +50,10 @@ app.use('/api/cart/', cartRoute);
 app.use('/api/order', orderRoute);
 app.use('/api/settings', settingsRoute);
 
-app.listen(PORT, () => {
+// create http server and attach socket.io
+const httpServer = createServer(app);
+initSocket(httpServer);
+
+httpServer.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);
-})
+});

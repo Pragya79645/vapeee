@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { io } from 'socket.io-client';
+import { useParams, useNavigate } from 'react-router';
 import { useShop } from '../context/ShopContex';
+import { useAuth } from '../context/AuthContext';
+import { toast } from 'react-toastify';
 import axios from 'axios';
 import { assets } from '../assets/frontend_assets/assets';
 import RelatedProducts from '../components/RelatedProducts';
@@ -8,10 +11,14 @@ import RelatedProducts from '../components/RelatedProducts';
 function Product() {
     const { productId } = useParams();
     const { products, currency, addToCart, backendUrl } = useShop();
+    const { user } = useAuth();
 
     const [productDetails, setProductDetails] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
     const [size, setSize] = useState('');
+    const [waitlisted, setWaitlisted] = useState(false);
+    const [waitlistLoading, setWaitlistLoading] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const product = products.find(item => item._id === productId);
@@ -41,6 +48,22 @@ function Product() {
         }
     }, [productId, products]);
 
+    // If user signed in, check if they've already waitlisted this product
+    useEffect(() => {
+        const check = async () => {
+            if (!productDetails) return;
+            try {
+                const res = await axios.get(`${backendUrl}/api/user/waitlist/${productDetails._id}`, { withCredentials: true });
+                if (res.data?.success) {
+                    setWaitlisted(!!res.data.waiting);
+                }
+            } catch (err) {
+                // ignore (not signed in or no waitlist)
+            }
+        };
+        check();
+    }, [productDetails, backendUrl]);
+
     // Ensure we scroll to top when navigating to a product so the product view is visible
     useEffect(() => {
         try {
@@ -50,6 +73,33 @@ function Product() {
             window.scrollTo(0, 0);
         }
     }, [productId]);
+
+    // Real-time updates: listen for productUpdated events and refresh stock locally
+    useEffect(() => {
+        if (!productId) return;
+        // connect to backend socket
+        const socketUrl = backendUrl || import.meta.env.VITE_BACKEND_URL || '';
+        if (!socketUrl) return;
+        const socket = io(socketUrl, { withCredentials: true });
+
+        const onUpdate = (data) => {
+            try {
+                if (!data || !data.productId) return;
+                if (data.productId === productId) {
+                    setProductDetails(prev => prev ? ({ ...prev, stockCount: data.stockCount, inStock: data.inStock }) : prev);
+                }
+            } catch (err) {
+                // ignore
+            }
+        };
+
+        socket.on('productUpdated', onUpdate);
+
+        return () => {
+            socket.off('productUpdated', onUpdate);
+            try { socket.disconnect(); } catch (e) { /* ignore */ }
+        };
+    }, [productId, backendUrl]);
     
 
     if (!productDetails) return <div>Loading...</div>;
@@ -101,10 +151,9 @@ function Product() {
                         ) : (
                             <p className='text-red-600'>Out of stock</p>
                         )}
-                        {productDetails.showOnPOS === false && (
-                            <p className='text-sm text-gray-500'>Not shown on POS</p>
-                        )}
                     </div>
+
+                    {/* Waitlist handled below together with Add to Cart for proper alignment */}
 
                     {/* Size Selection - only show when variants exist */}
                     {productDetails.variants && productDetails.variants.length > 0 && (
@@ -124,7 +173,56 @@ function Product() {
                         </div>
                     )}
 
-                    <button onClick={() => addToCart(productDetails._id, size)} className='bg-black text-white px-8 py-3 text-sm active:bg-gray-700'>ADD TO CART</button>
+                    {/* Button row: Remind + Add to cart (aligned) */}
+                    <div className='mt-4 flex flex-col sm:flex-row items-center gap-4'>
+                        {Number(productDetails.stockCount) <= 0 && user ? (
+                            !waitlisted ? (
+                                <button
+                                    onClick={async () => {
+                                        try {
+                                            setWaitlistLoading(true);
+                                            await axios.post(`${backendUrl}/api/user/waitlist/${productDetails._id}`, {}, { withCredentials: true });
+                                            setWaitlisted(true);
+                                            toast.success('We will notify you when this product is back in stock');
+                                        } catch (err) {
+                                            console.error('Waitlist error', err);
+                                            toast.error(err?.response?.data?.message || 'Failed to add to waitlist');
+                                        } finally {
+                                            setWaitlistLoading(false);
+                                        }
+                                    }}
+                                    className='inline-flex items-center gap-2 bg-[#FFB81C] hover:bg-[#f0a800] text-black font-semibold rounded-md px-4 py-2 text-sm shadow-sm h-10'
+                                >
+                                    {waitlistLoading ? (
+                                        <svg className='animate-spin h-4 w-4 text-black' viewBox='0 0 24 24' fill='none'>
+                                            <circle className='opacity-25' cx='12' cy='12' r='10' stroke='currentColor' strokeWidth='4'></circle>
+                                            <path className='opacity-75' fill='currentColor' d='M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z'></path>
+                                        </svg>
+                                    ) : (
+                                        <svg xmlns='http://www.w3.org/2000/svg' className='h-4 w-4' viewBox='0 0 20 20' fill='currentColor'>
+                                            <path d='M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6z' />
+                                            <path d='M9 18a2 2 0 004 0H9z' />
+                                        </svg>
+                                    )}
+                                    <span>Remind me when in stock</span>
+                                </button>
+                            ) : (
+                                <div className='flex items-center gap-2'>
+                                    <span className='inline-flex items-center gap-2 bg-green-600 text-white rounded-full px-3 py-2 text-sm font-medium h-10'>
+                                        <svg xmlns='http://www.w3.org/2000/svg' className='h-4 w-4' viewBox='0 0 20 20' fill='currentColor' aria-hidden='true'>
+                                            <path fillRule='evenodd' d='M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z' clipRule='evenodd' />
+                                        </svg>
+                                        <span className='leading-none'>Reminder set</span>
+                                    </span>
+                                    <button onClick={() => navigate('/notifications')} className='inline-flex items-center justify-center border border-gray-300 text-sm text-gray-700 bg-white rounded-md px-3 py-2 h-10 hover:bg-gray-50 hover:border-gray-400 hover:shadow-sm hover:-translate-y-0.5 transition transform duration-150 ease-in-out cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-orange-200'>
+                                        Manage
+                                    </button>
+                                </div>
+                            )
+                        ) : null}
+
+                        <button onClick={() => addToCart(productDetails._id, size)} className='bg-black text-white px-6 py-2 text-sm active:bg-gray-700 h-10'>ADD TO CART</button>
+                    </div>
 
                     <hr className='mt-8 sm:w-3/4 border-gray-300' />
 

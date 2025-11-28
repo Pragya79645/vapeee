@@ -10,6 +10,7 @@ import Login from "./pages/Login";
 import Orders from "./pages/Orders";
 import PlaceOrder from "./pages/PlaceOrder";
 import ShippingInfo from "./pages/ShippingInfo";
+import Notifications from "./pages/Notifications";
 import { Routes, Route, Navigate, useLocation } from "react-router";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -29,7 +30,9 @@ import Chatbot from "./components/Chatbot";
 
 const App = () => {
   const location = useLocation();
-  const isStandalone = location.pathname === "/refund-policy";
+  // Pages that should not render the extra sections below the routes
+  const standalonePaths = ["/refund-policy", "/notifications"];
+  const isStandalone = standalonePaths.includes(location.pathname);
 
   return (
     <div className="px-4 sm:px-[5%] md:px-[7%] lg:px-[9%]">
@@ -51,6 +54,7 @@ const App = () => {
         <Route path="/refundpolicy" element={<Navigate to="/refund-policy" replace />} />
         <Route path="/product/:productId" element={<Product />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/notifications" element={<PrivateRoute><Notifications /></PrivateRoute>} />
         <Route path="/orders" element={<PrivateRoute><Orders /></PrivateRoute>} />
         <Route path="/place-order" element={<PrivateRoute><PlaceOrder /></PrivateRoute>} />
       </Routes>
