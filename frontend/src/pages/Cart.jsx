@@ -72,13 +72,17 @@ function Cart() {
                                         </div>
                                     </div>
                                 </div>
-                                <input onChange={(e) => {
-                                    const val = Number(e.target.value);
-                                    if (!isNaN(val) && val > 0) {
-                                        updateQuantity(item._id, item.size, val);
-                                    }
-                                }} type="number" min={1} value={item.quantity} className='border border-gray-300 max-w-10 sm:max-w-20 px-1 sm:px-2 py-1' />
-                                <img onClick={() => updateQuantity(item._id, item.size, 0)} src={assets.bin_icon} className='w-4 mr-4 sm:w-5 cursor-pointer' />
+                                <div className='flex items-center gap-2'>
+                                    <button onClick={() => updateQuantity(item._id, item.size, Math.max(0, item.quantity - 1))} className='px-2 py-1 border rounded'>-</button>
+                                    <input onChange={(e) => {
+                                        const val = Number(e.target.value);
+                                        if (!isNaN(val) && val >= 0) {
+                                            updateQuantity(item._id, item.size, val);
+                                        }
+                                    }} type="number" min={0} value={item.quantity} className='border border-gray-300 w-16 text-center px-1 sm:px-2 py-1' />
+                                    <button onClick={() => updateQuantity(item._id, item.size, item.quantity + 1)} className='px-2 py-1 border rounded'>+</button>
+                                </div>
+                                <img onClick={() => updateQuantity(item._id, item.size, 0)} src={assets.bin_icon} className='w-4 ml-4 sm:w-5 cursor-pointer' />
                             </div>
                         )
                     })

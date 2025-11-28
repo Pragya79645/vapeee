@@ -133,14 +133,46 @@ const ShopProvider = ({ children }) => {
             s.on('productCreated', onProductCreated);
             s.on('productUpdated', onProductUpdated);
             s.on('productRemoved', onProductRemoved);
-        }
+            const onCartUpdated = (payload) => {
+                try {
+                    if (!payload) return;
+                    const cart = payload;
+                    const items = Array.isArray(cart.items) ? cart.items : [];
 
+                    const mapping = {};
+                    const details = items.map((it) => {
+                        const prodId = (it.productId && it.productId._id) ? it.productId._id : (it.productId || it.product);
+                        if (!prodId) return null;
+                        const variantSize = it.variantSize || it.size || 'default';
+                        const quantity = it.quantity || 0;
+                        if (!mapping[prodId]) mapping[prodId] = {};
+                        mapping[prodId][variantSize] = quantity;
+
+                        return {
+                            productId: prodId,
+                            name: it.name || (it.productId && it.productId.name) || '',
+                            variantSize,
+                            quantity,
+                            price: it.price ?? (it.productId && it.productId.price) ?? 0,
+                            image: it.image || (it.productId && it.productId.images && it.productId.images[0]?.url) || ''
+                        };
+                    }).filter(Boolean);
+
+                    setCartItems(mapping);
+                    setCartDetails(details);
+                } catch (e) { console.error('onCartUpdated handler error', e); }
+            };
+
+            s.on('cartUpdated', onCartUpdated);
+        }
+        
         return () => {
             try {
                 if (s) {
                     s.off('productCreated', onProductCreated);
                     s.off('productUpdated', onProductUpdated);
                     s.off('productRemoved', onProductRemoved);
+                    s.off('cartUpdated', onCartUpdated);
                 }
             } catch (e) { }
         };

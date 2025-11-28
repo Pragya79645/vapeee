@@ -108,7 +108,8 @@ const Chatbot = () => {
 
     const formatOrder = (o) => {
         const date = o.createdAt ? new Date(o.createdAt).toLocaleString() : '';
-        const header = `Order — Status: ${o.status} — Total: $${(o.amount ?? 0).toFixed(2)}${date ? ` — ${date}` : ''}`;
+        const header = `Order — ID: ${o._id || ''}`;
+        const details = `Status: ${o.status || ''} ${o.amount ? `— Total: $${(o.amount ?? 0).toFixed(2)}` : ''}${date ? ` — ${date}` : ''}`;
         const addr = o.address ? `Ship to: ${o.address.street || ''} ${o.address.city || ''} ${o.address.state || ''} ${o.address.zip || ''}` : '';
         const items = (o.items || []).map(it => {
             const name = it.name || (it.productId && it.productId.name) || 'Item';
@@ -342,7 +343,8 @@ const Chatbot = () => {
                                                                                     <div className="space-y-4">
                                                                                         {m.orders.map((o) => (
                                                                                                     <div key={o._id} className="border rounded-lg p-4 bg-gray-50 shadow-sm">
-                                                                                                        <div className="font-bold text-lg">{`Order — Status: ${o.status || 'N/A'} — Total: $${(o.amount ?? 0).toFixed(2)}${o.createdAt ? ` — ${new Date(o.createdAt).toLocaleString()}` : ''}`}</div>
+                                                                                                        <div className="font-bold text-lg">{`Order — ID: ${o._id || ''}`}</div>
+                                                                                                        <div className="text-sm text-gray-700 mt-1">{`Status: ${o.status || 'N/A'}${o.amount ? ` — Total: $${(o.amount ?? 0).toFixed(2)}` : ''}${o.createdAt ? ` — ${new Date(o.createdAt).toLocaleString()}` : ''}`}</div>
                                                                                                         {o.address && (
                                                                                                             <div className="text-sm text-gray-600 mt-1">{`Ship to: ${o.address.street || ''} ${o.address.city || ''} ${o.address.state || ''} ${o.address.zip || ''}`}</div>
                                                                                                         )}

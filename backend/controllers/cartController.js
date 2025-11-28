@@ -1,5 +1,6 @@
 import Cart from "../models/cartModel.js";
 import Product from "../models/productModel.js";
+import { getIO } from "../socket.js";
 
 // Utility function for input validation
 const validateCartInput = ({ itemId, variantSize, quantity = null }) => {
@@ -109,6 +110,17 @@ const updateCart = async (req, res) => {
         }
 
         await cart.save();
+
+        try {
+            // populate items for client update
+            const populated = await Cart.findOne({ userId }).populate('items.productId', 'name images price variants');
+            const io = getIO();
+            if (io) {
+                io.to(`user:${userId}`).emit('cartUpdated', populated);
+            }
+        } catch (e) {
+            console.error('Failed to emit cartUpdated', e);
+        }
 
         res.status(200).json({ success: true, message: "Cart updated" });
     } catch (error) {
