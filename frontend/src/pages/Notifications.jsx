@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import { useShop } from '../context/ShopContex';
 import { useNavigate } from 'react-router';
+import { initSocket, getSocket } from '../socket';
 
 const Notifications = () => {
     const { user } = useAuth();
@@ -30,6 +31,38 @@ const Notifications = () => {
 
     useEffect(() => { load(); }, [user]);
 
+    // Listen for incoming realtime notifications and prepend to list
+    useEffect(() => {
+        if (!backendUrl) return;
+        if (!user) return;
+        const s = initSocket(backendUrl, user._id);
+
+        const onNotification = (payload) => {
+            try {
+                setNotifications(prev => [payload, ...(prev || [])]);
+                setUnreadCount(prev => (typeof prev === 'number' ? prev + 1 : 1));
+            } catch (e) {
+                console.error('Notification handler error', e);
+            }
+        };
+
+        const onNotificationsUpdated = (payload) => {
+            try {
+                if (!payload) return;
+                if (typeof payload.unreadCount === 'number') setUnreadCount(payload.unreadCount);
+                if (Array.isArray(payload.notifications)) setNotifications(payload.notifications);
+            } catch (e) { console.error('notificationsUpdated handler error', e); }
+        };
+
+        if (s) s.on('notification', onNotification);
+        if (s) s.on('notificationsUpdated', onNotificationsUpdated);
+
+        return () => {
+            try { if (s) s.off('notification', onNotification); } catch (e) { }
+            try { if (s) s.off('notificationsUpdated', onNotificationsUpdated); } catch (e) { }
+        };
+    }, [user, backendUrl]);
+
     const markReadAndOpen = async (n) => {
         try {
             await axios.post(`${backendUrl}/api/user/notifications/${n._id}/read`, {}, { withCredentials: true });
@@ -46,12 +79,7 @@ const Notifications = () => {
         } catch (err) { console.error(err); }
     };
 
-    const clearRead = async () => {
-        try {
-            await axios.delete(`${backendUrl}/api/user/notifications/read`, { withCredentials: true });
-            setNotifications(prev => prev.filter(n => !n.read));
-        } catch (err) { console.error(err); }
-    };
+    // Clear read removed per request
 
     const clearAll = async () => {
         try {
@@ -87,7 +115,6 @@ const Notifications = () => {
                 <h2 className='text-2xl font-semibold'>Notifications</h2>
                 <div className='flex gap-3 items-center'>
                     <span className='text-sm text-gray-600'>{unreadCount} unread</span>
-                    <button onClick={clearRead} className='text-sm text-gray-600 px-3 py-1 rounded hover:bg-gray-100'>Clear read</button>
                     <button onClick={clearAll} className='text-sm text-gray-600 px-3 py-1 rounded hover:bg-gray-100'>Clear all</button>
                 </div>
             </div>

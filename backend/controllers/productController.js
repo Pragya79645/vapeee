@@ -97,6 +97,31 @@ const addProduct = async (req, res) => {
 
         await product.save();
 
+        // Emit product created so clients can update lists in realtime
+        try {
+            const io = getIO();
+            if (io) {
+                io.emit('productCreated', {
+                    product: {
+                        _id: product._id.toString(),
+                        productId: product.productId,
+                        name: product.name,
+                        price: product.price,
+                        images: product.images,
+                        categories: product.categories,
+                        flavour: product.flavour,
+                        variants: product.variants,
+                        stockCount: product.stockCount,
+                        inStock: product.inStock,
+                        showOnPOS: product.showOnPOS,
+                        bestseller: product.bestseller
+                    }
+                });
+            }
+        } catch (e) {
+            console.error('Failed to emit productCreated socket event:', e);
+        }
+
         res.status(201).json({ success: true, message: "Product added successfully" });
 
     } catch (error) {
@@ -182,6 +207,13 @@ const removeProduct = async (req, res) => {
         } catch (cartErr) {
             console.error('Failed to remove product references from carts:', cartErr);
         }
+
+        try {
+            const io = getIO();
+            if (io) {
+                io.emit('productRemoved', { productId: product._id.toString() });
+            }
+        } catch (e) { console.error('Failed to emit productRemoved:', e); }
 
         res.status(200).json({ success: true, message: "Product removed successfully" });
 
@@ -315,15 +347,48 @@ const updateProduct = async (req, res) => {
                     // Deduplicate: skip if there is already an unread notification for this product
                     const alreadyUnread = (u.notifications || []).some(n => n.productId && n.productId.toString() === key && !n.read);
                     if (!alreadyUnread) {
+                        // push notification subdoc
                         u.notifications.push({ productId: product._id, message: `${product.name} is back in stock` });
+                        const newNotif = u.notifications[u.notifications.length - 1];
+
+                        // remove from waitlist map
+                        if (u.notifications_waitlist && u.notifications_waitlist.delete) {
+                            try { u.notifications_waitlist.delete(key); } catch (e) { /* ignore */ }
+                        } else if (u.notifications_waitlist && u.notifications_waitlist[key]) {
+                            delete u.notifications_waitlist[key];
+                        }
+
+                        await u.save();
+
+                        // emit to that user's socket room (if connected)
+                        try {
+                            const io = getIO();
+                            if (io) {
+                                const payload = {
+                                    _id: newNotif._id,
+                                    productId: product._id,
+                                    message: newNotif.message,
+                                    read: newNotif.read || false,
+                                    createdAt: newNotif.createdAt || new Date(),
+                                    product: {
+                                        name: product.name,
+                                        thumbnail: (product.images && product.images.length) ? product.images[0].url : undefined
+                                    }
+                                };
+                                io.to(`user:${u._id.toString()}`).emit('notification', payload);
+                            }
+                        } catch (emitErr) {
+                            console.error('Failed to emit notification socket event:', emitErr);
+                        }
+                    } else {
+                        // even if already unread, remove waitlist entry so user won't be re-notified
+                        if (u.notifications_waitlist && u.notifications_waitlist.delete) {
+                            try { u.notifications_waitlist.delete(key); } catch (e) { /* ignore */ }
+                        } else if (u.notifications_waitlist && u.notifications_waitlist[key]) {
+                            delete u.notifications_waitlist[key];
+                        }
+                        await u.save();
                     }
-                    // remove from waitlist map
-                    if (u.notifications_waitlist && u.notifications_waitlist.delete) {
-                        try { u.notifications_waitlist.delete(key); } catch (e) { /* ignore */ }
-                    } else if (u.notifications_waitlist && u.notifications_waitlist[key]) {
-                        delete u.notifications_waitlist[key];
-                    }
-                    await u.save();
                 }
             } catch (notifErr) {
                 console.error('Failed to notify waitlist users:', notifErr);
@@ -337,9 +402,20 @@ const updateProduct = async (req, res) => {
             const io = getIO();
             if (io) {
                 io.emit('productUpdated', {
-                    productId: product._id.toString(),
-                    stockCount: product.stockCount,
-                    inStock: product.inStock
+                    product: {
+                        _id: product._id.toString(),
+                        productId: product.productId,
+                        name: product.name,
+                        price: product.price,
+                        images: product.images,
+                        categories: product.categories,
+                        flavour: product.flavour,
+                        variants: product.variants,
+                        stockCount: product.stockCount,
+                        inStock: product.inStock,
+                        showOnPOS: product.showOnPOS,
+                        bestseller: product.bestseller
+                    }
                 });
             }
         } catch (e) {

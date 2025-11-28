@@ -4,6 +4,7 @@ import { ShopContext } from "./ShopContex";
 import { backendUrl, currency, deliveryFee } from "../config/shopConfig";
 import { useNavigate } from "react-router";
 import axios from 'axios';
+import { initSocket, getSocket } from '../socket';
 import { useAuth } from "./AuthContext";
 
 const ShopProvider = ({ children }) => {
@@ -97,6 +98,53 @@ const ShopProvider = ({ children }) => {
             userCartData();
         }
     }, [fetchProducts, user, userCartData]);
+
+    // Listen for product changes from backend so product lists update in realtime
+    useEffect(() => {
+        if (!backendUrl) return;
+        const s = initSocket(backendUrl, user?._id);
+
+        const onProductCreated = (payload) => {
+            try {
+                if (!payload || !payload.product) return;
+                setProducts(prev => {
+                    const exists = prev.some(p => p._id === payload.product._id || p._id === payload.product.productId);
+                    if (exists) return prev;
+                    return [payload.product, ...prev];
+                });
+            } catch (e) { console.error('productCreated handler error', e); }
+        };
+
+        const onProductUpdated = (payload) => {
+            try {
+                if (!payload || !payload.product) return;
+                setProducts(prev => prev.map(p => (p._id === payload.product._id ? { ...p, ...payload.product } : p)));
+            } catch (e) { console.error('productUpdated handler error', e); }
+        };
+
+        const onProductRemoved = (payload) => {
+            try {
+                if (!payload || !payload.productId) return;
+                setProducts(prev => prev.filter(p => p._id !== payload.productId));
+            } catch (e) { console.error('productRemoved handler error', e); }
+        };
+
+        if (s) {
+            s.on('productCreated', onProductCreated);
+            s.on('productUpdated', onProductUpdated);
+            s.on('productRemoved', onProductRemoved);
+        }
+
+        return () => {
+            try {
+                if (s) {
+                    s.off('productCreated', onProductCreated);
+                    s.off('productUpdated', onProductUpdated);
+                    s.off('productRemoved', onProductRemoved);
+                }
+            } catch (e) { }
+        };
+    }, [backendUrl, user]);
 
     // Merge local guest cart into server cart once when user logs in
     useEffect(() => {

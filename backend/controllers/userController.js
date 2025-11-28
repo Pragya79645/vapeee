@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from "../models/userModel.js";
 import Product from "../models/productModel.js";
+import { getIO } from '../socket.js';
 
 const createToken = (id) => {
     if (!process.env.JWT_SECRET) {
@@ -209,6 +210,15 @@ const markNotificationRead = async (req, res) => {
 
         notif.read = true;
         await user.save();
+
+        try {
+            const io = getIO();
+            if (io) {
+                const unreadCount = (user.notifications || []).filter(n => !n.read).length;
+                io.to(`user:${user._id}`).emit('notificationsUpdated', { unreadCount });
+            }
+        } catch (e) { console.error('emit.notificationsUpdated error', e); }
+
         return res.status(200).json({ success: true, message: 'Marked read' });
     } catch (error) {
         console.error('markNotificationRead error:', error);
@@ -244,6 +254,14 @@ const deleteNotification = async (req, res) => {
         if (!notif) return res.status(404).json({ success: false, message: 'Notification not found' });
         notif.remove();
         await user.save();
+        try {
+            const io = getIO();
+            if (io) {
+                const unreadCount = (user.notifications || []).filter(n => !n.read).length;
+                io.to(`user:${user._id}`).emit('notificationsUpdated', { unreadCount });
+            }
+        } catch (e) { console.error('emit.notificationsUpdated error', e); }
+
         return res.status(200).json({ success: true, message: 'Notification deleted' });
     } catch (error) {
         console.error('deleteNotification error:', error);
@@ -258,6 +276,14 @@ const deleteReadNotifications = async (req, res) => {
         if (!user) return res.status(404).json({ success: false, message: 'User not found' });
         user.notifications = (user.notifications || []).filter(n => !n.read);
         await user.save();
+        try {
+            const io = getIO();
+            if (io) {
+                const unreadCount = (user.notifications || []).filter(n => !n.read).length;
+                io.to(`user:${user._id}`).emit('notificationsUpdated', { unreadCount });
+            }
+        } catch (e) { console.error('emit.notificationsUpdated error', e); }
+
         return res.status(200).json({ success: true, message: 'Read notifications cleared' });
     } catch (error) {
         console.error('deleteReadNotifications error:', error);
@@ -272,6 +298,13 @@ const clearAllNotifications = async (req, res) => {
         if (!user) return res.status(404).json({ success: false, message: 'User not found' });
         user.notifications = [];
         await user.save();
+        try {
+            const io = getIO();
+            if (io) {
+                io.to(`user:${user._id}`).emit('notificationsUpdated', { unreadCount: 0, notifications: [] });
+            }
+        } catch (e) { console.error('emit.notificationsUpdated error', e); }
+
         return res.status(200).json({ success: true, message: 'All notifications cleared' });
     } catch (error) {
         console.error('clearAllNotifications error:', error);

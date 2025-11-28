@@ -84,9 +84,23 @@ function Product() {
 
         const onUpdate = (data) => {
             try {
-                if (!data || !data.productId) return;
-                if (data.productId === productId) {
-                    setProductDetails(prev => prev ? ({ ...prev, stockCount: data.stockCount, inStock: data.inStock }) : prev);
+                if (!data) return;
+                const payloadProduct = data.product || undefined;
+                const productIdFromPayload = payloadProduct ? (payloadProduct._id || payloadProduct.productId) : (data.productId || undefined);
+                if (!productIdFromPayload) return;
+                if (productIdFromPayload === productId) {
+                    if (payloadProduct) {
+                        // replace/merge full product details
+                        setProductDetails(prev => {
+                            // preserve selectedImage & size where possible
+                            const selImg = prev?.images && prev.images.length && prev.images[0] ? prev.images[0] : prev?.images?.[0];
+                            const currentSelected = selectedImage || selImg;
+                            return { ...prev, ...payloadProduct };
+                        });
+                    } else {
+                        // fallback: only stock data provided
+                        setProductDetails(prev => prev ? ({ ...prev, stockCount: data.stockCount, inStock: data.inStock }) : prev);
+                    }
                 }
             } catch (err) {
                 // ignore
