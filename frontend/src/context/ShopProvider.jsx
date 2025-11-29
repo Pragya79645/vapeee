@@ -366,7 +366,7 @@ const ShopProvider = ({ children }) => {
         setCartDetails,
         showCartDrawer,
         setShowCartDrawer
-    }), [search, showSearch, cartItems, addToCart, getCartCount, updateQuantity, getCartAmount, navigate, products]);
+    }), [search, showSearch, cartItems, cartDetails, addToCart, getCartCount, updateQuantity, getCartAmount, navigate, products, showCartDrawer, setShowCartDrawer]);
 
     return (
         <ShopContext.Provider value={contextValue}>
