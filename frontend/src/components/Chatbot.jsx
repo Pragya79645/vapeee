@@ -142,8 +142,11 @@ const Chatbot = () => {
         try {
             const res = await axios.get(`${backendUrl}/api/order/userOrders`, { withCredentials: true });
             if (res.data?.success && res.data.orders && res.data.orders.length) {
-                // Only show orders that are not delivered
-                const activeOrders = res.data.orders.filter(o => ((o.status || '').toString().toLowerCase() !== 'delivered'));
+                // Only show orders that are not delivered or cancelled
+                const activeOrders = res.data.orders.filter(o => {
+                    const s = (o.status || '').toString().toLowerCase();
+                    return s !== 'delivered' && s !== 'cancelled' && s !== 'canceled';
+                });
                 if (activeOrders.length) {
                     // Push structured orders message so we can render images and bold headings
                     push({ from: 'bot', type: 'orders', heading: 'I found the following active orders:', orders: activeOrders });
@@ -277,7 +280,10 @@ const Chatbot = () => {
                     const res = await axios.get(`${backendUrl}/api/order/userOrders`, { withCredentials: true });
                     if (res.data?.success && res.data.orders) {
                         // filter out delivered orders first
-                        const available = res.data.orders.filter(o => ((o.status || '').toString().toLowerCase() !== 'delivered'));
+                        const available = res.data.orders.filter(o => {
+                            const s = (o.status || '').toString().toLowerCase();
+                            return s !== 'delivered' && s !== 'cancelled' && s !== 'canceled';
+                        });
                         const matches = available.filter(o => (isOrderId && o._id === text) || (isEmail && o.userId && o.userId.email === text));
                         if (matches.length) {
                             // push structured message for matches so images/headings render
