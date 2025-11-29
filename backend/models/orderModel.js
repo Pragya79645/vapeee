@@ -1,11 +1,13 @@
 import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema({
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    // optional external Clover order id for sync
+    externalCloverId: { type: String, index: true, sparse: true },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     phone: { type: String, required: true },
     items: [
         {
-            productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true },
+            productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
             name: { type: String, required: true },
             variantSize: { type: String, required: true }, // e.g., "10ml", "20ml"
             image: { type: String },
@@ -33,7 +35,7 @@ const orderSchema = new mongoose.Schema({
     },
     paymentMethod: {
         type: String,
-        enum: ["CashOnDelivery", "Stripe"],
+        enum: ["CashOnDelivery", "Stripe", "Clover"],
         required: true
     },
     payment: { type: Boolean, required: true, default: false }

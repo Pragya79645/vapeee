@@ -8,15 +8,26 @@ const Orders = () => {
     const currency = "$";
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [search, setSearch] = useState('');
+    const limit = 10;
 
-    // Fetch all orders for admin
-    const fetchAllOrders = async () => {
+    // Fetch orders for admin with pagination
+    const fetchOrders = async (currentPage, searchQuery = search) => {
+        setLoading(true);
         try {
             const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/order/list`, {
+                params: {
+                    page: currentPage,
+                    limit,
+                    search: searchQuery
+                },
                 withCredentials: true,
             });
             if (res.data.success) {
                 setOrders(res.data.orders);
+                setTotalPages(res.data.totalPages);
             } else {
                 toast.error(res.data.message || "Failed to fetch orders.");
             }
@@ -83,8 +94,8 @@ const Orders = () => {
     };
 
     useEffect(() => {
-        fetchAllOrders();
-    }, []);
+        fetchOrders(page);
+    }, [page]);
 
     // Setup socket listener for live order updates
     useEffect(() => {
@@ -105,16 +116,45 @@ const Orders = () => {
         socket.on('orderUpdated', onOrderUpdated);
 
         return () => {
-            try { socket.off('orderUpdated', onOrderUpdated); } catch (e) {}
+            try { socket.off('orderUpdated', onOrderUpdated); } catch (e) { }
         };
     }, []);
 
+    const handlePrev = () => {
+        if (page > 1) setPage(p => p - 1);
+    };
+
+    const handleNext = () => {
+        if (page < totalPages) setPage(p => p + 1);
+    };
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        setPage(1);
+        fetchOrders(1, search);
+    };
+
     if (loading) return <p className="p-4 text-center text-gray-500">Loading orders...</p>;
-    if (!orders.length) return <p className="p-4 text-center text-gray-500">No orders found.</p>;
+    if (!orders.length && !search) return <p className="p-4 text-center text-gray-500">No orders found.</p>;
 
     return (
         <div className="p-4">
-            <h3 className="text-2xl font-semibold mb-4">Orders</h3>
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-3">
+                <h3 className="text-2xl font-semibold">Orders</h3>
+                <form onSubmit={handleSearch} className="flex gap-2 w-full sm:w-auto">
+                    <input
+                        type="text"
+                        placeholder="Search orders..."
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        className="px-3 py-2 border rounded w-full sm:w-64"
+                    />
+                    <button type="submit" className="px-4 py-2 bg-black text-white rounded">Search</button>
+                </form>
+            </div>
+
+            {!orders.length && search && <p className="p-4 text-center text-gray-500">No orders found matching "{search}".</p>}
+
             <div className="space-y-4">
                 {orders.map((order) => (
                     <article
@@ -130,7 +170,7 @@ const Orders = () => {
                                 <div className="min-w-0">
                                     <div className="flex items-start gap-3">
                                         <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-400 flex-shrink-0">
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M16 11c1.657 0 3-1.567 3-3.5S17.657 4 16 4s-3 1.567-3 3.5S14.343 11 16 11zM6 20a6 6 0 0112 0"/></svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M16 11c1.657 0 3-1.567 3-3.5S17.657 4 16 4s-3 1.567-3 3.5S14.343 11 16 11zM6 20a6 6 0 0112 0" /></svg>
                                         </div>
 
                                         <div className="min-w-0">
@@ -139,18 +179,18 @@ const Orders = () => {
 
                                             <div className="mt-2 text-sm text-gray-700">
                                                 <div className="flex items-center gap-2">
-                                                        <span className="text-base md:text-lg text-gray-800 font-semibold">Phone:</span>
-                                                        <a className="text-blue-700 font-bold md:text-lg hover:underline" href={`tel:${order.phone}`}>{order.phone || '—'}</a>
-                                                    </div>
+                                                    <span className="text-base md:text-lg text-gray-800 font-semibold">Phone:</span>
+                                                    <a className="text-blue-700 font-bold md:text-lg hover:underline" href={`tel:${order.phone}`}>{order.phone || '—'}</a>
+                                                </div>
 
-                                                    <div className="mt-3">
-                                                        <span className="text-base md:text-lg text-gray-800 font-semibold">Address:</span>
-                                                        <address className="not-italic mt-1 text-gray-700 text-sm md:text-base">
-                                                            <div className="text-gray-700">{order.address?.street || '-'}</div>
-                                                            <div className="text-gray-700">{[order.address?.city, order.address?.state].filter(Boolean).join(', ')} {order.address?.zip || ''}</div>
-                                                            <div className="text-gray-700">{order.address?.country || ''}</div>
-                                                        </address>
-                                                    </div>
+                                                <div className="mt-3">
+                                                    <span className="text-base md:text-lg text-gray-800 font-semibold">Address:</span>
+                                                    <address className="not-italic mt-1 text-gray-700 text-sm md:text-base">
+                                                        <div className="text-gray-700">{order.address?.street || '-'}</div>
+                                                        <div className="text-gray-700">{[order.address?.city, order.address?.state].filter(Boolean).join(', ')} {order.address?.zip || ''}</div>
+                                                        <div className="text-gray-700">{order.address?.country || ''}</div>
+                                                    </address>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -200,20 +240,20 @@ const Orders = () => {
                                                 const base = 'inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-semibold';
                                                 let color = 'bg-yellow-50 text-yellow-800';
                                                 let icon = (
-                                                    <svg className="w-4 h-4 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01"/></svg>
+                                                    <svg className="w-4 h-4 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01" /></svg>
                                                 );
                                                 if (s === 'Delivered') {
                                                     color = 'bg-green-50 text-green-800';
-                                                    icon = (<svg className="w-4 h-4 text-green-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"/></svg>);
+                                                    icon = (<svg className="w-4 h-4 text-green-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" /></svg>);
                                                 } else if (s === 'Shipped') {
                                                     color = 'bg-blue-50 text-blue-800';
-                                                    icon = (<svg className="w-4 h-4 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 10h18M7 6h10l4 4v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/></svg>);
+                                                    icon = (<svg className="w-4 h-4 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 10h18M7 6h10l4 4v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z" /></svg>);
                                                 } else if (s === 'Processing') {
                                                     color = 'bg-indigo-50 text-indigo-800';
-                                                    icon = (<svg className="w-4 h-4 text-indigo-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3"/></svg>);
+                                                    icon = (<svg className="w-4 h-4 text-indigo-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3" /></svg>);
                                                 } else if (s === 'Cancelled') {
                                                     color = 'bg-red-50 text-red-800';
-                                                    icon = (<svg className="w-4 h-4 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"/></svg>);
+                                                    icon = (<svg className="w-4 h-4 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>);
                                                 }
                                                 return (
                                                     <span className={`${base} ${color} ring-0`}>{icon}<span className="capitalize">{s}</span></span>
@@ -242,6 +282,29 @@ const Orders = () => {
                     </article>
                 ))}
             </div>
+
+            {/* Pagination Controls */}
+            {!loading && orders.length > 0 && (
+                <div className="flex justify-center items-center gap-4 mt-6">
+                    <button
+                        onClick={handlePrev}
+                        disabled={page === 1}
+                        className="px-4 py-2 border rounded-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+                    >
+                        Previous
+                    </button>
+                    <span className="text-sm text-gray-600">
+                        Page {page} of {totalPages}
+                    </span>
+                    <button
+                        onClick={handleNext}
+                        disabled={page === totalPages}
+                        className="px-4 py-2 border rounded-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+                    >
+                        Next
+                    </button>
+                </div>
+            )}
         </div>
     );
 };

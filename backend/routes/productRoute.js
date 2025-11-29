@@ -1,5 +1,5 @@
 import express from 'express';
-import { addProduct, listProducts, removeProduct, singleProduct, updateProduct } from '../controllers/productController.js';
+import { addProduct, listProducts, removeProduct, singleProduct, updateProduct, deleteProducts } from '../controllers/productController.js';
 import upload from '../middleware/multer.js';
 import multer from 'multer';
 import { verifyAdmin } from '../middleware/authMiddleware.js';
@@ -7,7 +7,7 @@ import { verifyAdmin } from '../middleware/authMiddleware.js';
 const productRouter = express.Router();
 
 productRouter.post(
-    '/add', verifyAdmin ,
+    '/add', verifyAdmin,
     upload.fields([
         { name: 'image1', maxCount: 1 },
         { name: 'image2', maxCount: 1 },
@@ -17,7 +17,8 @@ productRouter.post(
     addProduct
 );
 productRouter.get('/list', listProducts);
-productRouter.delete('/remove/:id', verifyAdmin , removeProduct);
+productRouter.delete('/remove/:id', verifyAdmin, removeProduct);
+productRouter.post('/delete-many', verifyAdmin, deleteProducts);
 productRouter.get('/single/:id', singleProduct);
 productRouter.put(
     '/update/:id', verifyAdmin,

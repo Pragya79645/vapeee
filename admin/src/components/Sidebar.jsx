@@ -1,8 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router";
 import { assets } from "../assets/admin_assets/assets";
 
 const Sidebar = () => {
+    const [syncStatus, setSyncStatus] = useState('idle'); // idle | working | success | error
+    const runSync = async () => {
+        try {
+            setSyncStatus('working');
+            const base = import.meta.env.VITE_BACKEND_URL || '';
+            const url = `${base.replace(/\/$/, '')}/api/admin/sync/clover`;
+            const res = await fetch(url, { method: 'POST', credentials: 'include' });
+            if (!res.ok) throw new Error(`Sync failed: ${res.status}`);
+            const json = await res.json();
+            console.log('Clover sync result', json);
+            setSyncStatus('success');
+            setTimeout(()=>setSyncStatus('idle'), 3000);
+        } catch (err) {
+            console.error('Sync error', err);
+            setSyncStatus('error');
+            setTimeout(()=>setSyncStatus('idle'), 4000);
+        }
+    };
+
     const items = [
         { to: '/add', icon: assets.add_icon, label: 'Add Items' },
         { to: '/list', icon: assets.order_icon, label: 'List Items' },
@@ -18,6 +37,21 @@ const Sidebar = () => {
                 <div>
                     <h2 className="text-lg font-bold text-[#FFB81C]">Admin</h2>
                     <p className="text-xs text-gray-500">Dashboard</p>
+                </div>
+            </div>
+
+            <div className="mb-4 px-2">
+                <button
+                    onClick={runSync}
+                    className="w-full flex items-center justify-center gap-2 bg-[#FFB81C] text-white py-2 rounded-md text-sm hover:opacity-95"
+                >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v6h6M20 20v-6h-6M20 8a8 8 0 11-16 0 8 8 0 0116 0z"></path></svg>
+                    <span>Sync Clover</span>
+                </button>
+                <div className="text-xs mt-2 text-center">
+                    {syncStatus === 'working' && <span className="text-blue-600">Syncing...</span>}
+                    {syncStatus === 'success' && <span className="text-green-600">Synced ✓</span>}
+                    {syncStatus === 'error' && <span className="text-red-600">Sync failed</span>}
                 </div>
             </div>
 

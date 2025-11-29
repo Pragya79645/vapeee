@@ -11,6 +11,7 @@ import Orders from "./pages/Orders";
 import PlaceOrder from "./pages/PlaceOrder";
 import ShippingInfo from "./pages/ShippingInfo";
 import Notifications from "./pages/Notifications";
+import Verify from "./pages/Verify";
 import { Routes, Route, Navigate, useLocation } from "react-router";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -47,7 +48,7 @@ const App = () => {
         <Route path="/collection" element={<Collection />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
-          <Route path="/shipping-info" element={<ShippingInfo />} />
+        <Route path="/shipping-info" element={<ShippingInfo />} />
         <Route path="/refund-policy" element={<RefundPolicy />} />
         <Route path="/RefundPolicy" element={<Navigate to="/refund-policy" replace />} />
         <Route path="/Refundpolicy" element={<Navigate to="/refund-policy" replace />} />
@@ -57,6 +58,7 @@ const App = () => {
         <Route path="/notifications" element={<PrivateRoute><Notifications /></PrivateRoute>} />
         <Route path="/orders" element={<PrivateRoute><Orders /></PrivateRoute>} />
         <Route path="/place-order" element={<PrivateRoute><PlaceOrder /></PrivateRoute>} />
+        <Route path="/verify" element={<PrivateRoute><Verify /></PrivateRoute>} />
       </Routes>
       {!isStandalone && (
         <>

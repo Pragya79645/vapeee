@@ -2,7 +2,12 @@ import jwt from "jsonwebtoken";
 import User from "../models/userModel.js";
 
 export const verifyAdmin = (req, res, next) => {
-    const token = req.cookies.admin_token;
+    let token = req.cookies && req.cookies.admin_token;
+    // fallback to Authorization header: Bearer <token>
+    if (!token && req.headers && req.headers.authorization) {
+        const parts = String(req.headers.authorization).split(' ');
+        if (parts.length === 2 && /^Bearer$/i.test(parts[0])) token = parts[1];
+    }
     if (!token) {
         return res.status(401).json({ success: false, message: "Unauthorized" });
     }

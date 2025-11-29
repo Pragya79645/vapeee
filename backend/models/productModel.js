@@ -8,19 +8,21 @@ const variantSchema = new mongoose.Schema({
 
 const productSchema = new mongoose.Schema({
     productId: { type: String, required: true, unique: true },
+    // External ID from Clover (if synced)
+    externalCloverId: { type: String, index: true, sparse: true },
     name: { type: String, required: true },
     // Support multiple categories per product
     categories: { type: [String], default: [] },
     flavour: { type: String, default: "" },
     variants: [variantSchema],
-    description: { type: String, required: true },
+    description: { type: String, required: false },
     // Inventory
     inStock: { type: Boolean, default: true },
     stockCount: { type: Number, required: true, default: 0 }, // Number of units available
     images: [
         {
             url: { type: String, required: true },
-            public_id: { type: String, required: true }
+            public_id: { type: String }
         }
     ],
     price: { type: Number, required: true }, // Base price

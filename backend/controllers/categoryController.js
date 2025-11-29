@@ -66,4 +66,19 @@ const deleteCategory = async (req, res) => {
   }
 };
 
-export { createCategory, listCategories, deleteCategory };
+const deleteCategories = async (req, res) => {
+  try {
+    const { ids } = req.body;
+    if (!ids || !Array.isArray(ids) || ids.length === 0) {
+      return res.status(400).json({ success: false, message: 'No category IDs provided' });
+    }
+
+    await Category.deleteMany({ _id: { $in: ids } });
+    res.status(200).json({ success: true, message: 'Categories deleted' });
+  } catch (err) {
+    console.error('Delete categories error:', err);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+};
+
+export { createCategory, listCategories, deleteCategory, deleteCategories };

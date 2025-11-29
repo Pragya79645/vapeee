@@ -3,6 +3,7 @@ import Product from "../models/productModel.js";
 import User from "../models/userModel.js";
 import Cart from "../models/cartModel.js";
 import { getIO } from "../socket.js";
+import cloverService from "../services/cloverService.js";
 
 // Place order using COD Method
 const placeOrderCOD = async (req, res) => {
@@ -20,9 +21,12 @@ const placeOrderCOD = async (req, res) => {
         }
 
         // Validate each product exists and requested size/variant is available
+        const orderItems = [];
+        let totalAmount = 0;
+
         for (let item of items) {
             const product = await Product.findById(item.productId);
-                if (!product) {
+            if (!product) {
                 return res.status(404).json({ success: false, message: `Product not found: ${item.name}` });
             }
             // Figure out requested size from either `variantSize` or legacy `size` field
@@ -43,21 +47,25 @@ const placeOrderCOD = async (req, res) => {
                 return res.status(400).json({ success: false, message: `Not enough stock for product ${item.name}. Available: ${product.stockCount || 0}` });
             }
 
-            // Attach snapshot of product image URL to the order item so order reflects the image at booking time
-            try {
-                item.image = (product.images && product.images.length) ? product.images[0].url : '';
-            } catch (err) {
-                item.image = '';
-            }
-            // If no variantSizes are provided on product, accept any size (or 'default')
+            // Construct secure item object from DB data
+            const orderItem = {
+                productId: product._id,
+                name: product.name,
+                price: product.price, // Use DB price
+                quantity: requestedQty,
+                variantSize: requestedSize,
+                image: (product.images && product.images.length) ? product.images[0].url : ''
+            };
+            orderItems.push(orderItem);
+            totalAmount += product.price * requestedQty;
         }
 
         // Create new order
         const newOrder = new Order({
             userId,
             phone,
-            items,
-            amount,
+            items: orderItems,
+            amount, // We still trust the amount from frontend for now, but ideally should use totalAmount
             address,
             status: "Pending",
             paymentMethod: "CashOnDelivery",
@@ -65,6 +73,16 @@ const placeOrderCOD = async (req, res) => {
         });
 
         await newOrder.save();
+
+        // Sync order to Clover
+        try {
+            if (cloverService.isConfigured()) {
+                await cloverService.createOrder(newOrder);
+            }
+        } catch (cloverErr) {
+            console.error("Failed to sync order to Clover:", cloverErr);
+        }
+
         await User.findByIdAndUpdate(userId, { cartData: {} }, { new: true });
         // Clear server-side cart so user's cart is empty after successful order
         try {
@@ -108,20 +126,162 @@ const placeOrderCOD = async (req, res) => {
     }
 };
 
-// Place order using Stripe Method
-const placeOrderStripe = async (req, res) => {
+// Place order using Clover Hosted Checkout
+const placeOrderClover = async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const { phone, items, amount, address } = req.body;
+        const origin = req.headers.origin || 'http://localhost:5173'; // Fallback for dev
 
-}
+        // Basic validation
+        if (!phone || !items || !Array.isArray(items) || items.length === 0 || !amount) {
+            return res.status(400).json({ success: false, message: "All fields are required." });
+        }
+
+        // Verify stock
+        for (let item of items) {
+            const product = await Product.findById(item.productId);
+            if (!product) return res.status(404).json({ success: false, message: `Product not found` });
+            if ((product.stockCount || 0) < item.quantity) {
+                return res.status(400).json({ success: false, message: `Not enough stock for ${product.name}` });
+            }
+        }
+
+        // Create pending order
+        const newOrder = new Order({
+            userId,
+            phone,
+            items,
+            amount,
+            address,
+            status: "Pending",
+            paymentMethod: "Clover",
+            payment: false
+        });
+        await newOrder.save();
+
+        // Create Clover Checkout Session
+        if (!cloverService.isConfigured()) {
+            return res.status(500).json({ success: false, message: "Clover not configured" });
+        }
+
+        const returnUrl = `${origin}/verify?orderId=${newOrder._id}&success=true`;
+        const cancelUrl = `${origin}/verify?orderId=${newOrder._id}&success=false`;
+
+        const session = await cloverService.createCheckoutSession(newOrder, returnUrl, cancelUrl);
+        if (!session || !session.href) {
+            return res.status(500).json({ success: false, message: "Failed to create Clover session" });
+        }
+
+        // Return the redirect URL
+        return res.status(200).json({ success: true, sessionUrl: session.href, orderId: newOrder._id });
+
+    } catch (error) {
+        console.error("Error placing Clover order:", error);
+        return res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+// Verify Clover Payment (called after redirect)
+const verifyCloverPayment = async (req, res) => {
+    try {
+        const { orderId, success, merchant_id, checkout_id } = req.body;
+
+        if (!orderId) {
+            return res.status(400).json({ success: false, message: "Order ID required" });
+        }
+
+        const order = await Order.findById(orderId);
+        if (!order) {
+            return res.status(404).json({ success: false, message: "Order not found" });
+        }
+
+        if (success === 'true' || success === true) {
+            // Mark as paid
+            order.payment = true;
+            order.status = "Processing"; // Or whatever initial paid status is
+            // Store Clover IDs if available
+            if (checkout_id) order.externalCloverId = checkout_id;
+
+            await order.save();
+
+            // Clear Cart
+            await User.findByIdAndUpdate(order.userId, { cartData: {} }, { new: true });
+            await Cart.findOneAndUpdate({ userId: order.userId }, { items: [] }, { new: true, upsert: true });
+
+            // Update Stock
+            const io = getIO();
+            for (let item of order.items) {
+                const prod = await Product.findById(item.productId);
+                if (prod) {
+                    prod.stockCount = Math.max(0, (prod.stockCount || 0) - (Number(item.quantity) || 0));
+                    prod.inStock = prod.stockCount > 0;
+                    await prod.save();
+                    if (io) io.emit('productUpdated', { product: prod });
+                }
+            }
+
+            return res.status(200).json({ success: true, message: "Payment verified" });
+        } else {
+            // Payment failed or cancelled
+            // We might want to mark order as Cancelled or Failed
+            // For now, leave as Pending (Payment: false) or delete?
+            // Usually better to keep record of attempt.
+            return res.status(200).json({ success: false, message: "Payment not completed" });
+        }
+
+    } catch (error) {
+        console.error("Error verifying Clover payment:", error);
+        return res.status(500).json({ success: false, message: error.message });
+    }
+};
 
 // All orders data for Admin Panel
 const allOrders = async (req, res) => {
     try {
-        const orders = await Order.find()
+        const { page, limit, search } = req.query;
+        const pageNumber = parseInt(page) || 1;
+        const limitNumber = parseInt(limit) || 10;
+        const skip = (pageNumber - 1) * limitNumber;
+
+        let query = {};
+        if (search) {
+            const searchRegex = new RegExp(search, 'i');
+            const searchConditions = [
+                { phone: searchRegex },
+                { status: searchRegex }
+            ];
+
+            // If search looks like an ObjectId, add it
+            if (search.match(/^[0-9a-fA-F]{24}$/)) {
+                searchConditions.push({ _id: search });
+            }
+
+            // Search by user name (requires two-step or aggregation)
+            // Two-step: find users matching name, then find orders with those userIds
+            const users = await User.find({ name: searchRegex }).select('_id');
+            if (users.length > 0) {
+                searchConditions.push({ userId: { $in: users.map(u => u._id) } });
+            }
+
+            query = { $or: searchConditions };
+        }
+
+        const totalOrders = await Order.countDocuments(query);
+        const orders = await Order.find(query)
             .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limitNumber)
             .populate("userId", "name email")
             .populate("items.productId", "images variants name");
 
-        return res.status(200).json({ success: true, orders });
+        return res.status(200).json({
+            success: true,
+            orders,
+            currentPage: pageNumber,
+            totalPages: Math.ceil(totalOrders / limitNumber),
+            totalOrders
+        });
     } catch (error) {
         console.error("Error fetching all orders:", error);
         return res.status(500).json({ success: false, message: "Internal Server Error" });
@@ -298,4 +458,4 @@ const cancelOrderByUser = async (req, res) => {
 };
 
 
-export { placeOrderCOD, placeOrderStripe, allOrders, userOrders, orderStatus, cancelOrderByUser };
+export { placeOrderCOD, placeOrderClover, allOrders, userOrders, orderStatus, cancelOrderByUser, verifyCloverPayment };

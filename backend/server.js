@@ -13,6 +13,7 @@ import cartRoute from './routes/cartRoute.js';
 import orderRoute from './routes/orderRoute.js';
 import categoryRoute from './routes/categoryRoute.js';
 import settingsRoute from './routes/settingsRoute.js';
+import cloverRoute from './routes/cloverRoute.js';
 
 // App Config
 const app = express();
@@ -21,17 +22,21 @@ const PORT = process.env.PORT || 4000;
 // Middleware
 app.use(express.json());
 app.use(cors({
-    origin: function(origin, callback) {
+    origin: function (origin, callback) {
         const allowedOrigins = [
             process.env.FRONTEND_URL,
             process.env.ADMIN_URL,
             'http://localhost:5173',
-            'http://localhost:5176'
+            'http://localhost:5174',
+            'http://localhost:5175',
+            'http://localhost:5176',
+            'http://127.0.0.1:5173'
         ];
-        
+
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
+            console.log('Blocked Origin:', origin);
             callback(new Error('Not allowed by CORS'));
         }
     },
@@ -49,6 +54,7 @@ app.use('/api/category', categoryRoute);
 app.use('/api/cart/', cartRoute);
 app.use('/api/order', orderRoute);
 app.use('/api/settings', settingsRoute);
+app.use('/api/clover', cloverRoute);
 
 // create http server and attach socket.io
 const httpServer = createServer(app);

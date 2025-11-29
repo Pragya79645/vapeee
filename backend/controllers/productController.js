@@ -4,6 +4,7 @@ import User from '../models/userModel.js';
 import Cart from '../models/cartModel.js';
 import { productSchema } from "../validation/productValidation.js";
 import { getIO } from '../socket.js';
+import cloverService from '../services/cloverService.js';
 
 // Function to add product
 const addProduct = async (req, res) => {
@@ -25,10 +26,10 @@ const addProduct = async (req, res) => {
         }
 
         // Parse variants and otherFlavours if sent as string
-        const parsedVariants = value.variants 
+        const parsedVariants = value.variants
             ? (typeof value.variants === "string" ? JSON.parse(value.variants) : value.variants)
             : [];
-        
+
         const parsedOtherFlavours = value.otherFlavours
             ? (typeof value.otherFlavours === "string" ? JSON.parse(value.otherFlavours) : value.otherFlavours)
             : [];
@@ -97,6 +98,24 @@ const addProduct = async (req, res) => {
 
         await product.save();
 
+        // Best-effort: create item in Clover to keep POS in sync
+        try {
+            if (cloverService.isConfigured()) {
+                const created = await cloverService.createProductInClover(product);
+                // If clover returned an id, persist it for future updates/deletes
+                const cloverId = created && (created.id || created.itemId || created._id || created.externalId);
+                if (cloverId) {
+                    product.externalCloverId = String(cloverId);
+                    await product.save();
+                    console.log('Stored externalCloverId on product:', product.externalCloverId);
+                } else {
+                    console.log('Clover createItem result (no id):', created);
+                }
+            }
+        } catch (clErr) {
+            console.error('Failed to push new product to Clover:', clErr.message || clErr);
+        }
+
         // Emit product created so clients can update lists in realtime
         try {
             const io = getIO();
@@ -121,58 +140,54 @@ const addProduct = async (req, res) => {
         } catch (e) {
             console.error('Failed to emit productCreated socket event:', e);
         }
-
-        res.status(201).json({ success: true, message: "Product added successfully" });
-
     } catch (error) {
-        console.error("Add product error:", error.message);
-        res.status(500).json({ success: false, message: "Server error: " + error.message });
+        console.error("Add Product Error:", error);
+        res.status(500).json({ success: false, message: error.message });
     }
 };
 
-// Function for Products list using _id keyset pagination
+// Function to list products with pagination
 const listProducts = async (req, res) => {
     try {
-        const { lastId, limit } = req.query;
-        const queryLimit = parseInt(limit) || 10;
+        const { page, limit, search } = req.query;
+        const pageNumber = parseInt(page) || 1;
+        const limitNumber = parseInt(limit) || 10;
+        const skip = (pageNumber - 1) * limitNumber;
 
-        const query = lastId
-            ? { _id: { $lt: lastId } }  // Fetch older than last seen ID
-            : {};
-
-        const products = await Product.find(query)
-            .sort({ _id: -1 }) // Newest first by ObjectId
-            .limit(queryLimit)
-            .select("productId name price images categories flavour variants stockCount inStock showOnPOS bestseller");
-
-        if (!products || products.length === 0) {
-            return res.status(200).json({
-                success: true,
-                products: [],
-                hasMore: false,
-            });
+        let query = {};
+        if (search) {
+            const searchRegex = new RegExp(search, 'i');
+            query = {
+                $or: [
+                    { name: searchRegex },
+                    { description: searchRegex },
+                    { categories: searchRegex },
+                    { productId: searchRegex }
+                ]
+            };
         }
 
-        const nextCursor = products[products.length - 1]._id;
+        const products = await Product.find(query)
+            .sort({ _id: -1 })
+            .skip(skip)
+            .limit(limitNumber);
+
+        const totalProducts = await Product.countDocuments(query);
+        const totalPages = Math.ceil(totalProducts / limitNumber);
 
         res.status(200).json({
             success: true,
             products,
-            hasMore: true,
-            nextCursor, // Use this as ?lastId in next fetch
+            currentPage: pageNumber,
+            totalPages,
+            totalProducts,
+            hasMore: pageNumber < totalPages
         });
-
     } catch (error) {
         console.error("List Products Error:", error);
-        res.status(500).json({
-            success: false,
-            message: "Failed to fetch products. Please try again later.",
-        });
+        res.status(500).json({ success: false, message: error.message });
     }
 };
-
-
-
 
 // Function for remove product
 const removeProduct = async (req, res) => {
@@ -215,6 +230,16 @@ const removeProduct = async (req, res) => {
             }
         } catch (e) { console.error('Failed to emit productRemoved:', e); }
 
+        // Best-effort: remove from Clover by externalCloverId or SKU/productId if configured
+        try {
+            if (cloverService.isConfigured()) {
+                const clId = product.externalCloverId || product.productId || undefined;
+                if (clId) await cloverService.deleteProductInClover(clId).catch(() => null);
+            }
+        } catch (err) {
+            console.error('Failed to delete product from Clover:', err.message || err);
+        }
+
         res.status(200).json({ success: true, message: "Product removed successfully" });
 
     } catch (error) {
@@ -246,9 +271,6 @@ const singleProduct = async (req, res) => {
         res.status(500).json({ success: false, message: "Failed to fetch product" });
     }
 };
-
-
- 
 
 // Update product by id (supports replacing specific images)
 const updateProduct = async (req, res) => {
@@ -398,6 +420,21 @@ const updateProduct = async (req, res) => {
         await product.save();
 
         // Emit product update via Socket.IO so clients can refresh UI live
+        // Best-effort: update item on Clover
+        try {
+            if (cloverService.isConfigured()) {
+                const clId = product.externalCloverId || product.productId || product._id.toString();
+                const updated = await cloverService.updateProductInClover(clId, product).catch(() => null);
+                // If no external id was present but update returned an id, save it
+                const returnedId = updated && (updated.id || updated.itemId || updated._id || updated.externalId);
+                if (!product.externalCloverId && returnedId) {
+                    product.externalCloverId = String(returnedId);
+                    await product.save();
+                }
+            }
+        } catch (clErr) {
+            console.error('Failed to update product on Clover:', clErr.message || clErr);
+        }
         try {
             const io = getIO();
             if (io) {
@@ -423,11 +460,71 @@ const updateProduct = async (req, res) => {
         }
 
         res.status(200).json({ success: true, message: "Product updated successfully" });
-
-    } catch (error) {
+    }
+    catch (error) {
         console.error("Update Product Error:", error);
         res.status(500).json({ success: false, message: "Failed to update product" });
     }
 };
 
-export { addProduct, listProducts, removeProduct, singleProduct, updateProduct };
+const deleteProducts = async (req, res) => {
+    try {
+        const { ids } = req.body;
+        if (!ids || !Array.isArray(ids) || ids.length === 0) {
+            return res.status(400).json({ success: false, message: "No product IDs provided" });
+        }
+
+        // Find products to delete to clean up images
+        const products = await Product.find({ _id: { $in: ids } });
+
+        for (const product of products) {
+            // Delete images from Cloudinary
+            if (product.images && product.images.length > 0) {
+                await Promise.all(
+                    product.images.map(async (img) => {
+                        if (img.public_id) {
+                            await cloudinary.uploader.destroy(img.public_id);
+                        }
+                    })
+                );
+            }
+
+            // Remove from carts
+            try {
+                await Cart.updateMany({}, { $pull: { items: { productId: product._id } } });
+            } catch (cartErr) {
+                console.error('Failed to remove product references from carts:', cartErr);
+            }
+
+            // Best-effort: remove from Clover
+            try {
+                if (cloverService.isConfigured()) {
+                    const clId = product.externalCloverId || product.productId || undefined;
+                    if (clId) await cloverService.deleteProductInClover(clId).catch(() => null);
+                }
+            } catch (err) {
+                console.error('Failed to delete product from Clover:', err.message || err);
+            }
+        }
+
+        await Product.deleteMany({ _id: { $in: ids } });
+
+        // Emit socket event
+        try {
+            const io = getIO();
+            if (io) {
+                // For bulk delete, maybe just emit a refresh signal or multiple productRemoved
+                // Let's emit multiple productRemoved for simplicity or a new bulk event
+                // Emitting multiple might be spammy but safe for now
+                ids.forEach(id => io.emit('productRemoved', { productId: id }));
+            }
+        } catch (e) { console.error('Failed to emit productRemoved:', e); }
+
+        res.status(200).json({ success: true, message: "Products deleted successfully" });
+    } catch (error) {
+        console.error("Delete Products Error:", error);
+        res.status(500).json({ success: false, message: "Failed to delete products" });
+    }
+};
+
+export { addProduct, listProducts, removeProduct, singleProduct, updateProduct, deleteProducts };
