@@ -30,6 +30,22 @@ function Product() {
             // set default size to first variant size if available
             const firstVariantSize = product.variants && product.variants.length ? product.variants[0].size : '';
             setSize(firstVariantSize);
+            // If the product object from the list is missing full details (e.g. description), fetch single product
+            if (!product.description || product.description.toString().trim() === '') {
+                (async () => {
+                    try {
+                        const res = await axios.get(`${backendUrl}/api/product/single/${productId}`);
+                        if (res.data?.success && res.data.product) {
+                            const p = res.data.product;
+                            setProductDetails(p);
+                            setSelectedImage((p.images && p.images.length) ? p.images[0] : firstImg);
+                            setSize((p.variants && p.variants.length) ? p.variants[0].size : firstVariantSize);
+                        }
+                    } catch (err) {
+                        console.error('Failed to fetch full product details', err);
+                    }
+                })();
+            }
         } else {
             // fallback: fetch single product from backend
             (async () => {
@@ -143,20 +159,10 @@ function Product() {
                 {/* Product Info */}
                 <div className='flex-1'>
                     <h1 className='font-medium text-2xl mt-2'>{productDetails.name}</h1>
-                    <div className='flex gap-1 mt-2 items-center'>
-                        {[...Array(5)].map((_, i) => (
-                            <img
-                                key={i}
-                                src={i < 4 ? assets.star_icon : assets.star_dull_icon}
-                                className="w-3.5"
-                                alt={`Star ${i + 1}`}
-                            />
-                        ))}
-                        <p className='pl-2'>(122)</p>
-                    </div>
+                    {/* Star rating removed per request */}
                     <p className='mt-5 text-3xl font-medium'>{currency}{productDetails.price}</p>
                     <p className='mt-2 text-sm text-gray-600'>Flavour: {productDetails.flavour || '—'}</p>
-                    <p className='mt-5 text-gray-500 md:w-4/5'>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Ut enim ad minim veniam quis</p>
+                    <p className='mt-5 text-gray-500 md:w-4/5'>{productDetails.description || 'No description available.'}</p>
 
                     {/* Stock & POS */}
                     <div className='mt-3'>
