@@ -9,7 +9,7 @@
     "dev": "nodemon server.js",
     "build": "echo 'no build step needed'"
 
-    "build": "echo 'no build step needed'"
+    
   },
   "author": "Iqbal Shahed",
   "license": "ISC",
