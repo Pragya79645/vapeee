@@ -12,6 +12,7 @@ import PlaceOrder from "./pages/PlaceOrder";
 import ShippingInfo from "./pages/ShippingInfo";
 import Notifications from "./pages/Notifications";
 import Verify from "./pages/Verify";
+import Wishlist from "./pages/Wishlist";
 import { Routes, Route, Navigate, useLocation } from "react-router";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -55,6 +56,7 @@ const App = () => {
         <Route path="/refundpolicy" element={<Navigate to="/refund-policy" replace />} />
         <Route path="/product/:productId" element={<Product />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/wishlist" element={<PrivateRoute><Wishlist /></PrivateRoute>} />
         <Route path="/notifications" element={<PrivateRoute><Notifications /></PrivateRoute>} />
         <Route path="/orders" element={<PrivateRoute><Orders /></PrivateRoute>} />
         <Route path="/place-order" element={<PrivateRoute><PlaceOrder /></PrivateRoute>} />

@@ -25,7 +25,7 @@ const Navbar = () => {
         return `${days}d`;
     };
     const [mobileSearchVisible, setMobileSearchVisible] = useState(false);
-    const { setShowSearch, getCartCount, backendUrl } = useShop();
+    const { setShowSearch, getCartCount, backendUrl, wishlist } = useShop();
     const { logout, user, navigate } = useAuth();
     const [notifications, setNotifications] = useState([]);
     const [unreadCount, setUnreadCount] = useState(0);
@@ -34,6 +34,8 @@ const Navbar = () => {
     const [query, setQuery] = useState('');
     const searchTimer = useRef(null);
     const profileRef = useRef(null);
+    const cartCount = getCartCount();
+    const wishlistCount = wishlist?.length || 0;
 
     // Debounced live-search: update URL q param as user types
     const scheduleSearch = (term) => {
@@ -105,8 +107,6 @@ const Navbar = () => {
         };
         loadNotifs();
     }, [user, backendUrl]);
-    
-    const cartCount = getCartCount();
 
     // init socket and listen for incoming notifications to update bell count
     useEffect(() => {
@@ -267,6 +267,12 @@ const Navbar = () => {
                                             Orders
                                         </button>
                                         <button
+                                            onClick={() => { setProfileOpen(false); navigate('/wishlist'); }}
+                                            className="px-4 py-2.5 text-left text-sm text-gray-700 hover:bg-[#FFB81C] hover:text-white transition-colors"
+                                        >
+                                            Wishlist {wishlistCount > 0 && `(${wishlistCount})`}
+                                        </button>
+                                        <button
                                             onClick={async () => { setProfileOpen(false); await logout(); }}
                                             className="px-4 py-2.5 text-left text-sm text-gray-700 hover:bg-[#FFB81C] hover:text-white transition-colors"
                                         >
@@ -276,6 +282,33 @@ const Navbar = () => {
                                 </div>
                             )}
                         </div>
+
+                        {/* Wishlist Icon */}
+                        <Link
+                            to="/wishlist"
+                            aria-label={`Wishlist with ${wishlistCount} items`}
+                            className={`relative transition-transform duration-200 flex items-center justify-center w-7 h-7 sm:w-9 sm:h-9 ${wishlistCount > 0 ? 'hover:scale-105' : 'hover:opacity-80'}`}
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-5 w-5 sm:h-6 sm:w-6"
+                                fill={wishlistCount > 0 ? "#FFB81C" : "none"}
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                strokeWidth={2}
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                                />
+                            </svg>
+                            {wishlistCount > 0 && (
+                                <span className='absolute -right-1 -bottom-1 sm:-right-2 sm:-bottom-2 w-5 h-5 flex items-center justify-center bg-[#FFB81C] text-white rounded-full text-[10px] sm:text-xs font-semibold shadow-md'>
+                                    {wishlistCount}
+                                </span>
+                            )}
+                        </Link>
 
                         <Link
                             to="/cart"
