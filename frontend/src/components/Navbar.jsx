@@ -257,7 +257,10 @@ const Navbar = () => {
                             {user && profileOpen && (
                                 <div className='absolute right-0 mt-2 dropdown-menu pt-4 z-50'>
                                     <div className='flex flex-col gap-1 w-40 py-2 bg-white shadow-lg rounded-lg border border-gray-100 overflow-hidden'>
-                                        <button className="px-4 py-2.5 text-left text-sm text-gray-700 hover:bg-[#FFB81C] hover:text-white transition-colors">
+                                        <button
+                                            onClick={() => { setProfileOpen(false); navigate('/profile'); }}
+                                            className="px-4 py-2.5 text-left text-sm text-gray-700 hover:bg-[#FFB81C] hover:text-white transition-colors"
+                                        >
                                             My Profile
                                         </button>
                                         <button

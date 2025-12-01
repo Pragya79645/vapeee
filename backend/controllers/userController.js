@@ -119,7 +119,14 @@ const getUserData = (req, res) => {
     return res.status(200).json({
         success: true,
         message: "User is authenticated",
-        user: { _id: req.user._id, name: req.user.name, email: req.user.email },
+        user: { 
+            _id: req.user._id, 
+            name: req.user.name, 
+            email: req.user.email,
+            phone: req.user.phone || '',
+            address: req.user.address || {},
+            createdAt: req.user.createdAt
+        },
     });
 };
 
@@ -132,7 +139,56 @@ const userLogout = (req, res) => {
     res.status(200).json({ success: true, message: "Logged out successfully" });
 };
 
-export { userLogin, registerUser, getUserData, userLogout };
+// Update user profile
+const updateProfile = async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const { name, email, phone, address } = req.body;
+
+        // Input validation
+        if (!name || !email) {
+            return res.status(400).json({ success: false, message: 'Name and email are required' });
+        }
+
+        if (!validator.isEmail(email)) {
+            return res.status(400).json({ success: false, message: 'Please enter a valid email' });
+        }
+
+        // Check if email is being changed and if it already exists
+        const existingUser = await User.findOne({ email, _id: { $ne: userId } });
+        if (existingUser) {
+            return res.status(400).json({ success: false, message: 'Email already in use' });
+        }
+
+        // Update user
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            { 
+                name, 
+                email, 
+                phone: phone || '', 
+                address: address || {} 
+            },
+            { new: true, runValidators: true }
+        ).select('-password');
+
+        if (!updatedUser) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        return res.status(200).json({ 
+            success: true, 
+            message: 'Profile updated successfully',
+            user: updatedUser
+        });
+
+    } catch (error) {
+        console.error('Update profile error:', error);
+        return res.status(500).json({ success: false, message: 'Something went wrong. Please try again later.' });
+    }
+};
+
+export { userLogin, registerUser, getUserData, userLogout, updateProfile };
 
 // Add product to user's waitlist
 const addToWaitlist = async (req, res) => {

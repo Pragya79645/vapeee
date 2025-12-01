@@ -13,6 +13,7 @@ import ShippingInfo from "./pages/ShippingInfo";
 import Notifications from "./pages/Notifications";
 import Verify from "./pages/Verify";
 import Wishlist from "./pages/Wishlist";
+import Profile from "./pages/Profile";
 import { Routes, Route, Navigate, useLocation } from "react-router";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -33,7 +34,7 @@ import Chatbot from "./components/Chatbot";
 const App = () => {
   const location = useLocation();
   // Pages that should not render the extra sections below the routes
-  const standalonePaths = ["/refund-policy", "/notifications"];
+  const standalonePaths = ["/refund-policy", "/notifications", "/profile"];
   const isStandalone = standalonePaths.includes(location.pathname);
 
   return (
@@ -57,6 +58,7 @@ const App = () => {
         <Route path="/product/:productId" element={<Product />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/wishlist" element={<PrivateRoute><Wishlist /></PrivateRoute>} />
+        <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
         <Route path="/notifications" element={<PrivateRoute><Notifications /></PrivateRoute>} />
         <Route path="/orders" element={<PrivateRoute><Orders /></PrivateRoute>} />
         <Route path="/place-order" element={<PrivateRoute><PlaceOrder /></PrivateRoute>} />
