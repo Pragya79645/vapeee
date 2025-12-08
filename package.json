@@ -7,7 +7,8 @@
   "scripts": {
     "install-all": "pnpm install -r",
     "dev": "pnpm run dev -r",
-    "build": "pnpm run build -r",
+    "build": "npm run build-frontend && npm run build-admin && npm run build-backend",
+    "start": "npm run start-backend",
     "build-backend": "cd backend && pnpm install",
     "build-frontend": "cd frontend && pnpm install && pnpm run build",
     "build-admin": "cd admin && pnpm install && pnpm run build",
