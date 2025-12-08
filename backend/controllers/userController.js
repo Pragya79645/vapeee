@@ -188,8 +188,6 @@ const updateProfile = async (req, res) => {
     }
 };
 
-export { userLogin, registerUser, getUserData, userLogout, updateProfile };
-
 // Add product to user's waitlist
 const addToWaitlist = async (req, res) => {
     try {
@@ -282,8 +280,6 @@ const markNotificationRead = async (req, res) => {
     }
 };
 
-export { addToWaitlist, getNotifications, markNotificationRead };
-
 // Check if current user has productId in their waitlist
 const checkWaitlist = async (req, res) => {
     try {
@@ -297,8 +293,6 @@ const checkWaitlist = async (req, res) => {
         return res.status(500).json({ success: false, message: 'Server error' });
     }
 };
-
-export { checkWaitlist };
 
 // Delete a single notification by id
 const deleteNotification = async (req, res) => {
@@ -368,4 +362,17 @@ const clearAllNotifications = async (req, res) => {
     }
 };
 
-export { deleteNotification, deleteReadNotifications, clearAllNotifications };
+export { 
+    userLogin, 
+    registerUser, 
+    getUserData, 
+    userLogout, 
+    updateProfile, 
+    addToWaitlist, 
+    getNotifications, 
+    markNotificationRead, 
+    checkWaitlist, 
+    deleteNotification, 
+    deleteReadNotifications, 
+    clearAllNotifications 
+};
