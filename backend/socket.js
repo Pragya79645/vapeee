@@ -6,7 +6,7 @@ export function initSocket(server) {
     if (io) return io;
     io = new Server(server, {
         cors: {
-            origin: [process.env.FRONTEND_URL, process.env.ADMIN_URL, 'http://localhost:5173', 'http://localhost:5176'],
+            origin: [process.env.FRONTEND_URL, process.env.ADMIN_URL, 'https://www.knightstvapeshop.ca', 'http://localhost:5173', 'http://localhost:5176'],
             credentials: true,
         }
     });
