@@ -458,7 +458,10 @@ const updateProduct = async (req, res) => {
                         stockCount: product.stockCount,
                         inStock: product.inStock,
                         showOnPOS: product.showOnPOS,
-                        bestseller: product.bestseller
+                        bestseller: product.bestseller,
+                        sweetnessLevel: product.sweetnessLevel,
+                        mintLevel: product.mintLevel,
+                        description: product.description
                     }
                 });
             }

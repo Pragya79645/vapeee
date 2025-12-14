@@ -3,6 +3,7 @@ import { assets } from "../assets/admin_assets/assets";
 import axios from "axios";
 import { toast } from 'react-toastify';
 import { useParams, useNavigate } from "react-router";
+import { io } from 'socket.io-client';
 
 const CATEGORIES = ["Vape", "E-cigarette", "Pods", "Accessories", "E-liquid"];
 const MAX_IMAGE_SIZE_MB = 2;
@@ -208,6 +209,62 @@ const Add = () => {
             }
         };
         fetchProduct();
+    }, [id]);
+
+    // Real-time updates: listen for productUpdated events
+    useEffect(() => {
+        if (!id) return;
+        
+        const socketUrl = import.meta.env.VITE_BACKEND_URL || '';
+        if (!socketUrl) return;
+        
+        const socket = io(socketUrl, { withCredentials: true });
+
+        const onUpdate = (data) => {
+            try {
+                if (!data) return;
+                const payloadProduct = data.product || undefined;
+                const productIdFromPayload = payloadProduct ? (payloadProduct._id || payloadProduct.productId) : (data.productId || undefined);
+                
+                if (!productIdFromPayload) return;
+                if (productIdFromPayload === id) {
+                    if (payloadProduct) {
+                        // Update form fields with new data
+                        setProductId(payloadProduct.productId || "");
+                        setName(payloadProduct.name || "");
+                        setDescription(payloadProduct.description || "");
+                        setPrice(payloadProduct.price ?? "");
+                        setSelectedCategories(payloadProduct.categories || []);
+                        setFlavour(payloadProduct.flavour || "");
+                        setVariants((payloadProduct.variants && payloadProduct.variants.length > 0) ? payloadProduct.variants : [{ size: "", price: "", quantity: "" }]);
+                        setStockCount(payloadProduct.stockCount ?? 0);
+                        setInStock(payloadProduct.inStock ?? true);
+                        setSweetnessLevel(payloadProduct.sweetnessLevel ?? 5);
+                        setMintLevel(payloadProduct.mintLevel ?? 0);
+                        setShowOnPOS(payloadProduct.showOnPOS ?? true);
+                        setBestseller(payloadProduct.bestseller ?? false);
+                        
+                        // Update images if provided
+                        if (payloadProduct.images) {
+                            const imgs = payloadProduct.images.map(img => img.url);
+                            while (imgs.length < 4) imgs.push(null);
+                            setImages(imgs.slice(0,4));
+                        }
+                        
+                        toast.info('Product updated in real-time');
+                    }
+                }
+            } catch (err) {
+                console.error('Socket update error:', err);
+            }
+        };
+
+        socket.on('productUpdated', onUpdate);
+
+        return () => {
+            socket.off('productUpdated', onUpdate);
+            try { socket.disconnect(); } catch (e) { /* ignore */ }
+        };
     }, [id]);
 
     return (
