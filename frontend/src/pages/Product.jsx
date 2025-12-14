@@ -164,7 +164,6 @@ function Product() {
                     {/* Star rating removed per request */}
                     <p className='mt-5 text-3xl font-medium'>{currency}{productDetails.price}</p>
                     <p className='mt-2 text-sm text-gray-600'>Flavour: {productDetails.flavour || '—'}</p>
-                    <p className='mt-5 text-gray-500 md:w-4/5'>{productDetails.description || 'No description available.'}</p>
 
                     {/* Stock & POS */}
                     <div className='mt-3'>
@@ -294,9 +293,67 @@ function Product() {
                     <b className='border border-gray-300 px-5 py-3 text-sm'>Description</b>
                     <p className='border border-gray-300 px-5 py-3 text-sm'>Review (122)</p>
                 </div>
-                <div className='border border-gray-300 flex flex-col gap-4 p-6 text-sm text-gray-500'>
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Ut enim ad minim veniam quis
+                <div className='border border-gray-300 flex flex-col gap-6 p-6 text-sm text-gray-700'>
+                    {/* Product Description */}
+                    <div>
+                        <p className='text-gray-700 leading-relaxed'>
+                            {productDetails.description || 'No description available.'}
+                        </p>
+                    </div>
+
+                    {/* What's Included Section */}
+                    <div>
+                        <h3 className='font-bold text-base text-black mb-2'>What's Included?</h3>
+                        <p className='text-gray-700'>1 x {productDetails.name}</p>
+                    </div>
+                    
+                    {/* Sweetness Level */}
+                    {productDetails.sweetnessLevel !== undefined && (
+                        <div>
+                            <h3 className='font-bold text-sm text-black mb-2'>Sweetness</h3>
+                            <div className='flex items-center gap-0 max-w-2xl'>
+                                <div 
+                                    className='h-5 bg-yellow-400 flex items-center justify-center text-black font-bold text-xs px-3'
+                                    style={{ width: `${(productDetails.sweetnessLevel / 10) * 100}%`, minWidth: '50px' }}
+                                >
+                                    {productDetails.sweetnessLevel}/10
+                                </div>
+                                <div 
+                                    className='h-5 bg-gray-300 flex-1'
+                                    style={{ width: `${100 - (productDetails.sweetnessLevel / 10) * 100}%` }}
+                                ></div>
+                            </div>
+                        </div>
+                    )}
+                    
+                    {/* Mint Level */}
+                    {productDetails.mintLevel !== undefined && (
+                        <div>
+                            <h3 className='font-bold text-sm text-black mb-2'>Mint Level</h3>
+                            {productDetails.mintLevel === 0 ? (
+                                <div className='bg-gray-300 text-black px-3 py-1 text-xs font-medium inline-block'>
+                                    No Mint
+                                </div>
+                            ) : (
+                                <div className='flex items-center gap-0 max-w-2xl'>
+                                    <div 
+                                        className='h-5 bg-green-500 flex items-center justify-center text-white font-bold text-xs px-3'
+                                        style={{ width: `${(productDetails.mintLevel / 10) * 100}%`, minWidth: '50px' }}
+                                    >
+                                        {productDetails.mintLevel}/10
+                                    </div>
+                                    <div 
+                                        className='h-5 bg-gray-300 flex-1'
+                                        style={{ width: `${100 - (productDetails.mintLevel / 10) * 100}%` }}
+                                    ></div>
+                                </div>
+                            )}
+                        </div>
+                    )}
+                    
+                    {/* Disclaimer */}
+                    <p className='text-xs italic text-gray-700 mt-2'>
+                        Sweetness and mint levels are based on personal preference. Your experience may differ.
                     </p>
                 </div>
             </div>

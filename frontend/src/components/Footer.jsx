@@ -16,7 +16,7 @@ const Footer = () => {
                             
                         </Link>
                         <h3 className="text-2xl font-bold mb-3 text-gray-900">
-                            KnightSt. <span className="text-[#FFB81C]">Vapes</span>
+                            KnightSt. <span className="text-[#FFB81C]">Vape</span>
                         </h3>
                         <p className="text-sm text-gray-600 mb-6 leading-relaxed max-w-sm">
                             Vancouver's premier destination for premium vape products and exceptional customer service.

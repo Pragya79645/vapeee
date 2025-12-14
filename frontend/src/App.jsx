@@ -36,6 +36,8 @@ const App = () => {
   // Pages that should not render the extra sections below the routes
   const standalonePaths = ["/refund-policy", "/notifications", "/profile"];
   const isStandalone = standalonePaths.includes(location.pathname);
+  // Product pages should only show FAQ
+  const isProductPage = location.pathname.startsWith("/product/");
 
   return (
     <div className="px-4 sm:px-[5%] md:px-[7%] lg:px-[9%]">
@@ -64,7 +66,9 @@ const App = () => {
         <Route path="/place-order" element={<PrivateRoute><PlaceOrder /></PrivateRoute>} />
         <Route path="/verify" element={<PrivateRoute><Verify /></PrivateRoute>} />
       </Routes>
-      {!isStandalone && (
+      {isProductPage ? (
+        <FAQ />
+      ) : !isStandalone && (
         <>
           <RecentBlogs />
           <Highlights />

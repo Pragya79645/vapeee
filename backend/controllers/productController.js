@@ -9,11 +9,11 @@ import cloverService from '../services/cloverService.js';
 // Function to add product
 const addProduct = async (req, res) => {
     try {
-        const { productId, name, description, price, categories, flavour, variants, stockCount, inStock, showOnPOS, otherFlavours, bestseller } = req.body;
+        const { productId, name, description, price, categories, flavour, variants, stockCount, inStock, showOnPOS, otherFlavours, bestseller, sweetnessLevel, mintLevel } = req.body;
 
         // Validate input using Joi
         const { error, value } = productSchema.validate(
-            { productId, name, description, price, categories, flavour, variants, stockCount, inStock, showOnPOS, otherFlavours, bestseller },
+            { productId, name, description, price, categories, flavour, variants, stockCount, inStock, showOnPOS, otherFlavours, bestseller, sweetnessLevel, mintLevel },
             { abortEarly: false }
         );
 
@@ -94,6 +94,8 @@ const addProduct = async (req, res) => {
             showOnPOS: value.showOnPOS === undefined ? true : Boolean(value.showOnPOS),
             otherFlavours: parsedOtherFlavours,
             bestseller: value.bestseller,
+            sweetnessLevel: value.sweetnessLevel !== undefined ? Number(value.sweetnessLevel) : 5,
+            mintLevel: value.mintLevel !== undefined ? Number(value.mintLevel) : 0,
         });
 
         await product.save();
@@ -286,11 +288,11 @@ const updateProduct = async (req, res) => {
         const product = await Product.findById(id);
         if (!product) return res.status(404).json({ success: false, message: "Product not found" });
 
-        const { productId, name, description, price, categories, flavour, variants, stockCount, inStock, showOnPOS, otherFlavours, bestseller } = req.body;
+        const { productId, name, description, price, categories, flavour, variants, stockCount, inStock, showOnPOS, otherFlavours, bestseller, sweetnessLevel, mintLevel } = req.body;
 
         // Validate core fields (images optional on update)
         const { error, value } = productSchema.validate(
-            { productId, name, description, price, categories, flavour, variants, stockCount, inStock, showOnPOS, otherFlavours, bestseller },
+            { productId, name, description, price, categories, flavour, variants, stockCount, inStock, showOnPOS, otherFlavours, bestseller, sweetnessLevel, mintLevel },
             { abortEarly: false }
         );
 
@@ -360,6 +362,8 @@ const updateProduct = async (req, res) => {
         product.showOnPOS = value.showOnPOS === undefined ? product.showOnPOS : Boolean(value.showOnPOS);
         product.otherFlavours = parsedOtherFlavours;
         product.bestseller = value.bestseller;
+        product.sweetnessLevel = value.sweetnessLevel !== undefined ? Number(value.sweetnessLevel) : product.sweetnessLevel;
+        product.mintLevel = value.mintLevel !== undefined ? Number(value.mintLevel) : product.mintLevel;
 
         // If product was previously out of stock and now restocked, notify waitlist
         if (prevStock === 0 && newStock > 0) {

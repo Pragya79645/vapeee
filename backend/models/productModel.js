@@ -28,7 +28,9 @@ const productSchema = new mongoose.Schema({
     price: { type: Number, required: true }, // Base price
     showOnPOS: { type: Boolean, default: true }, // Visibility on Clover POS
     otherFlavours: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
-    bestseller: { type: Boolean, default: false }
+    bestseller: { type: Boolean, default: false },
+    sweetnessLevel: { type: Number, min: 0, max: 10, default: 5 },
+    mintLevel: { type: Number, min: 0, max: 10, default: 0 }
 }, { timestamps: true }); // Auto createdAt and updatedAt
 
 const Product = mongoose.models.Product || mongoose.model("Product", productSchema);

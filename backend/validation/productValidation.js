@@ -34,4 +34,6 @@ export const productSchema = Joi.object({
         )
         .optional(),
     bestseller: Joi.boolean().truthy("true").falsy("false").default(false),
+    sweetnessLevel: Joi.number().integer().min(0).max(10).default(5),
+    mintLevel: Joi.number().integer().min(0).max(10).default(0),
 });

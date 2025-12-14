@@ -23,6 +23,8 @@ const Add = () => {
     const [inStock, setInStock] = useState(true);
     const [showOnPOS, setShowOnPOS] = useState(true);
     const [bestseller, setBestseller] = useState(false);
+    const [sweetnessLevel, setSweetnessLevel] = useState(5);
+    const [mintLevel, setMintLevel] = useState(0);
     const [loading, setLoading] = useState(false);
 
     const isValidImage = (file) =>
@@ -68,6 +70,8 @@ const Add = () => {
         setInStock(true);
         setShowOnPOS(true);
         setBestseller(false);
+        setSweetnessLevel(5);
+        setMintLevel(0);
     };
 
     const onSubmitHandler = async (e) => {
@@ -87,6 +91,8 @@ const Add = () => {
             formData.append("inStock", inStock);
             formData.append("showOnPOS", showOnPOS);
             formData.append("bestseller", bestseller);
+            formData.append("sweetnessLevel", sweetnessLevel);
+            formData.append("mintLevel", mintLevel);
             
             // Filter out empty variants before sending
             const validVariants = variants.filter(v => v.size && v.price && v.quantity);
@@ -134,6 +140,8 @@ const Add = () => {
                 setInStock(true);
                 setShowOnPOS(true);
                 setBestseller(false);
+                setSweetnessLevel(5);
+                setMintLevel(0);
                 if (id) {
                     // navigate back to list after update
                     navigate('/list');
@@ -183,6 +191,8 @@ const Add = () => {
                     setVariants((p.variants && p.variants.length > 0) ? p.variants : [{ size: "", price: "", quantity: "" }]);
                     setStockCount(p.stockCount ?? 0);
                     setInStock(p.inStock ?? true);
+                    setSweetnessLevel(p.sweetnessLevel ?? 5);
+                    setMintLevel(p.mintLevel ?? 0);
                     setShowOnPOS(p.showOnPOS ?? true);
                     setBestseller(p.bestseller ?? false);
                     // Prefill images with existing URLs (strings)
@@ -420,6 +430,39 @@ const Add = () => {
                             />
                             <label htmlFor="showOnPOS" className="ml-1 text-sm">Show on POS</label>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Sweetness and Mint Levels */}
+            <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                    <p className="mb-2 text-base font-medium">Sweetness Level</p>
+                    <div className="flex items-center gap-4">
+                        <input
+                            type="range"
+                            min="0"
+                            max="10"
+                            value={sweetnessLevel}
+                            onChange={(e) => setSweetnessLevel(Number(e.target.value))}
+                            className="flex-1"
+                        />
+                        <span className="text-sm font-semibold w-12 text-center">{sweetnessLevel}/10</span>
+                    </div>
+                </div>
+
+                <div>
+                    <p className="mb-2 text-base font-medium">Mint Level</p>
+                    <div className="flex items-center gap-4">
+                        <input
+                            type="range"
+                            min="0"
+                            max="10"
+                            value={mintLevel}
+                            onChange={(e) => setMintLevel(Number(e.target.value))}
+                            className="flex-1"
+                        />
+                        <span className="text-sm font-semibold w-12 text-center">{mintLevel}/10</span>
                     </div>
                 </div>
             </div>
