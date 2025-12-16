@@ -162,13 +162,15 @@ const Footer = () => {
                         <p className="text-sm text-gray-600">
                             © {new Date().getFullYear()} <span className="font-semibold text-gray-900">Knight St. Vape</span>. All rights reserved.
                         </p>
-                        <div className="flex items-center gap-4 text-xs text-gray-500">
+                        <div className="flex items-center gap-4 text-sm text-gray-500">
                             <span className="flex items-center gap-1">
                                 <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
                                 Online Now
                             </span>
                             <span>|</span>
                             <span>Made with 💛 in Vancouver</span>
+                            <span>|</span>
+                            <span>Built by <a href="https://slashbyte.org" target="_blank" rel="noopener noreferrer" className="text-[#FFB81C] hover:underline font-medium">SlashByte</a></span>
                         </div>
                     </div>
                 </div>
