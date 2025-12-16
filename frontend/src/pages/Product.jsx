@@ -287,11 +287,10 @@ function Product() {
                 </div>
             </div>
 
-            {/* Description & Review Section */}
+            {/* Description Section */}
             <div className='mt-20'>
                 <div className='flex'>
                     <b className='border border-gray-300 px-5 py-3 text-sm'>Description</b>
-                    <p className='border border-gray-300 px-5 py-3 text-sm'>Review (122)</p>
                 </div>
                 <div className='border border-gray-300 flex flex-col gap-6 p-6 text-sm text-gray-700'>
                     {/* Product Description */}
@@ -299,12 +298,6 @@ function Product() {
                         <p className='text-gray-700 leading-relaxed'>
                             {productDetails.description || 'No description available.'}
                         </p>
-                    </div>
-
-                    {/* What's Included Section */}
-                    <div>
-                        <h3 className='font-bold text-base text-black mb-2'>What's Included?</h3>
-                        <p className='text-gray-700'>1 x {productDetails.name}</p>
                     </div>
                     
                     {/* Sweetness Level */}
