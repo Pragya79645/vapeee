@@ -39,7 +39,7 @@ class CloverService {
       console.log('Starting full product fetch from Clover...');
 
       while (true) {
-        const response = await fetch(`${this.baseUrl}/${this.merchantId}/items?expand=categories,tags,itemStock,itemGroup,modifierGroups,taxRates&limit=${limit}&offset=${offset}`, {
+        const response = await fetch(`${this.baseUrl}/${this.merchantId}/items?expand=categories,tags,itemStock,itemGroup,modifierGroups,taxRates,revenueClass,images&limit=${limit}&offset=${offset}`, { // Expanded revenueClass and images
           method: 'GET',
           headers: this.getHeaders()
         });
@@ -362,7 +362,7 @@ class CloverService {
   async getItem(itemId) {
     if (!this.merchantId || !this.apiToken) return null;
     try {
-      const response = await fetch(`${this.baseUrl}/${this.merchantId}/items/${itemId}?expand=categories`, {
+      const response = await fetch(`${this.baseUrl}/${this.merchantId}/items/${itemId}?expand=categories,tags,itemStock,itemGroup,modifierGroups,taxRates,revenueClass,images`, {
         method: 'GET',
         headers: this.getHeaders()
       });

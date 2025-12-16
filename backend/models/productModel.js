@@ -1,11 +1,14 @@
 import mongoose from "mongoose";
 
 const variantSchema = new mongoose.Schema({
-    size: { type: String, required: true }, // e.g., "10ml", "20ml", "30ml"
+    size: { type: String, required: true }, // e.g., "10ml", "20ml", "30ml" or Variant Name
     price: { type: Number, required: true },
+    cost: { type: Number, default: 0 },
     quantity: { type: Number, required: true, default: 0 },
     cloverItemId: { type: String }, // Link variant to specific clover item
-    sku: { type: String }
+    sku: { type: String },
+    showOnPOS: { type: Boolean, default: true },
+    image: { type: String } // Variant specific image URL
 });
 
 const productSchema = new mongoose.Schema({
@@ -35,7 +38,8 @@ const productSchema = new mongoose.Schema({
     sweetnessLevel: { type: Number, min: 0, max: 10, default: 5 },
     mintLevel: { type: Number, min: 0, max: 10, default: 0 },
     modifierGroups: { type: [mongoose.Schema.Types.Mixed], default: [] }, // Store modifier groups data
-    taxRates: { type: [mongoose.Schema.Types.Mixed], default: [] } // Store tax rates data
+    taxRates: { type: [mongoose.Schema.Types.Mixed], default: [] }, // Store tax rates data
+    revenueClass: { type: String, default: '' } // Store revenue class name or ID
 }, { timestamps: true }); // Auto createdAt and updatedAt
 
 const Product = mongoose.models.Product || mongoose.model("Product", productSchema);

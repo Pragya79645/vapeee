@@ -19,18 +19,23 @@ function Product() {
     const [waitlisted, setWaitlisted] = useState(false);
     const [waitlistLoading, setWaitlistLoading] = useState(false);
     const navigate = useNavigate();
-    
+
     const inWishlist = productDetails ? isInWishlist(productDetails._id) : false;
 
     useEffect(() => {
         const product = products.find(item => item._id === productId);
         if (product) {
-            setProductDetails(product);
+            // Filter visible variants
+            const visibleVariants = (product.variants || []).filter(v => v.showOnPOS !== false);
+            // Construct displayed product with filtered variants
+            const displayProduct = { ...product, variants: visibleVariants };
+            setProductDetails(displayProduct);
+
             // set first image as selected (support new `images` array)
             const firstImg = (product.images && product.images.length) ? product.images[0] : null;
             setSelectedImage(firstImg);
             // set default size to first variant size if available
-            const firstVariantSize = product.variants && product.variants.length ? product.variants[0].size : '';
+            const firstVariantSize = visibleVariants && visibleVariants.length ? visibleVariants[0].size : '';
             setSize(firstVariantSize);
             // If the product object from the list is missing full details (e.g. description), fetch single product
             if (!product.description || product.description.toString().trim() === '') {
@@ -39,9 +44,10 @@ function Product() {
                         const res = await axios.get(`${backendUrl}/api/product/single/${productId}`);
                         if (res.data?.success && res.data.product) {
                             const p = res.data.product;
-                            setProductDetails(p);
+                            const visibleVariants = (p.variants || []).filter(v => v.showOnPOS !== false);
+                            setProductDetails({ ...p, variants: visibleVariants });
                             setSelectedImage((p.images && p.images.length) ? p.images[0] : firstImg);
-                            setSize((p.variants && p.variants.length) ? p.variants[0].size : firstVariantSize);
+                            setSize((visibleVariants && visibleVariants.length) ? visibleVariants[0].size : '');
                         }
                     } catch (err) {
                         console.error('Failed to fetch full product details', err);
@@ -55,9 +61,10 @@ function Product() {
                     const res = await axios.get(`${backendUrl}/api/product/single/${productId}`);
                     if (res.data?.success && res.data.product) {
                         const p = res.data.product;
-                        setProductDetails(p);
+                        const visibleVariants = (p.variants || []).filter(v => v.showOnPOS !== false);
+                        setProductDetails({ ...p, variants: visibleVariants });
                         setSelectedImage((p.images && p.images.length) ? p.images[0] : null);
-                        setSize((p.variants && p.variants.length) ? p.variants[0].size : '');
+                        setSize((visibleVariants && visibleVariants.length) ? visibleVariants[0].size : '');
                     }
                 } catch (err) {
                     console.error('Failed to fetch single product', err);
@@ -132,7 +139,7 @@ function Product() {
             try { socket.disconnect(); } catch (e) { /* ignore */ }
         };
     }, [productId, backendUrl]);
-    
+
 
     if (!productDetails) return <div>Loading...</div>;
 
@@ -180,14 +187,31 @@ function Product() {
                     {productDetails.variants && productDetails.variants.length > 0 && (
                         <div className='flex flex-col gap-4 my-8'>
                             <p>Select Variant</p>
-                            <div className='flex gap-2'>
+                            <div className='flex gap-2 flex-wrap'>
                                 {productDetails.variants.map((variant, index) => (
                                     <button
                                         key={index}
-                                        onClick={() => setSize(variant.size)}
-                                        className={`border py-2 px-4 bg-gray-100 cursor-pointer ${variant.size === size ? 'border-orange-500' : 'border-gray-300'}`}
+                                        onClick={() => {
+                                            setSize(variant.size);
+                                            // If variant has a specific image, switch to it
+                                            if (variant.image) {
+                                                // Find the image object in product images if possible to match object reference or create new
+                                                // We can just use the url if the main image is using one
+                                                // The main image uses selectedImage.url.
+                                                // Construct a minimal object or find it
+                                                const match = (productDetails.images || []).find(img => img.url === variant.image);
+                                                setSelectedImage(match || { url: variant.image });
+                                            }
+                                        }}
+                                        className={`border py-2 px-4 bg-gray-100 cursor-pointer ${variant.size === size ? 'border-orange-500 ring-1 ring-orange-500' : 'border-gray-300 hover:border-gray-400'}`}
                                     >
-                                        {variant.size} — {currency}{variant.price}
+                                        <div className="flex flex-col items-center gap-1">
+                                            {variant.image && (
+                                                <img src={variant.image} alt={variant.size} className="w-8 h-8 object-cover rounded-sm mb-1" />
+                                            )}
+                                            <span>{variant.size}</span>
+                                            <span className="text-xs text-gray-500">{currency}{variant.price}</span>
+                                        </div>
                                     </button>
                                 ))}
                             </div>
@@ -243,7 +267,7 @@ function Product() {
                         ) : null}
 
                         <button onClick={() => addToCart(productDetails._id, size)} className='bg-black text-white px-6 py-2 text-sm active:bg-gray-700 h-10'>ADD TO CART</button>
-                        
+
                         {/* Wishlist button */}
                         <button
                             onClick={() => {
@@ -253,11 +277,10 @@ function Product() {
                                     addToWishlist(productDetails._id);
                                 }
                             }}
-                            className={`flex items-center gap-2 px-6 py-2 text-sm h-10 border ${
-                                inWishlist 
-                                    ? 'bg-red-50 border-red-500 text-red-600 hover:bg-red-100' 
-                                    : 'bg-white border-gray-300 text-gray-700 hover:border-black'
-                            }`}
+                            className={`flex items-center gap-2 px-6 py-2 text-sm h-10 border ${inWishlist
+                                ? 'bg-red-50 border-red-500 text-red-600 hover:bg-red-100'
+                                : 'bg-white border-gray-300 text-gray-700 hover:border-black'
+                                }`}
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -299,26 +322,26 @@ function Product() {
                             {productDetails.description || 'No description available.'}
                         </p>
                     </div>
-                    
+
                     {/* Sweetness Level */}
                     {productDetails.sweetnessLevel !== undefined && (
                         <div>
                             <h3 className='font-bold text-sm text-black mb-2'>Sweetness</h3>
                             <div className='flex items-center gap-0 max-w-2xl'>
-                                <div 
+                                <div
                                     className='h-5 bg-yellow-400 flex items-center justify-center text-black font-bold text-xs px-3'
                                     style={{ width: `${(productDetails.sweetnessLevel / 10) * 100}%`, minWidth: '50px' }}
                                 >
                                     {productDetails.sweetnessLevel}/10
                                 </div>
-                                <div 
+                                <div
                                     className='h-5 bg-gray-300 flex-1'
                                     style={{ width: `${100 - (productDetails.sweetnessLevel / 10) * 100}%` }}
                                 ></div>
                             </div>
                         </div>
                     )}
-                    
+
                     {/* Mint Level */}
                     {productDetails.mintLevel !== undefined && (
                         <div>
@@ -329,13 +352,13 @@ function Product() {
                                 </div>
                             ) : (
                                 <div className='flex items-center gap-0 max-w-2xl'>
-                                    <div 
+                                    <div
                                         className='h-5 bg-green-500 flex items-center justify-center text-white font-bold text-xs px-3'
                                         style={{ width: `${(productDetails.mintLevel / 10) * 100}%`, minWidth: '50px' }}
                                     >
                                         {productDetails.mintLevel}/10
                                     </div>
-                                    <div 
+                                    <div
                                         className='h-5 bg-gray-300 flex-1'
                                         style={{ width: `${100 - (productDetails.mintLevel / 10) * 100}%` }}
                                     ></div>
@@ -343,7 +366,7 @@ function Product() {
                             )}
                         </div>
                     )}
-                    
+
                     {/* Disclaimer */}
                     <p className='text-xs italic text-gray-700 mt-2'>
                         Sweetness and mint levels are based on personal preference. Your experience may differ.
@@ -352,7 +375,7 @@ function Product() {
             </div>
 
             {/* Related Products */}
-                    <RelatedProducts product={productDetails} selectedSize={size} />
+            <RelatedProducts product={productDetails} selectedSize={size} />
         </div>
     );
 }

@@ -19,7 +19,7 @@ const Add = () => {
     const [categoriesList, setCategoriesList] = useState(CATEGORIES);
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [flavour, setFlavour] = useState("");
-    const [variants, setVariants] = useState([{ size: "", price: "", quantity: "" }]);
+    const [variants, setVariants] = useState([{ size: "", price: "", cost: "", quantity: "", showOnPOS: true }]);
     const [stockCount, setStockCount] = useState(0);
     const [inStock, setInStock] = useState(true);
     const [showOnPOS, setShowOnPOS] = useState(true);
@@ -44,7 +44,7 @@ const Add = () => {
     };
 
     const addVariant = () => {
-        setVariants([...variants, { size: "", price: "", quantity: "" }]);
+        setVariants([...variants, { size: "", price: "", cost: "", quantity: "", showOnPOS: true }]);
     };
 
     const removeVariant = (index) => {
@@ -66,7 +66,7 @@ const Add = () => {
         setPrice("");
         setSelectedCategories([]);
         setFlavour("");
-        setVariants([{ size: "", price: "", quantity: "" }]);
+        setVariants([{ size: "", price: "", cost: "", quantity: "", showOnPOS: true }]);
         setStockCount(0);
         setInStock(true);
         setShowOnPOS(true);
@@ -94,7 +94,7 @@ const Add = () => {
             formData.append("bestseller", bestseller);
             formData.append("sweetnessLevel", sweetnessLevel);
             formData.append("mintLevel", mintLevel);
-            
+
             // Filter out empty variants before sending
             const validVariants = variants.filter(v => v.size && v.price && v.quantity);
             if (validVariants.length > 0) {
@@ -147,7 +147,7 @@ const Add = () => {
                     // navigate back to list after update
                     navigate('/list');
                 }
-            } else{
+            } else {
                 toast.error(res.data.message);
             }
 
@@ -189,7 +189,7 @@ const Add = () => {
                     setPrice(p.price ?? "");
                     setSelectedCategories(p.categories || []);
                     setFlavour(p.flavour || "");
-                    setVariants((p.variants && p.variants.length > 0) ? p.variants : [{ size: "", price: "", quantity: "" }]);
+                    setVariants((p.variants && p.variants.length > 0) ? p.variants : [{ size: "", price: "", cost: "", quantity: "", showOnPOS: true }]);
                     setStockCount(p.stockCount ?? 0);
                     setInStock(p.inStock ?? true);
                     setSweetnessLevel(p.sweetnessLevel ?? 5);
@@ -199,7 +199,7 @@ const Add = () => {
                     // Prefill images with existing URLs (strings)
                     const imgs = (p.images || []).map(img => img.url);
                     while (imgs.length < 4) imgs.push(null);
-                    setImages(imgs.slice(0,4));
+                    setImages(imgs.slice(0, 4));
                 } else {
                     toast.error(res.data.message || 'Failed to load product');
                 }
@@ -214,10 +214,10 @@ const Add = () => {
     // Real-time updates: listen for productUpdated events
     useEffect(() => {
         if (!id) return;
-        
+
         const socketUrl = import.meta.env.VITE_BACKEND_URL || '';
         if (!socketUrl) return;
-        
+
         const socket = io(socketUrl, { withCredentials: true });
 
         const onUpdate = (data) => {
@@ -225,7 +225,7 @@ const Add = () => {
                 if (!data) return;
                 const payloadProduct = data.product || undefined;
                 const productIdFromPayload = payloadProduct ? (payloadProduct._id || payloadProduct.productId) : (data.productId || undefined);
-                
+
                 if (!productIdFromPayload) return;
                 if (productIdFromPayload === id) {
                     if (payloadProduct) {
@@ -236,21 +236,21 @@ const Add = () => {
                         setPrice(payloadProduct.price ?? "");
                         setSelectedCategories(payloadProduct.categories || []);
                         setFlavour(payloadProduct.flavour || "");
-                        setVariants((payloadProduct.variants && payloadProduct.variants.length > 0) ? payloadProduct.variants : [{ size: "", price: "", quantity: "" }]);
+                        setVariants((payloadProduct.variants && payloadProduct.variants.length > 0) ? payloadProduct.variants : [{ size: "", price: "", cost: "", quantity: "", showOnPOS: true }]);
                         setStockCount(payloadProduct.stockCount ?? 0);
                         setInStock(payloadProduct.inStock ?? true);
                         setSweetnessLevel(payloadProduct.sweetnessLevel ?? 5);
                         setMintLevel(payloadProduct.mintLevel ?? 0);
                         setShowOnPOS(payloadProduct.showOnPOS ?? true);
                         setBestseller(payloadProduct.bestseller ?? false);
-                        
+
                         // Update images if provided
                         if (payloadProduct.images) {
                             const imgs = payloadProduct.images.map(img => img.url);
                             while (imgs.length < 4) imgs.push(null);
-                            setImages(imgs.slice(0,4));
+                            setImages(imgs.slice(0, 4));
                         }
-                        
+
                         toast.info('Product updated in real-time');
                     }
                 }
@@ -274,7 +274,7 @@ const Add = () => {
             <div className="w-full flex items-center justify-between mb-2">
                 <div className="flex items-center gap-4">
                     <div className="p-2 bg-gray-100 rounded-md">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V7M8 3h8v4H8V3z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V7M8 3h8v4H8V3z" /></svg>
                     </div>
                     <div>
                         <h1 className="text-2xl font-semibold">{id ? 'Edit Product' : 'Add Product'}</h1>
@@ -322,7 +322,7 @@ const Add = () => {
                                 />
                             ) : (
                                 <div className="flex flex-col items-center text-gray-400 text-xs">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16v-4a1 1 0 011-1h3m4 6v-6a1 1 0 00-1-1h-2M3 7h18"/></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16v-4a1 1 0 011-1h3m4 6v-6a1 1 0 00-1-1h-2M3 7h18" /></svg>
                                     <span>Upload</span>
                                 </div>
                             )}
@@ -526,7 +526,7 @@ const Add = () => {
             {/* Variants Section */}
             <div className="w-full">
                 <div className="flex items-center justify-between mb-2">
-                    <p>Product Variants (Optional)</p>
+                    <p>Product Variants (Clover Items / Sizes)</p>
                     <button
                         type="button"
                         onClick={addVariant}
@@ -535,39 +535,76 @@ const Add = () => {
                         + Add Variant
                     </button>
                 </div>
+                {variants.length > 0 && (
+                    <div className="grid grid-cols-[1.5fr_1fr_1fr_1fr_1fr_0.5fr_0.5fr] gap-2 mb-2 px-2 text-xs font-semibold text-gray-500">
+                        <div>Name/Size</div>
+                        <div>Price</div>
+                        <div>Cost</div>
+                        <div>Stock</div>
+                        <div>Item ID</div>
+                        <div className="text-center">POS</div>
+                        <div className="text-center">Del</div>
+                    </div>
+                )}
                 <div className="space-y-2">
                     {variants.map((variant, index) => (
-                        <div key={index} className="flex gap-2 items-center">
+                        <div key={index} className="grid grid-cols-[1.5fr_1fr_1fr_1fr_1fr_0.5fr_0.5fr] gap-2 items-center">
                             <input
                                 type="text"
-                                className="px-3 py-2 border rounded-md flex-1"
-                                placeholder="Size (e.g., 10ml, 20ml)"
+                                className="px-3 py-2 border rounded-md w-full text-sm"
+                                placeholder="Name/Size"
                                 value={variant.size}
                                 onChange={(e) => updateVariant(index, "size", e.target.value)}
                             />
                             <input
                                 type="number"
-                                className="px-3 py-2 border rounded-md w-32"
+                                className="px-3 py-2 border rounded-md w-full text-sm"
                                 placeholder="Price"
                                 value={variant.price}
                                 onChange={(e) => updateVariant(index, "price", e.target.value)}
                             />
                             <input
                                 type="number"
-                                className="px-3 py-2 border rounded-md w-32"
-                                placeholder="Quantity"
+                                className="px-3 py-2 border rounded-md w-full text-sm"
+                                placeholder="Cost"
+                                value={variant.cost || ''}
+                                onChange={(e) => updateVariant(index, "cost", e.target.value)}
+                            />
+                            <input
+                                type="number"
+                                className="px-3 py-2 border rounded-md w-full text-sm"
+                                placeholder="Qty"
                                 value={variant.quantity}
                                 onChange={(e) => updateVariant(index, "quantity", e.target.value)}
                             />
-                            {variants.length > 1 && (
-                                <button
-                                    type="button"
-                                    onClick={() => removeVariant(index)}
-                                    className="px-2 py-1 bg-red-100 text-red-700 rounded-md"
-                                >
-                                    ✕
-                                </button>
-                            )}
+                            <input
+                                type="text"
+                                className="px-3 py-2 border rounded-md w-full text-sm bg-gray-50 text-gray-500"
+                                placeholder="Clover ID"
+                                value={variant.cloverItemId || ''}
+                                readOnly
+                                title="Clover Item ID (Synced)"
+                            />
+                            <div className="flex justify-center">
+                                <input
+                                    type="checkbox"
+                                    className="h-4 w-4"
+                                    checked={variant.showOnPOS !== false}
+                                    onChange={(e) => updateVariant(index, "showOnPOS", e.target.checked)}
+                                    title="Show on POS"
+                                />
+                            </div>
+                            <div className="flex justify-center">
+                                {variants.length > 1 && (
+                                    <button
+                                        type="button"
+                                        onClick={() => removeVariant(index)}
+                                        className="px-2 py-1 bg-red-100 text-red-700 rounded-md hover:bg-red-200"
+                                    >
+                                        ✕
+                                    </button>
+                                )}
+                            </div>
                         </div>
                     ))}
                 </div>
