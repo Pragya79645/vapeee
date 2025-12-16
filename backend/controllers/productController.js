@@ -7,6 +7,62 @@ import { productSchema } from "../validation/productValidation.js";
 import { getIO } from '../socket.js';
 import cloverService from '../services/cloverService.js';
 
+// Helper function to generate detailed description based on product information
+const generateDescription = (productData) => {
+    const name = productData.name || 'This product';
+    const flavour = productData.flavour || 'unique flavor';
+    const categories = productData.categories && productData.categories.length > 0 
+        ? productData.categories.join(', ') 
+        : 'vaping';
+    
+    // Calculate total pods/units based on variants
+    let podInfo = '';
+    if (productData.variants && productData.variants.length > 0) {
+        const sizes = productData.variants.map(v => v.size).join(', ');
+        podInfo = ` Available in multiple sizes: ${sizes}.`;
+    }
+    
+    // Sweetness and mint level information
+    let flavorProfile = '';
+    if (productData.sweetnessLevel !== undefined && productData.sweetnessLevel !== null) {
+        flavorProfile += ` With a sweetness level of ${productData.sweetnessLevel}/10`;
+    }
+    if (productData.mintLevel !== undefined && productData.mintLevel !== null && productData.mintLevel > 0) {
+        flavorProfile += ` and a refreshing mint level of ${productData.mintLevel}/10`;
+    }
+    if (flavorProfile) {
+        flavorProfile += ', this product delivers a perfectly balanced taste experience.';
+    }
+    
+    // Build the description
+    let description = `${name} is an exceptional ${categories} product that delivers an outstanding vaping experience. `;
+    
+    if (flavour) {
+        description += `This premium vape features the exquisite flavor of ${flavour}, carefully crafted to provide a satisfying and authentic taste with every puff. `;
+    }
+    
+    if (podInfo) {
+        description += podInfo;
+    }
+    
+    if (flavorProfile) {
+        description += ` ${flavorProfile}`;
+    }
+    
+    description += ` Designed with the adult user in mind, this product adheres to all specifications and regulatory guidelines set by governing authorities. `;
+    description += `Each unit is manufactured to the highest quality standards, ensuring consistency, safety, and satisfaction. `;
+    description += `The sleek and convenient design makes it perfect for on-the-go use, while the premium ingredients guarantee a smooth and enjoyable vaping experience. `;
+    
+    if (productData.bestseller) {
+        description += `This bestselling product has become a favorite among our customers for its exceptional quality and remarkable flavor profile. `;
+    }
+    
+    description += `Please note: This product is intended exclusively for adult users aged 21 and over. By purchasing this product, you confirm that you meet the legal age requirements in your jurisdiction. `;
+    description += `Always use responsibly and in accordance with local laws and regulations.`;
+    
+    return description;
+};
+
 // Function to add product
 const addProduct = async (req, res) => {
     try {
@@ -81,10 +137,24 @@ const addProduct = async (req, res) => {
             ? (typeof value.categories === 'string' ? JSON.parse(value.categories) : value.categories)
             : [];
 
+        // Auto-generate description if empty
+        let finalDescription = value.description;
+        if (!finalDescription || finalDescription.trim() === '') {
+            finalDescription = generateDescription({
+                name: value.name,
+                flavour: value.flavour,
+                categories: parsedCategories,
+                variants: parsedVariants,
+                sweetnessLevel: value.sweetnessLevel !== undefined ? Number(value.sweetnessLevel) : 5,
+                mintLevel: value.mintLevel !== undefined ? Number(value.mintLevel) : 0,
+                bestseller: value.bestseller
+            });
+        }
+
         const product = new Product({
             productId: value.productId,
             name: value.name,
-            description: value.description,
+            description: finalDescription,
             price: Number(value.price),
             images: imagesResults,
             categories: parsedCategories,
@@ -356,7 +426,22 @@ const updateProduct = async (req, res) => {
         // Clean up product.images if some indices are empty, keep existing ones
         product.productId = value.productId;
         product.name = value.name;
-        product.description = value.description;
+        
+        // Auto-generate description if empty
+        let finalDescription = value.description;
+        if (!finalDescription || finalDescription.trim() === '') {
+            finalDescription = generateDescription({
+                name: value.name,
+                flavour: value.flavour,
+                categories: parsedCategories,
+                variants: parsedVariants,
+                sweetnessLevel: value.sweetnessLevel !== undefined ? Number(value.sweetnessLevel) : product.sweetnessLevel,
+                mintLevel: value.mintLevel !== undefined ? Number(value.mintLevel) : product.mintLevel,
+                bestseller: value.bestseller
+            });
+        }
+        product.description = finalDescription;
+        
         product.price = Number(value.price);
         product.categories = parsedCategories;
         product.flavour = value.flavour || "";

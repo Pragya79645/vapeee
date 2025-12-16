@@ -287,11 +287,10 @@ function Product() {
                 </div>
             </div>
 
-            {/* Description & Review Section */}
+            {/* Description Section */}
             <div className='mt-20'>
                 <div className='flex'>
                     <b className='border border-gray-300 px-5 py-3 text-sm'>Description</b>
-                    <p className='border border-gray-300 px-5 py-3 text-sm'>Review (122)</p>
                 </div>
                 <div className='border border-gray-300 flex flex-col gap-6 p-6 text-sm text-gray-700'>
                     {/* Product Description */}

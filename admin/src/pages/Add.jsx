@@ -363,13 +363,12 @@ const Add = () => {
             </div>
 
             <div className="w-full">
-                <p className="mb-2 text-base font-medium">Product Description</p>
+                <p className="mb-2 text-base font-medium">Product Description (Optional)</p>
                 <textarea
                     className="w-full max-w-[760px] px-3 py-3 border rounded-md text-sm"
                     placeholder="Write content here"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    required
                     rows={5}
                 />
             </div>

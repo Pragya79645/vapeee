@@ -9,7 +9,7 @@ const variantSchema = Joi.object({
 export const productSchema = Joi.object({
     productId: Joi.string().required(),
     name: Joi.string().min(2).max(100).required(),
-    description: Joi.string().min(10).required(),
+    description: Joi.string().min(10).optional().allow(''),
     price: Joi.number().positive().required(),
     // allow multiple categories (array) or single category string
     categories: Joi.alternatives().try(
