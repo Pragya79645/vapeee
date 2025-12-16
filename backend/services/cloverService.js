@@ -32,13 +32,35 @@ class CloverService {
   async getProducts() {
     if (!this.merchantId || !this.apiToken) return [];
     try {
-      const response = await fetch(`${this.baseUrl}/${this.merchantId}/items?expand=categories,tags,itemStock,itemGroup,modifierGroups,taxRates`, {
-        method: 'GET',
-        headers: this.getHeaders()
-      });
-      if (!response.ok) throw new Error(`Clover API Error: ${response.statusText}`);
-      const data = await response.json();
-      return data.elements || [];
+      let allItems = [];
+      let offset = 0;
+      const limit = 100;
+
+      console.log('Starting full product fetch from Clover...');
+
+      while (true) {
+        const response = await fetch(`${this.baseUrl}/${this.merchantId}/items?expand=categories,tags,itemStock,itemGroup,modifierGroups,taxRates&limit=${limit}&offset=${offset}`, {
+          method: 'GET',
+          headers: this.getHeaders()
+        });
+
+        if (!response.ok) throw new Error(`Clover API Error: ${response.statusText}`);
+
+        const data = await response.json();
+        const items = data.elements || [];
+
+        allItems = allItems.concat(items);
+        console.log(`Fetched ${items.length} items (Offset: ${offset})`);
+
+        // If we got fewer items than the limit, we're done
+        if (items.length < limit) break;
+
+        offset += limit;
+      }
+
+      console.log(`Total items fetched from Clover: ${allItems.length}`);
+      return allItems;
+
     } catch (error) {
       console.error('Error fetching products from Clover:', error);
       throw error;

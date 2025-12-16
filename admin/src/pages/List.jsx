@@ -179,6 +179,66 @@ const List = () => {
         }
     };
 
+    const handleExport = async () => {
+        try {
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/product/export`, {
+                responseType: 'blob',
+                withCredentials: true
+            });
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'products_export.xlsx');
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        } catch (error) {
+            console.error('Error exporting products:', error);
+            toast.error('Failed to export products');
+        }
+    };
+
+    const handleClearDatabase = async () => {
+        const tId = toast.info(
+            (
+                <div className="flex flex-col text-sm">
+                    <div className="mb-3 font-bold text-red-600">WARNING: CLEAR ALL DATABASE?</div>
+                    <div className="mb-3">This will delete ALL products, categories, and empty all carts. This cannot be undone. Clover data will NOT be affected.</div>
+                    <div className="flex gap-2 justify-end">
+                        <button
+                            onClick={() => toast.dismiss(tId)}
+                            className="px-3 py-1 border rounded text-sm bg-white"
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            onClick={async () => {
+                                toast.dismiss(tId);
+                                const loadingId = toast.loading("Clearing database...");
+                                try {
+                                    const res = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/product/clear-database`, { withCredentials: true });
+                                    if (res.data.success) {
+                                        toast.update(loadingId, { render: res.data.message, type: "success", isLoading: false, autoClose: 3000 });
+                                        fetchProducts(1);
+                                    } else {
+                                        toast.update(loadingId, { render: res.data.message, type: "error", isLoading: false, autoClose: 3000 });
+                                    }
+                                } catch (err) {
+                                    console.error(err);
+                                    toast.update(loadingId, { render: err.response?.data?.message || 'Failed to clear database', type: "error", isLoading: false, autoClose: 3000 });
+                                }
+                            }}
+                            className="px-3 py-1 bg-red-600 text-white rounded text-sm font-bold"
+                        >
+                            CONFIRM CLEAR
+                        </button>
+                    </div>
+                </div>
+            ),
+            { autoClose: false, closeOnClick: false, closeButton: false }
+        );
+    };
+
     const handleImportClick = () => {
         document.getElementById('import-input').click();
     };
@@ -251,6 +311,18 @@ const List = () => {
                     className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-sm"
                 >
                     Import from Excel
+                </button>
+                <button
+                    onClick={handleExport}
+                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm"
+                >
+                    Export Products
+                </button>
+                <button
+                    onClick={handleClearDatabase}
+                    className="px-4 py-2 bg-red-800 text-white rounded hover:bg-red-900 text-sm font-bold"
+                >
+                    Clear Database
                 </button>
                 <input
                     type="file"

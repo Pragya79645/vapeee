@@ -1,6 +1,7 @@
 import { v2 as cloudinary } from 'cloudinary';
 import xlsx from 'xlsx';
 import Product from '../models/productModel.js';
+import Category from '../models/categoryModel.js';
 import User from '../models/userModel.js';
 import Cart from '../models/cartModel.js';
 import { productSchema } from "../validation/productValidation.js";
@@ -490,7 +491,7 @@ const updateProduct = async (req, res) => {
 const downloadTemplate = async (req, res) => {
     try {
         const headers = [
-            ["Sr. Number", "Product Name", "Brand Name", "Flavour", "Price ( In CAD $ )", "Puff Count", "Container Capacity in ml", "Nicotine Strength", "Intense or Smooth", "Product Id", "Category"]
+            ["Sr. Number", "Product Name", "Brand Name", "Flavour", "Price ( In CAD $ )", "Puff Count", "Container Capacity in ml", "Nicotine Strength", "Intense or Smooth", "Product Id", "Category", "Image URL 1", "Image URL 2", "Image URL 3", "Image URL 4"]
         ];
 
         const wb = xlsx.utils.book_new();
@@ -562,6 +563,19 @@ const importProducts = async (req, res) => {
                 });
             }
 
+            // Image URLs
+            const imageUrls = [
+                row['Image URL 1'],
+                row['Image URL 2'],
+                row['Image URL 3'],
+                row['Image URL 4']
+            ].filter(url => url && typeof url === 'string' && url.trim().length > 0);
+
+            const images = imageUrls.map(url => ({
+                url: url.trim(),
+                public_id: null // External URL, no cloudinary public_id
+            }));
+
             // Categories
             const categoryStr = row['Category'];
             const categories = categoryStr ? String(categoryStr).split(',').map(c => c.trim()) : [];
@@ -577,18 +591,20 @@ const importProducts = async (req, res) => {
                             categories: categories,
                             flavour: String(flavour),
                             variants: variants,
-                            // Do not overwrite stockCount if it exists, but set on insert
-                            // However, since we can't conditionally set based on existence with one op easily without pipeline,
-                            // and requirements say "default to 0", let's leave stockCount alone if updating?
-                            // Or should we just set it?
-                            // If we use simple updateOne, fields in $set are overwritten.
-                            // If we want to preserve stockCount, we should NOT put it in $set.
-                            // We put it in $setOnInsert.
+                            // If images are provided in the sheet, update them. 
+                            // If not, we might want to keep existing ones? 
+                            // Current requirement implies "include image url so it will render", 
+                            // so if provided, we should probably set them.
+                            // If the user wants to keep existing images, they should leave these columns blank?
+                            // Or maybe we only update images if new ones are provided.
+                            // For now, if images array has items, we update.
+                            ...(images.length > 0 && { images: images })
                         },
                         $setOnInsert: {
                             stockCount: 0,
                             inStock: false,
-                            images: [],
+                            // If no images provided, initialize empty
+                            ...(images.length === 0 && { images: [] }),
                             showOnPOS: true,
                             bestseller: false,
                             sweetnessLevel: 5,
@@ -611,6 +627,77 @@ const importProducts = async (req, res) => {
     } catch (error) {
         console.error("Import Products Error:", error);
         res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+const exportProducts = async (req, res) => {
+    try {
+        const products = await Product.find({}).sort({ createdAt: -1 });
+
+        const data = products.map((p, index) => {
+            // Flatten categories
+            const categoryStr = (p.categories || []).join(', ');
+
+            // Extract description fields if possible, or just dump full description
+            // Since we construct description from fields, valid reverse parsing is hard.
+            // We'll just put the full description in one of the fields or leave them blank
+            // and maybe put everything in 'Product Description'? 
+            // The template has specific fields: Brand Name, Puff Count etc. 
+            // If we can't parse them back, we might just leave them empty or put the whole desc in one.
+            // However, the import logic builds description from these. 
+            // For now, let's map common fields and maybe parse simple key-values if they exist in description.
+
+            // Simple parsing attempt for description lines
+            const descLines = (p.description || '').split('\n');
+            const getVal = (key) => {
+                const line = descLines.find(l => l.startsWith(key + ':'));
+                return line ? line.split(':')[1].trim() : '';
+            };
+
+            const brand = getVal('Brand') || '';
+            const puffCount = getVal('Puff Count') || '';
+            const nicotine = getVal('Nicotine') || '';
+            const type = getVal('Type') || ''; // Intense or Smooth
+            const srNo = getVal('Sr No') || (index + 1);
+
+            // Container Capacity from first variant or default
+            const containerCapacity = (p.variants && p.variants.length > 0) ? p.variants[0].size : '';
+
+            return {
+                "Sr. Number": srNo,
+                "Product Name": p.name,
+                "Brand Name": brand,
+                "Flavour": p.flavour,
+                "Price ( In CAD $ )": p.price,
+                "Puff Count": puffCount,
+                "Container Capacity in ml": containerCapacity,
+                "Nicotine Strength": nicotine,
+                "Intense or Smooth": type,
+                "Product Id": p.productId,
+                "Category": categoryStr,
+                "Image URL 1": p.images && p.images[0] ? p.images[0].url : '',
+                "Image URL 2": p.images && p.images[1] ? p.images[1].url : '',
+                "Image URL 3": p.images && p.images[2] ? p.images[2].url : '',
+                "Image URL 4": p.images && p.images[3] ? p.images[3].url : ''
+            };
+        });
+
+        const wb = xlsx.utils.book_new();
+        const ws = xlsx.utils.json_to_sheet(data);
+
+        // Adjust column widths? (Optional, skip for now)
+
+        xlsx.utils.book_append_sheet(wb, ws, "Products");
+
+        const buffer = xlsx.write(wb, { type: 'buffer', bookType: 'xlsx' });
+
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', 'attachment; filename=products_export.xlsx');
+        res.send(buffer);
+
+    } catch (error) {
+        console.error("Export Products Error:", error);
+        res.status(500).json({ success: false, message: "Failed to export products" });
     }
 };
 
@@ -677,4 +764,18 @@ const deleteProducts = async (req, res) => {
     }
 };
 
-export { addProduct, listProducts, removeProduct, singleProduct, updateProduct, deleteProducts, downloadTemplate, importProducts };
+const clearDatabase = async (req, res) => {
+    try {
+        await Product.deleteMany({});
+        await Category.deleteMany({});
+        // Also clear cart items, because they reference products that no longer exist
+        await Cart.updateMany({}, { $set: { items: [], amount: 0 } });
+
+        res.status(200).json({ success: true, message: "Database cleared successfully (Products, Categories & Carts)" });
+    } catch (error) {
+        console.error("Clear Database Error:", error);
+        res.status(500).json({ success: false, message: "Failed to clear database" });
+    }
+};
+
+export { addProduct, listProducts, removeProduct, singleProduct, updateProduct, deleteProducts, downloadTemplate, importProducts, exportProducts, clearDatabase };

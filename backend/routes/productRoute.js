@@ -1,5 +1,5 @@
 import express from 'express';
-import { addProduct, listProducts, removeProduct, singleProduct, updateProduct, deleteProducts, downloadTemplate, importProducts } from '../controllers/productController.js';
+import { addProduct, listProducts, removeProduct, singleProduct, updateProduct, deleteProducts, downloadTemplate, importProducts, exportProducts, clearDatabase } from '../controllers/productController.js';
 import upload from '../middleware/multer.js';
 import multer from 'multer';
 import { verifyAdmin } from '../middleware/authMiddleware.js';
@@ -22,11 +22,13 @@ productRouter.post(
 );
 
 productRouter.get('/template', verifyAdmin, downloadTemplate);
+productRouter.get('/export', verifyAdmin, exportProducts);
 productRouter.post('/import', verifyAdmin, uploadImport.single('file'), importProducts);
 
 productRouter.get('/list', listProducts);
 productRouter.delete('/remove/:id', verifyAdmin, removeProduct);
 productRouter.post('/delete-many', verifyAdmin, deleteProducts);
+productRouter.delete('/clear-database', verifyAdmin, clearDatabase);
 productRouter.get('/single/:id', singleProduct);
 productRouter.put(
     '/update/:id', verifyAdmin,
