@@ -7,6 +7,8 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import { assets } from '../assets/frontend_assets/assets';
 import RelatedProducts from '../components/RelatedProducts';
+import ReviewsSection from '../components/ReviewsSection';
+import ProductRating from '../components/ProductRating';
 
 function Product() {
     const { productId } = useParams();
@@ -172,7 +174,7 @@ function Product() {
                 {/* Product Info */}
                 <div className='flex-1'>
                     <h1 className='font-medium text-2xl mt-2'>{productDetails.name}</h1>
-                    {/* Star rating removed per request */}
+                    <ProductRating productId={productId} />
                     <p className='mt-5 text-3xl font-medium'>{currency}{selectedVariant ? selectedVariant.price : productDetails.price}</p>
                     {(selectedVariant?.flavour || productDetails.flavour) && <p className='mt-2 text-sm text-gray-600'>Flavour: {selectedVariant?.flavour || productDetails.flavour}</p>}
 
@@ -385,6 +387,9 @@ function Product() {
                     </p>
                 </div>
             </div>
+
+            {/* Customer Reviews Section */}
+            <ReviewsSection productId={productId} />
 
             {/* Related Products */}
             <RelatedProducts product={productDetails} selectedSize={size} />
