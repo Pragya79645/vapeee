@@ -51,7 +51,7 @@ const HowToUse = () => {
                 </div>
                 <ul className="list-disc pl-5 text-gray-600 space-y-1">
                     <li><strong>Variants:</strong> Make sure each variant has a Size/Name, Flavour, Price, and Stock. When you save, each variant becomes a Clover item linked under an Item Group.</li>
-                    <li><strong>Images:</strong> The first image is used as the main thumbnail. Images are hosted on <strong>vgy.me</strong>.</li>
+                    <li><strong>Images:</strong> The first image is used as the main thumbnail. High-quality images for banners and products are supported.</li>
                     <li>Fields with a red <span className="text-red-500">*</span> are mandatory.</li>
                 </ul>
             </section>
@@ -89,7 +89,7 @@ const HowToUse = () => {
                     The <strong>Settings</strong> page lets you change the Top Navbar Links and the Hero Banners.
                 </p>
                 <ul className="list-disc pl-5 text-gray-600 space-y-1">
-                    <li><strong>vgy.me Integration:</strong> All image uploads (products and banners) now use vgy.me for fast, reliable hosting.</li>
+                    <li><strong>Image Management:</strong> All image uploads (products and banners) are optimized for fast, reliable loading on the storefront.</li>
                     <li><strong>Banner & Grid Slides:</strong> You can now upload your own photos directly from your computer instead of just using URLs.</li>
                     <li><strong>Carousel & Promo Grid:</strong> Manage the main scrolling banners and the feature blocks below them separately.</li>
                     <li><strong>Smart Pick:</strong> Use the "Auto-fill from Product" menu to instantly sync a slide's image, title, and link with a product from your store!</li>
