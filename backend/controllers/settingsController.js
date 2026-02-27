@@ -1,4 +1,5 @@
 import Settings from '../models/settingsModel.js';
+import { uploadToVgyMe } from '../utils/vgyMe.js';
 
 // Return the single settings document (create defaults if none exists)
 export const getSettings = async (req, res) => {
@@ -51,24 +52,40 @@ export const updateSettings = async (req, res) => {
       settings = new Settings();
     }
 
-    // Accept only known fields to avoid accidental overwrites
-    if (payload.navbar) settings.navbar = Array.isArray(payload.navbar) ? payload.navbar : settings.navbar;
+    // Handle Navbar
+    if (payload.navbar) {
+      settings.navbar = typeof payload.navbar === 'string' ? JSON.parse(payload.navbar) : payload.navbar;
+    }
+
+    // Handle Hero Slides (JSON string if from FormData)
     if (payload.hero) {
-      const h = payload.hero;
-      // prefer slides
+      const h = typeof payload.hero === 'string' ? JSON.parse(payload.hero) : payload.hero;
       if (Array.isArray(h.slides)) {
         settings.hero.slides = h.slides.map(s => ({
           src: s.src || '',
           title: s.title || '',
           subtitle: s.subtitle || '',
+          link: s.link || '',
           slot: s.slot === 'grid' ? 'grid' : 'banner'
         }));
-      } else if (Array.isArray(h.images)) {
-        // legacy: convert images + title/subtitle into slides
-        const imgs = h.images;
-        const title = h.title || '';
-        const subtitle = h.subtitle || '';
-        settings.hero.slides = imgs.map((src, i) => ({ src, title, subtitle, slot: i === 0 ? 'banner' : 'grid' }));
+      }
+    }
+
+    // Handle Banner File Uploads
+    const files = req.files || [];
+    if (files.length > 0) {
+      for (const file of files) {
+        if (file.fieldname.startsWith('hero_slide_')) {
+          const idx = parseInt(file.fieldname.replace('hero_slide_', ''));
+          if (!isNaN(idx) && settings.hero.slides[idx]) {
+            try {
+              const result = await uploadToVgyMe(file.path);
+              settings.hero.slides[idx].src = result.url;
+            } catch (uploadErr) {
+              console.error(`vgy.me upload failed for hero slide ${idx}:`, uploadErr);
+            }
+          }
+        }
       }
     }
 

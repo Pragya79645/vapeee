@@ -1,0 +1,15 @@
+Starting product description update script...
+
+MongoDB connected successfully
+Found 281 products with empty descriptions
+Error updating products: TypeError: cat.toLowerCase is not a function
+    at file:///C:/Coding/freelance/vapee/backend/scripts/updateProductDescriptions.js:30:80
+    at Array.some (<anonymous>)
+    at file:///C:/Coding/freelance/vapee/backend/scripts/updateProductDescriptions.js:30:60
+    at Proxy.some (<anonymous>)
+    at generateDescription (file:///C:/Coding/freelance/vapee/backend/scripts/updateProductDescriptions.js:30:35)
+    at updateProductDescriptions (file:///C:/Coding/freelance/vapee/backend/scripts/updateProductDescriptions.js:103:36)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async run (file:///C:/Coding/freelance/vapee/backend/scripts/updateProductDescriptions.js:126:5)
+
+Database connection closed.

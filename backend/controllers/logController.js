@@ -1,4 +1,6 @@
 import ActionLog from '../models/actionLogModel.js';
+import User from "../models/userModel.js";
+import Admin from "../models/adminModel.js";
 
 // Get list of logs (paginated) for Admin Dashboard
 const getLogs = async (req, res) => {

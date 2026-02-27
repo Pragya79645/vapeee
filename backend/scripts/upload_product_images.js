@@ -3,9 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import connectDB from '../config/mongodb.js';
-import connectCloudinary from '../config/cloudinary.js';
 import Product from '../models/productModel.js';
-import { v2 as cloudinary } from 'cloudinary';
 
 dotenv.config();
 
@@ -65,7 +63,6 @@ const rankParents = (targetName, parents) => {
 const uploadImages = async () => {
     console.log('Starting enhanced product sync script (Recursive)...');
     await connectDB();
-    connectCloudinary();
 
     if (!fs.existsSync(productsDir)) {
         console.error('Products directory not found:', productsDir);
@@ -268,16 +265,22 @@ const uploadImages = async () => {
 
                         let imageUrl = '';
                         try {
-                            const pId = `${normalize(brandName)}_${normalize(productNameClean)}_${Date.now()}_${Math.random().toString(36).substring(7)}`;
-                            const result = await cloudinary.uploader.upload(filePath, {
-                                folder: `vapee/products/${brandName}`,
-                                public_id: pId,
-                                use_filename: false,
-                                unique_filename: false,
-                                overwrite: true,
-                                resource_type: 'image'
+                            const formData = new FormData();
+                            const fileBuffer = fs.readFileSync(filePath);
+                            const blob = new Blob([fileBuffer]);
+                            formData.append('file', blob, file);
+                            formData.append('userkey', process.env.VGYME);
+
+                            const response = await fetch('https://vgy.me/upload', {
+                                method: 'POST',
+                                body: formData
                             });
-                            imageUrl = result.secure_url;
+
+                            const result = await response.json();
+                            if (result.error) {
+                                throw new Error(result.message || 'vgy.me upload failed');
+                            }
+                            imageUrl = result.image;
                         } catch (err) {
                             console.error(`    [ERROR] Upload failed for ${file}: ${err.message}`);
                             continue;
@@ -303,16 +306,22 @@ const uploadImages = async () => {
             } else {
                 let imageUrl = '';
                 try {
-                    const pId = `${normalize(brandName)}_${normalize(productNameClean)}_${Date.now()}_${Math.random().toString(36).substring(7)}`;
-                    const result = await cloudinary.uploader.upload(filePath, {
-                        folder: `vapee/products/${brandName}`,
-                        public_id: pId,
-                        use_filename: false,
-                        unique_filename: false,
-                        overwrite: true,
-                        resource_type: 'image'
+                    const formData = new FormData();
+                    const fileBuffer = fs.readFileSync(filePath);
+                    const blob = new Blob([fileBuffer]);
+                    formData.append('file', blob, file);
+                    formData.append('userkey', process.env.VGYME);
+
+                    const response = await fetch('https://vgy.me/upload', {
+                        method: 'POST',
+                        body: formData
                     });
-                    imageUrl = result.secure_url;
+
+                    const result = await response.json();
+                    if (result.error) {
+                        throw new Error(result.message || 'vgy.me upload failed');
+                    }
+                    imageUrl = result.image;
                 } catch (err) {
                     console.error(`    [ERROR] Upload failed for ${file}: ${err.message}`);
                     continue;

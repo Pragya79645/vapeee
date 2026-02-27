@@ -3,9 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import connectDB from '../config/mongodb.js';
-import connectCloudinary from '../config/cloudinary.js';
 import Product from '../models/productModel.js';
-import { v2 as cloudinary } from 'cloudinary';
 
 dotenv.config();
 
@@ -148,7 +146,6 @@ const uploadMissingProducts = async () => {
     console.log('Starting COMPLETE variant image mapping script...');
 
     await connectDB();
-    connectCloudinary();
 
     if (!fs.existsSync(productsDir)) {
         process.exit(1);
@@ -252,16 +249,22 @@ const uploadMissingProducts = async () => {
 
             let imageUrl = '';
             try {
-                const pId = `${normalize(folderName)}_${normalizedFileFlavor}_${Date.now()}`;
-                const result = await cloudinary.uploader.upload(filePath, {
-                    folder: `vapee/products/${folderName}`,
-                    public_id: pId,
-                    use_filename: false,
-                    unique_filename: false,
-                    overwrite: true,
-                    resource_type: 'image'
+                const formData = new FormData();
+                const fileBuffer = fs.readFileSync(filePath);
+                const blob = new Blob([fileBuffer]);
+                formData.append('file', blob, file);
+                formData.append('userkey', process.env.VGYME);
+
+                const response = await fetch('https://vgy.me/upload', {
+                    method: 'POST',
+                    body: formData
                 });
-                imageUrl = result.secure_url;
+
+                const result = await response.json();
+                if (result.error) {
+                    throw new Error(result.message || 'vgy.me upload failed');
+                }
+                imageUrl = result.image;
             } catch (err) {
                 console.error(`    [ERROR] Upload failed: ${err.message}`);
                 errors.push({ folder: folderName, file: rawFileName, error: err.message });

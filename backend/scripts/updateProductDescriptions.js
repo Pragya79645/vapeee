@@ -27,7 +27,10 @@ const generateDescription = (product) => {
 
     // Check if it's a vape product
     const vapeKeywords = ['vape', 'vaping', 'e-juice', 'e-liquid', 'pod', 'disposable', 'coil', 'tank', 'kit'];
-    const isVape = categoriesList.some(cat => vapeKeywords.some(keyword => cat.toLowerCase().includes(keyword)));
+    const isVape = categoriesList.some(cat => {
+        const catString = String(cat || '');
+        return vapeKeywords.some(keyword => catString.toLowerCase().includes(keyword));
+    });
 
     // Calculate total pods/units based on variants
     let podInfo = '';

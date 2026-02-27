@@ -219,11 +219,29 @@ async function upsertCloverProduct(groupData) {
     if (!existing) doc.productId = productId;
 
     if (existing) {
-        // Preserve existing images if sync doesn't bring new ones
-        if (images.length === 0 && existing.images && existing.images.length > 0) {
+        // 1. Prioritize local images (vgy.me/enriched) over Clover images.
+        // If we have local images, we keep them.
+        if (existing.images && existing.images.length > 0) {
             doc.images = existing.images;
         }
-        // Preserve existing DB-only fields
+
+        // 2. Preserve existing description if it's richer/longer than Clover's or if Clover's is empty
+        if (existing.description && (!description || existing.description.length > description.length)) {
+            doc.description = existing.description;
+        }
+
+        // 3. Variant Image Preservation: Protect local variant-specific images.
+        if (existing.variants && existing.variants.length > 0) {
+            doc.variants = variants.map(nv => {
+                const ev = existing.variants.find(v => (v.cloverItemId === nv.cloverItemId) || (nv.sku && v.sku === nv.sku));
+                if (ev && ev.image && !nv.image) {
+                    return { ...nv, image: ev.image };
+                }
+                return nv;
+            });
+        }
+
+        // Preserve existing manually-set DB fields (Fields Clover doesn't have)
         doc.bestseller = existing.bestseller;
         doc.sweetnessLevel = existing.sweetnessLevel;
         doc.mintLevel = existing.mintLevel;

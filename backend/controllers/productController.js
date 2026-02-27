@@ -1,4 +1,4 @@
-import { v2 as cloudinary } from 'cloudinary';
+import { uploadToVgyMe } from '../utils/vgyMe.js';
 import xlsx from 'xlsx';
 import Product from '../models/productModel.js';
 import Category from '../models/categoryModel.js';
@@ -188,13 +188,12 @@ const addProduct = async (req, res) => {
         for (const image of mainImages) {
             if (image) {
                 try {
-                    const result = await cloudinary.uploader.upload(image.path, { resource_type: "image", folder: "products" });
+                    const result = await uploadToVgyMe(image.path);
                     imagesResults.push({
-                        url: result.secure_url.toString(),
-                        public_id: result.public_id.toString(),
+                        url: result.url,
                     });
                 } catch (uploadErr) {
-                    console.error('Cloudinary upload failed for file:', image.path, uploadErr);
+                    console.error('vgy.me upload failed for file:', image.path, uploadErr);
                 }
             }
         }
@@ -209,10 +208,10 @@ const addProduct = async (req, res) => {
         for (let i = 0; i < parsedVariants.length; i++) {
             if (variantImageMap[i]) {
                 try {
-                    const result = await cloudinary.uploader.upload(variantImageMap[i].path, { resource_type: "image", folder: "products/variants" });
-                    parsedVariants[i].image = result.secure_url.toString();
+                    const result = await uploadToVgyMe(variantImageMap[i].path);
+                    parsedVariants[i].image = result.url;
                 } catch (uploadErr) {
-                    console.error('Cloudinary upload failed for variant file:', variantImageMap[i].path, uploadErr);
+                    console.error('vgy.me upload failed for variant file:', variantImageMap[i].path, uploadErr);
                 }
             }
         }
@@ -414,6 +413,8 @@ const removeProduct = async (req, res) => {
         });
 
         // Delete each image from Cloudinary
+        // vgy.me doesn't easily support API deletion for free tier, so we just remove from DB
+        /*
         await Promise.all(
             product.images.map(async (img) => {
                 if (img.public_id) {
@@ -421,6 +422,7 @@ const removeProduct = async (req, res) => {
                 }
             })
         )
+        */
         await product.deleteOne();
 
         // Remove references to this product from all user carts so deleted products don't remain in carts
@@ -544,16 +546,12 @@ const updateProduct = async (req, res) => {
             const file = mainImages[idx];
             if (file) {
                 try {
-                    const result = await cloudinary.uploader.upload(file.path, { resource_type: "image", folder: "products" });
-                    if (product.images[idx] && product.images[idx].public_id) {
-                        try { await cloudinary.uploader.destroy(product.images[idx].public_id); } catch (e) { }
-                    }
+                    const result = await uploadToVgyMe(file.path);
                     product.images[idx] = {
-                        url: result.secure_url.toString(),
-                        public_id: result.public_id.toString()
+                        url: result.url,
                     };
                 } catch (uploadErr) {
-                    console.error('Cloudinary upload failed during update for file:', file.path, uploadErr);
+                    console.error('vgy.me upload failed during update for file:', file.path, uploadErr);
                 }
             }
         }
@@ -562,10 +560,10 @@ const updateProduct = async (req, res) => {
         for (let i = 0; i < parsedVariants.length; i++) {
             if (variantImageMap[i]) {
                 try {
-                    const result = await cloudinary.uploader.upload(variantImageMap[i].path, { resource_type: "image", folder: "products/variants" });
-                    parsedVariants[i].image = result.secure_url.toString();
+                    const result = await uploadToVgyMe(variantImageMap[i].path);
+                    parsedVariants[i].image = result.url;
                 } catch (uploadErr) {
-                    console.error('Cloudinary upload failed for variant file:', variantImageMap[i].path, uploadErr);
+                    console.error('vgy.me upload failed for variant file:', variantImageMap[i].path, uploadErr);
                 }
             }
         }
