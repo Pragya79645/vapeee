@@ -19,8 +19,10 @@ const connectDB = async () => {
 const generateDescription = (product) => {
     const name = product.name || 'This product';
     const flavour = product.flavour || 'unique flavor';
+
+    // Extract category names if they are objects
     const categoriesList = product.categories && product.categories.length > 0
-        ? product.categories
+        ? product.categories.map(c => typeof c === 'string' ? c : (c.name || 'vaping'))
         : ['vaping'];
 
     const categories = categoriesList.join(', ');
@@ -55,7 +57,7 @@ const generateDescription = (product) => {
     const experienceType = isVape ? 'vaping' : 'user';
     let description = `${name} is an exceptional ${categories} product that delivers an outstanding ${experienceType} experience. `;
 
-    if (flavour) {
+    if (flavour && flavour !== 'unique flavor') {
         description += `This premium ${isVape ? 'vape' : 'product'} features the exquisite flavor of ${flavour}, carefully crafted to provide a satisfying and authentic taste${isVape ? ' with every puff' : ''}. `;
     }
 
@@ -81,19 +83,21 @@ const generateDescription = (product) => {
     return description;
 };
 
-// Update products with empty descriptions
-const updateProductDescriptions = async () => {
+// Update products with empty or broken descriptions
+const updateProductDescriptions = async (force = false) => {
     try {
-        // Find all products with empty or missing descriptions
-        const products = await Product.find({
+        // Find all products with empty, missing, or broken descriptions
+        const query = force ? {} : {
             $or: [
                 { description: { $exists: false } },
                 { description: '' },
-                { description: null }
+                { description: null },
+                { description: { $regex: /cloverId|ObjectId/i } } // Fix broken ones
             ]
-        });
+        };
 
-        console.log(`Found ${products.length} products with empty descriptions`);
+        const products = await Product.find(query);
+        console.log(`Found ${products.length} products to process`);
 
         if (products.length === 0) {
             console.log('No products need updating. All products have descriptions.');
