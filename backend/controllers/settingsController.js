@@ -1,5 +1,6 @@
 import Settings from '../models/settingsModel.js';
 import { uploadToVgyMe } from '../utils/vgyMe.js';
+import fs from 'fs';
 
 // Return the single settings document (create defaults if none exists)
 export const getSettings = async (req, res) => {
@@ -21,6 +22,21 @@ export const getSettings = async (req, res) => {
             { src: '', title: '', subtitle: '', slot: 'grid' },
             { src: '', title: '', subtitle: '', slot: 'grid' }
           ]
+        },
+        featured: {
+          title: 'New Arrival',
+          product: { src: '', title: '', subtitle: '', link: '' },
+          sideItems: [
+            { src: '', title: '', subtitle: '', link: '' },
+            { src: '', title: '', subtitle: '', link: '' }
+          ]
+        },
+        bestSellers: {
+          title: 'BEST SELLERS',
+          subtitle: "Discover Knight St. Vape's most popular products! Shop top-rated best sellers."
+        },
+        grid: {
+          items: []
         }
       });
     } else {
@@ -71,22 +87,61 @@ export const updateSettings = async (req, res) => {
       }
     }
 
+    // Handle Featured Section
+    if (payload.featured) {
+      settings.featured = typeof payload.featured === 'string' ? JSON.parse(payload.featured) : payload.featured;
+    }
+
+    // Handle Best Sellers
+    if (payload.bestSellers) {
+      settings.bestSellers = typeof payload.bestSellers === 'string' ? JSON.parse(payload.bestSellers) : payload.bestSellers;
+    }
+
+    // Handle Grid
+    if (payload.grid) {
+      settings.grid = typeof payload.grid === 'string' ? JSON.parse(payload.grid) : payload.grid;
+    }
+
     // Handle Banner File Uploads
     const files = req.files || [];
     if (files.length > 0) {
-      for (const file of files) {
-        if (file.fieldname.startsWith('hero_slide_')) {
-          const idx = parseInt(file.fieldname.replace('hero_slide_', ''));
-          if (!isNaN(idx) && settings.hero.slides[idx]) {
-            try {
+      const uploadPromises = files.map(async (file) => {
+        try {
+          if (file.fieldname.startsWith('hero_slide_')) {
+            const idx = parseInt(file.fieldname.replace('hero_slide_', ''));
+            if (!isNaN(idx) && settings?.hero?.slides?.[idx]) {
               const result = await uploadToVgyMe(file.path);
               settings.hero.slides[idx].src = result.url;
-            } catch (uploadErr) {
-              console.error(`vgy.me upload failed for hero slide ${idx}:`, uploadErr);
+            }
+          } else if (file.fieldname === 'featured_image') {
+            const result = await uploadToVgyMe(file.path);
+            if (settings.featured) settings.featured.product.src = result.url;
+          } else if (file.fieldname.startsWith('side_image_')) {
+            const idx = parseInt(file.fieldname.replace('side_image_', ''));
+            if (!isNaN(idx) && settings?.featured?.sideItems?.[idx]) {
+              const result = await uploadToVgyMe(file.path);
+              settings.featured.sideItems[idx].src = result.url;
+            }
+          } else if (file.fieldname.startsWith('grid_image_')) {
+            const idx = parseInt(file.fieldname.replace('grid_image_', ''));
+            if (!isNaN(idx) && settings?.grid?.items?.[idx]) {
+              const result = await uploadToVgyMe(file.path);
+              settings.grid.items[idx].src = result.url;
             }
           }
+        } catch (uploadErr) {
+          console.error(`vgy.me upload failed for field ${file.fieldname}:`, uploadErr);
+        } finally {
+          // Always try to delete the temporary file after processing
+          try {
+            await fs.promises.unlink(file.path);
+          } catch (unlinkErr) {
+            console.error(`Failed to delete temporary file ${file.path}:`, unlinkErr);
+          }
         }
-      }
+      });
+
+      await Promise.all(uploadPromises);
     }
 
     await settings.save();

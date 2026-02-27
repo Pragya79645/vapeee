@@ -253,29 +253,35 @@ function Collection() {
             // Flatten products first
             let filtered = flattenProducts(memoizedProducts);
 
-            // filter by brand
+            // filter by category
             if (category && category.length) {
+                const lowerCategory = category.map(c => c.toLowerCase());
                 filtered = filtered.filter(item => {
                     if (item.categories && Array.isArray(item.categories)) {
-                        return item.categories.some(cat => category.includes(cat));
+                        return item.categories.some(cat => {
+                            const catName = typeof cat === 'string' ? cat : (cat.name || '');
+                            return lowerCategory.includes(catName.toLowerCase());
+                        });
                     }
                     if (item.category) {
-                        return category.includes(item.category);
+                        return lowerCategory.includes(item.category.toLowerCase());
                     }
                     return false;
                 });
             }
 
             if (brand && brand.length) {
-                filtered = filtered.filter(item => item.brand && brand.includes(item.brand));
+                const lowerBrand = brand.map(b => b.toLowerCase());
+                filtered = filtered.filter(item => item.brand && lowerBrand.includes(item.brand.toLowerCase()));
             }
 
             // filter by flavour
             if (flavour && flavour.length) {
+                const lowerFlavour = flavour.map(f => f.toLowerCase());
                 // Check both product flavour and variant flavour if available
                 filtered = filtered.filter(item => {
-                    if (item.flavour && flavour.includes(item.flavour)) return true;
-                    if (item.variantFlavour && flavour.includes(item.variantFlavour)) return true; // Check variant specific flavour
+                    if (item.flavour && lowerFlavour.includes(item.flavour.toLowerCase())) return true;
+                    if (item.variantFlavour && lowerFlavour.includes(item.variantFlavour.toLowerCase())) return true; // Check variant specific flavour
                     return false;
                 });
             }
@@ -315,7 +321,11 @@ function Collection() {
             }
             // filter by type
             if (type && type.length) {
-                filtered = filtered.filter(item => (item.subCategory && type.includes(item.subCategory)) || (item.type && type.includes(item.type)));
+                const lowerType = type.map(t => t.toLowerCase());
+                filtered = filtered.filter(item =>
+                    (item.subCategory && lowerType.includes(item.subCategory.toLowerCase())) ||
+                    (item.type && lowerType.includes(item.type.toLowerCase()))
+                );
             }
             // support searching across name, brand, category, subCategory, description and variants
             if (activeQuery) {
@@ -378,7 +388,14 @@ function Collection() {
                             const id = `category-${label}`;
                             return (
                                 <div key={label} className="flex gap-2 items-center">
-                                    <input id={id} type="checkbox" value={label} onChange={(e) => handleToggle('TOGGLE_CATEGORY', e.target.value)} className="w-3" />
+                                    <input
+                                        id={id}
+                                        type="checkbox"
+                                        value={label}
+                                        checked={category.includes(label) || category.some(c => c.toLowerCase() === label.toLowerCase())}
+                                        onChange={(e) => handleToggle('TOGGLE_CATEGORY', e.target.value)}
+                                        className="w-3"
+                                    />
                                     <label htmlFor={id}>{label}</label>
                                 </div>
                             );
@@ -400,7 +417,14 @@ function Collection() {
                             const id = `brand-${label}`;
                             return (
                                 <div key={label} className="flex gap-2 items-center">
-                                    <input id={id} type="checkbox" value={label} onChange={(e) => handleToggle('TOGGLE_BRAND', e.target.value)} className="w-3" />
+                                    <input
+                                        id={id}
+                                        type="checkbox"
+                                        value={label}
+                                        checked={brand.includes(label) || brand.some(b => b.toLowerCase() === label.toLowerCase())}
+                                        onChange={(e) => handleToggle('TOGGLE_BRAND', e.target.value)}
+                                        className="w-3"
+                                    />
                                     <label htmlFor={id}>{label}</label>
                                 </div>
                             );
@@ -422,7 +446,14 @@ function Collection() {
                             const id = `flavour-${label}`;
                             return (
                                 <div key={label} className="flex gap-2 items-center">
-                                    <input id={id} type="checkbox" value={label} onChange={(e) => handleToggle('TOGGLE_FLAVOUR', e.target.value)} className="w-3" />
+                                    <input
+                                        id={id}
+                                        type="checkbox"
+                                        value={label}
+                                        checked={flavour.includes(label) || flavour.some(f => f.toLowerCase() === label.toLowerCase())}
+                                        onChange={(e) => handleToggle('TOGGLE_FLAVOUR', e.target.value)}
+                                        className="w-3"
+                                    />
                                     <label htmlFor={id}>{label}</label>
                                 </div>
                             );
@@ -446,7 +477,14 @@ function Collection() {
                             const id = `price-${label}`;
                             return (
                                 <div key={label} className="flex gap-2 items-center">
-                                    <input id={id} type="checkbox" value={label} onChange={(e) => handleToggle('TOGGLE_PRICE', e.target.value)} className="w-3" />
+                                    <input
+                                        id={id}
+                                        type="checkbox"
+                                        value={label}
+                                        checked={priceRange.includes(label)}
+                                        onChange={(e) => handleToggle('TOGGLE_PRICE', e.target.value)}
+                                        className="w-3"
+                                    />
                                     <label htmlFor={id}>{label}</label>
                                 </div>
                             );

@@ -1,0 +1,1061 @@
+[
+  {
+    "_id": "69a1729b5e5c6f1f7b78529f",
+    "productId": "A0A2QX1BHQ81C",
+    "externalCloverId": "A0A2QX1BHQ81C",
+    "name": "G- Rollz Narcos Truth Tray",
+    "brand": "",
+    "categories": [
+      {
+        "cloverId": "HFJBM2RQQD4NR",
+        "name": "Smoking Accesories",
+        "_id": "69a185dfafa64dd8174cd508"
+      }
+    ],
+    "flavour": "",
+    "variants": [
+      {
+        "size": "G- Rollz Narcos Truth Tray",
+        "flavour": "",
+        "price": 15.99,
+        "cost": 0,
+        "quantity": 1,
+        "cloverItemId": "A0A2QX1BHQ81C",
+        "sku": "0602728154982",
+        "showOnPOS": true,
+        "_id": "69a185dfafa64dd8174cd509"
+      }
+    ],
+    "description": "G- Rollz Narcos Truth Tray is an exceptional Smoking Accesories product that delivers an outstanding user experience.  Available in multiple sizes: G- Rollz Narcos Truth Tray.  With a sweetness level of 5/10, this product delivers a perfectly balanced taste experience. Designed with the adult user in mind, this product adheres to all specifications and regulatory guidelines set by governing authorities. Each unit is manufactured to the highest quality standards, ensuring consistency, safety, and satisfaction. The sleek and convenient design makes it perfect for on-the-go use, while the premium ingredients guarantee a smooth and enjoyable user experience. Please note: This product is intended exclusively for adult users aged 19 and over. By purchasing this product, you confirm that you meet the legal age requirements in your jurisdiction. Always use responsibly and in accordance with local laws and regulations.",
+    "inStock": true,
+    "stockCount": 1,
+    "images": [],
+    "price": 15.99,
+    "showOnPOS": true,
+    "otherFlavours": [],
+    "bestseller": false,
+    "sweetnessLevel": 5,
+    "mintLevel": 0,
+    "modifierGroups": [],
+    "taxRates": [
+      {
+        "id": "ZMPX3E0TSQFA4",
+        "name": "Gst",
+        "rate": 500000,
+        "isDefault": false,
+        "items": {
+          "elements": [
+            {
+              "id": "A0A2QX1BHQ81C"
+            }
+          ]
+        }
+      },
+      {
+        "id": "BR68GZVSQK8BP",
+        "name": "Pst ",
+        "rate": 700000,
+        "isDefault": false,
+        "items": {
+          "elements": [
+            {
+              "id": "A0A2QX1BHQ81C"
+            }
+          ]
+        }
+      }
+    ],
+    "revenueClass": "",
+    "createdAt": "2026-02-27T10:31:55.184Z",
+    "updatedAt": "2026-02-27T11:54:07.027Z",
+    "__v": 2,
+    "cloverSynced": true
+  },
+  {
+    "_id": "69a1629f754180a8b56097c2",
+    "productId": "HGK2GZZBKPFKM",
+    "name": "clovertestproduct",
+    "categories": [
+      {
+        "cloverId": "DWSWJGSRY3ZET",
+        "name": "Weed Vapouriser",
+        "_id": "69a18d2c890e57c4d4f6e1f8"
+      }
+    ],
+    "flavour": "various",
+    "variants": [
+      {
+        "size": "clovertestproduct",
+        "flavour": "clovertestproduct",
+        "price": 44,
+        "cost": 0,
+        "quantity": 43,
+        "cloverItemId": "5W3MA12RFWWJY",
+        "showOnPOS": true,
+        "_id": "69a18d2c890e57c4d4f6e1f9"
+      }
+    ],
+    "description": "clovertestproduct is an exceptional vaping product that delivers an outstanding vaping experience. This premium vape features the exquisite flavor of various, carefully crafted to provide a satisfying and authentic taste with every puff.  Available in multiple sizes: clovertestproduct.  With a sweetness level of 5/10, this product delivers a perfectly balanced taste experience. Designed with the adult user in mind, this product adheres to all specifications and regulatory guidelines set by governing authorities. Each unit is manufactured to the highest quality standards, ensuring consistency, safety, and satisfaction. The sleek and convenient design makes it perfect for on-the-go use, while the premium ingredients guarantee a smooth and enjoyable vaping experience. Please note: This product is intended exclusively for adult users aged 19 and over. By purchasing this product, you confirm that you meet the legal age requirements in your jurisdiction. Always use responsibly and in accordance with local laws and regulations.",
+    "inStock": true,
+    "stockCount": 43,
+    "images": [],
+    "price": 44,
+    "showOnPOS": true,
+    "otherFlavours": [],
+    "bestseller": false,
+    "sweetnessLevel": 5,
+    "mintLevel": 0,
+    "modifierGroups": [],
+    "taxRates": [],
+    "cloverSynced": true,
+    "createdAt": "2026-02-27T09:23:43.947Z",
+    "updatedAt": "2026-02-27T12:25:16.637Z",
+    "__v": 6,
+    "cloverItemGroupId": "HGK2GZZBKPFKM",
+    "brand": "clovertestproduct",
+    "externalCloverId": "HGK2GZZBKPFKM"
+  },
+  {
+    "_id": "69a16273754180a8b5608c73",
+    "productId": "smart_group_7Y3EW5P97JDQG",
+    "externalCloverId": "smart_group_7Y3EW5P97JDQG",
+    "cloverItemGroupId": "smart_group_7Y3EW5P97JDQG",
+    "name": "Royal Honey",
+    "brand": "Royal Honey",
+    "categories": [
+      {
+        "cloverId": "2SYEHFH1WS30Y",
+        "name": "Snacks",
+        "_id": "69a18607afa64dd8174ce1a9"
+      }
+    ],
+    "flavour": "",
+    "variants": [
+      {
+        "size": "Royal Honey",
+        "flavour": "Royal Honey",
+        "price": 9.99,
+        "cost": 0,
+        "quantity": 3,
+        "cloverItemId": "7Y3EW5P97JDQG",
+        "sku": "9555755800043",
+        "showOnPOS": true,
+        "_id": "69a18607afa64dd8174ce1aa"
+      },
+      {
+        "size": "Royal Honey Box",
+        "flavour": "Royal Honey Box",
+        "price": 50,
+        "cost": 0,
+        "quantity": 15,
+        "cloverItemId": "PEGQ9BRCWQJ0G",
+        "sku": "9555755800036",
+        "showOnPOS": true,
+        "_id": "69a18607afa64dd8174ce1ab"
+      }
+    ],
+    "description": "Royal Honey is an exceptional Snacks product that delivers an outstanding user experience.  Available in multiple sizes: Royal Honey, Royal Honey Box.  With a sweetness level of 5/10, this product delivers a perfectly balanced taste experience. Designed with the adult user in mind, this product adheres to all specifications and regulatory guidelines set by governing authorities. Each unit is manufactured to the highest quality standards, ensuring consistency, safety, and satisfaction. The sleek and convenient design makes it perfect for on-the-go use, while the premium ingredients guarantee a smooth and enjoyable user experience. Please note: This product is intended exclusively for adult users aged 19 and over. By purchasing this product, you confirm that you meet the legal age requirements in your jurisdiction. Always use responsibly and in accordance with local laws and regulations.",
+    "inStock": true,
+    "stockCount": 18,
+    "images": [],
+    "price": 9.99,
+    "showOnPOS": true,
+    "otherFlavours": [],
+    "bestseller": false,
+    "sweetnessLevel": 5,
+    "mintLevel": 0,
+    "modifierGroups": [],
+    "taxRates": [
+      {
+        "id": "ZMPX3E0TSQFA4",
+        "name": "Gst",
+        "rate": 500000,
+        "isDefault": false,
+        "items": {
+          "elements": [
+            {
+              "id": "7Y3EW5P97JDQG"
+            }
+          ]
+        }
+      },
+      {
+        "id": "BR68GZVSQK8BP",
+        "name": "Pst ",
+        "rate": 700000,
+        "isDefault": false,
+        "items": {
+          "elements": [
+            {
+              "id": "7Y3EW5P97JDQG"
+            }
+          ]
+        }
+      }
+    ],
+    "cloverSynced": true,
+    "createdAt": "2026-02-27T09:22:59.444Z",
+    "updatedAt": "2026-02-27T11:54:47.221Z",
+    "__v": 4
+  },
+  {
+    "_id": "69a16273754180a8b5608c6a",
+    "productId": "smart_group_2SAGX8WR9SD7W",
+    "externalCloverId": "smart_group_2SAGX8WR9SD7W",
+    "cloverItemGroupId": "smart_group_2SAGX8WR9SD7W",
+    "name": "Duracell AA",
+    "brand": "Duracell AA",
+    "categories": [
+      {
+        "cloverId": "A5CFE7GMT5P1M",
+        "name": "Battery",
+        "_id": "69a18607afa64dd8174ce1a0"
+      }
+    ],
+    "flavour": "",
+    "variants": [
+      {
+        "size": "Duracell AA",
+        "flavour": "Duracell AA",
+        "price": 7.99,
+        "cost": 0,
+        "quantity": 12,
+        "cloverItemId": "2SAGX8WR9SD7W",
+        "sku": "041333415017",
+        "showOnPOS": true,
+        "_id": "69a18607afa64dd8174ce1a1"
+      },
+      {
+        "size": "Duracell AA 2 CT",
+        "flavour": "Duracell AA 2 CT",
+        "price": 5.99,
+        "cost": 0,
+        "quantity": 17,
+        "cloverItemId": "H2W6WBAXR6DXM",
+        "sku": "041333224015",
+        "showOnPOS": true,
+        "_id": "69a18607afa64dd8174ce1a2"
+      }
+    ],
+    "description": "Duracell AA is an exceptional Battery product that delivers an outstanding user experience.  Available in multiple sizes: Duracell AA, Duracell AA 2 CT.  With a sweetness level of 5/10, this product delivers a perfectly balanced taste experience. Designed with the adult user in mind, this product adheres to all specifications and regulatory guidelines set by governing authorities. Each unit is manufactured to the highest quality standards, ensuring consistency, safety, and satisfaction. The sleek and convenient design makes it perfect for on-the-go use, while the premium ingredients guarantee a smooth and enjoyable user experience. Please note: This product is intended exclusively for adult users aged 19 and over. By purchasing this product, you confirm that you meet the legal age requirements in your jurisdiction. Always use responsibly and in accordance with local laws and regulations.",
+    "inStock": true,
+    "stockCount": 29,
+    "images": [],
+    "price": 5.99,
+    "showOnPOS": true,
+    "otherFlavours": [],
+    "bestseller": false,
+    "sweetnessLevel": 5,
+    "mintLevel": 0,
+    "modifierGroups": [],
+    "taxRates": [
+      {
+        "id": "ZMPX3E0TSQFA4",
+        "name": "Gst",
+        "rate": 500000,
+        "isDefault": false,
+        "items": {
+          "elements": [
+            {
+              "id": "2SAGX8WR9SD7W"
+            }
+          ]
+        }
+      },
+      {
+        "id": "BR68GZVSQK8BP",
+        "name": "Pst ",
+        "rate": 700000,
+        "isDefault": false,
+        "items": {
+          "elements": [
+            {
+              "id": "2SAGX8WR9SD7W"
+            }
+          ]
+        }
+      }
+    ],
+    "cloverSynced": true,
+    "createdAt": "2026-02-27T09:22:59.245Z",
+    "updatedAt": "2026-02-27T11:54:47.067Z",
+    "__v": 4
+  },
+  {
+    "_id": "69a16273754180a8b5608c5e",
+    "productId": "GSKD5NWPEHG0E",
+    "externalCloverId": "GSKD5NWPEHG0E",
+    "cloverItemGroupId": "GSKD5NWPEHG0E",
+    "name": "Beast Nic 4000 Puff",
+    "brand": "Beast Nic 4000 Puff",
+    "categories": [
+      {
+        "cloverId": "W38J8AN8KC5SG",
+        "name": "Disposable Vapes",
+        "_id": "69a18606afa64dd8174ce194"
+      }
+    ],
+    "flavour": "",
+    "variants": [
+      {
+        "size": "Beast Nic 4000 Puff Pineapple Coconut",
+        "flavour": "Beast Nic 4000 Puff Pineapple Coconut",
+        "price": 19.99,
+        "cost": 0,
+        "quantity": 5,
+        "cloverItemId": "6N9GP4PES3KWY",
+        "sku": "6973488195169",
+        "showOnPOS": true,
+        "_id": "69a18606afa64dd8174ce195"
+      },
+      {
+        "size": "Beast Nic 4000 Puff Strawberry Peach Lemon",
+        "flavour": "Beast Nic 4000 Puff Strawberry Peach Lemon",
+        "price": 19.99,
+        "cost": 0,
+        "quantity": 4,
+        "cloverItemId": "TQA3AASJCKZQ2",
+        "sku": "6973488194902",
+        "showOnPOS": true,
+        "_id": "69a18606afa64dd8174ce196"
+      },
+      {
+        "size": "Beast Nic 4000 Puff Grape Ice",
+        "flavour": "Beast Nic 4000 Puff Grape Ice",
+        "price": 19.99,
+        "cost": 0,
+        "quantity": 4,
+        "cloverItemId": "SW548HWF1X7Y6",
+        "sku": "6973488194599",
+        "showOnPOS": true,
+        "_id": "69a18606afa64dd8174ce197"
+      },
+      {
+        "size": "Beast Nic 4000 Puff Coffee",
+        "flavour": "Beast Nic 4000 Puff Coffee",
+        "price": 19.99,
+        "cost": 0,
+        "quantity": 4,
+        "cloverItemId": "55YN59PZTA5Y6",
+        "sku": "6973488195800",
+        "showOnPOS": true,
+        "_id": "69a18606afa64dd8174ce198"
+      },
+      {
+        "size": "Beast Nic 4000 Puff Mint",
+        "flavour": "Beast Nic 4000 Puff Mint",
+        "price": 19.99,
+        "cost": 0,
+        "quantity": 5,
+        "cloverItemId": "TGKKVP6AGNAQJ",
+        "sku": "6973488194438",
+        "showOnPOS": true,
+        "_id": "69a18606afa64dd8174ce199"
+      }
+    ],
+    "description": "Beast Nic 4000 Puff is an exceptional Disposable Vapes product that delivers an outstanding vaping experience.  Available in multiple sizes: Beast Nic 4000 Puff Pineapple Coconut, Beast Nic 4000 Puff Strawberry Peach Lemon, Beast Nic 4000 Puff Grape Ice, Beast Nic 4000 Puff Coffee, Beast Nic 4000 Puff Mint.  With a sweetness level of 5/10, this product delivers a perfectly balanced taste experience. Designed with the adult user in mind, this product adheres to all specifications and regulatory guidelines set by governing authorities. Each unit is manufactured to the highest quality standards, ensuring consistency, safety, and satisfaction. The sleek and convenient design makes it perfect for on-the-go use, while the premium ingredients guarantee a smooth and enjoyable vaping experience. Please note: This product is intended exclusively for adult users aged 19 and over. By purchasing this product, you confirm that you meet the legal age requirements in your jurisdiction. Always use responsibly and in accordance with local laws and regulations.",
+    "inStock": true,
+    "stockCount": 22,
+    "images": [],
+    "price": 19.99,
+    "showOnPOS": true,
+    "otherFlavours": [],
+    "bestseller": false,
+    "sweetnessLevel": 5,
+    "mintLevel": 0,
+    "modifierGroups": [],
+    "taxRates": [
+      {
+        "id": "ZMPX3E0TSQFA4",
+        "name": "Gst",
+        "rate": 500000,
+        "isDefault": false,
+        "items": {
+          "elements": [
+            {
+              "id": "6N9GP4PES3KWY"
+            }
+          ]
+        }
+      },
+      {
+        "id": "BP5648HYM9EW4",
+        "name": "Vape Tax ",
+        "rate": 2000000,
+        "isDefault": false,
+        "items": {
+          "elements": [
+            {
+              "id": "6N9GP4PES3KWY"
+            }
+          ]
+        }
+      }
+    ],
+    "cloverSynced": true,
+    "createdAt": "2026-02-27T09:22:59.045Z",
+    "updatedAt": "2026-02-27T11:54:46.911Z",
+    "__v": 4
+  },
+  {
+    "_id": "69a16272754180a8b5608c4c",
+    "productId": "JT3KDB0SE1VSG",
+    "externalCloverId": "JT3KDB0SE1VSG",
+    "cloverItemGroupId": "JT3KDB0SE1VSG",
+    "name": "Draggg",
+    "brand": "Draggg",
+    "categories": [
+      {
+        "cloverId": "W38J8AN8KC5SG",
+        "name": "Disposable Vapes",
+        "_id": "69a18606afa64dd8174ce17f"
+      }
+    ],
+    "flavour": "",
+    "variants": [
+      {
+        "size": "Draggg Peach Ice",
+        "flavour": "Draggg Peach Ice",
+        "price": 19.99,
+        "cost": 0,
+        "quantity": 9,
+        "cloverItemId": "FA00RHT7R9YFW",
+        "sku": "6972847421826",
+        "showOnPOS": true,
+        "_id": "69a18606afa64dd8174ce180"
+      },
+      {
+        "size": "Draggg Pomegranate Ice",
+        "flavour": "Draggg Pomegranate Ice",
+        "price": 19.99,
+        "cost": 0,
+        "quantity": 10,
+        "cloverItemId": "ESTD4HN1YGA24",
+        "sku": "6972847421833",
+        "showOnPOS": true,
+        "_id": "69a18606afa64dd8174ce181"
+      },
+      {
+        "size": "Draggg Guava Ice",
+        "flavour": "Draggg Guava Ice",
+        "price": 19.99,
+        "cost": 0,
+        "quantity": 9,
+        "cloverItemId": "XD8F0CDJ2FPE0",
+        "sku": "6975455031586",
+        "showOnPOS": true,
+        "_id": "69a18606afa64dd8174ce182"
+      },
+      {
+        "size": "Draggg Watermelon Frozen",
+        "flavour": "Draggg Watermelon Frozen",
+        "price": 19.99,
+        "cost": 0,
+        "quantity": 10,
+        "cloverItemId": "D659XGCTEDJ2P",
+        "sku": "6972847421840",
+        "showOnPOS": true,
+        "_id": "69a18606afa64dd8174ce183"
+      },
+      {
+        "size": "Draggg KiwiPassion Fruit Guava Ice",
+        "flavour": "Draggg KiwiPassion Fruit Guava Ice",
+        "price": 19.99,
+        "cost": 0,
+        "quantity": 9,
+        "cloverItemId": "WGN389Q37QVFJ",
+        "sku": "6972847421871",
+        "showOnPOS": true,
+        "_id": "69a18606afa64dd8174ce184"
+      },
+      {
+        "size": "Draggg Apple Melon",
+        "flavour": "Draggg Apple Melon",
+        "price": 19.99,
+        "cost": 0,
+        "quantity": 10,
+        "cloverItemId": "ATFTD0T7MPZ8C",
+        "sku": "6975455031609",
+        "showOnPOS": true,
+        "_id": "69a18606afa64dd8174ce185"
+      },
+      {
+        "size": "Draggg Watermelon Bubblegum",
+        "flavour": "Draggg Watermelon Bubblegum",
+        "price": 19.99,
+        "cost": 0,
+        "quantity": 8,
+        "cloverItemId": "98KD11G1XNGJ2",
+        "sku": "6972847421055",
+        "showOnPOS": true,
+        "_id": "69a18606afa64dd8174ce186"
+      },
+      {
+        "size": "Draggg Blueberry Watermelon",
+        "flavour": "Draggg Blueberry Watermelon",
+        "price": 19.99,
+        "cost": 0,
+        "quantity": 8,
+        "cloverItemId": "DHRMS7KV8A6YM",
+        "sku": "6972847421857",
+        "showOnPOS": true,
+        "_id": "69a18606afa64dd8174ce187"
+      },
+      {
+        "size": "Draggg Starwberry Watermelon",
+        "flavour": "Draggg Starwberry Watermelon",
+        "price": 19.99,
+        "cost": 0,
+        "quantity": 8,
+        "cloverItemId": "TKEPHVC25VR5E",
+        "sku": "6972847421888",
+        "showOnPOS": true,
+        "_id": "69a18606afa64dd8174ce188"
+      },
+      {
+        "size": "Draggg Dragon Strawberry Ice",
+        "flavour": "Draggg Dragon Strawberry Ice",
+        "price": 19.99,
+        "cost": 0,
+        "quantity": 7,
+        "cloverItemId": "R9A5WMBA7HCEW",
+        "sku": "6972847427422",
+        "showOnPOS": true,
+        "_id": "69a18606afa64dd8174ce189"
+      }
+    ],
+    "description": "Draggg is an exceptional Disposable Vapes product that delivers an outstanding vaping experience.  Available in multiple sizes: Draggg Peach Ice, Draggg Pomegranate Ice, Draggg Guava Ice, Draggg Watermelon Frozen, Draggg KiwiPassion Fruit Guava Ice, Draggg Apple Melon, Draggg Watermelon Bubblegum, Draggg Blueberry Watermelon, Draggg Starwberry Watermelon, Draggg Dragon Strawberry Ice.  With a sweetness level of 5/10, this product delivers a perfectly balanced taste experience. Designed with the adult user in mind, this product adheres to all specifications and regulatory guidelines set by governing authorities. Each unit is manufactured to the highest quality standards, ensuring consistency, safety, and satisfaction. The sleek and convenient design makes it perfect for on-the-go use, while the premium ingredients guarantee a smooth and enjoyable vaping experience. Please note: This product is intended exclusively for adult users aged 19 and over. By purchasing this product, you confirm that you meet the legal age requirements in your jurisdiction. Always use responsibly and in accordance with local laws and regulations.",
+    "inStock": true,
+    "stockCount": 88,
+    "images": [],
+    "price": 19.99,
+    "showOnPOS": true,
+    "otherFlavours": [],
+    "bestseller": false,
+    "sweetnessLevel": 5,
+    "mintLevel": 0,
+    "modifierGroups": [],
+    "taxRates": [
+      {
+        "id": "ZMPX3E0TSQFA4",
+        "name": "Gst",
+        "rate": 500000,
+        "isDefault": false,
+        "items": {
+          "elements": [
+            {
+              "id": "FA00RHT7R9YFW"
+            }
+          ]
+        }
+      },
+      {
+        "id": "BP5648HYM9EW4",
+        "name": "Vape Tax ",
+        "rate": 2000000,
+        "isDefault": false,
+        "items": {
+          "elements": [
+            {
+              "id": "FA00RHT7R9YFW"
+            }
+          ]
+        }
+      }
+    ],
+    "cloverSynced": true,
+    "createdAt": "2026-02-27T09:22:58.798Z",
+    "updatedAt": "2026-02-27T11:54:46.703Z",
+    "__v": 4
+  },
+  {
+    "_id": "69a16272754180a8b5608c3f",
+    "productId": "H2JHJYVZZHS28",
+    "externalCloverId": "H2JHJYVZZHS28",
+    "cloverItemGroupId": "H2JHJYVZZHS28",
+    "name": "Twist Bar",
+    "brand": "Twist Bar",
+    "categories": [
+      {
+        "cloverId": "W38J8AN8KC5SG",
+        "name": "Disposable Vapes",
+        "_id": "69a18606afa64dd8174ce16a"
+      }
+    ],
+    "flavour": "",
+    "variants": [
+      {
+        "size": "Twist Bar Grape Ice/Blueberry Razz Ice",
+        "flavour": "Twist Bar Grape Ice/Blueberry Razz Ice",
+        "price": 29.99,
+        "cost": 0,
+        "quantity": 6,
+        "cloverItemId": "XR5BC4AMWPTER",
+        "sku": "6972847420041",
+        "showOnPOS": true,
+        "_id": "69a18606afa64dd8174ce16b"
+      },
+      {
+        "size": "Twist Bar Blueberry Watermelon/Watermelon Frozen",
+        "flavour": "Twist Bar Blueberry Watermelon/Watermelon Frozen",
+        "price": 29.99,
+        "cost": 0,
+        "quantity": 9,
+        "cloverItemId": "F10AY868F5TTJ",
+        "sku": "6972847420102",
+        "showOnPOS": true,
+        "image": "https://i.vgy.me/RwLCzI.jpg",
+        "_id": "69a18606afa64dd8174ce16c"
+      },
+      {
+        "size": "Twist Bar Mango Ice/ Blackberry Ice",
+        "flavour": "Twist Bar Mango Ice/ Blackberry Ice",
+        "price": 29.99,
+        "cost": 0,
+        "quantity": 8,
+        "cloverItemId": "BSXM3RYSBRSBJ",
+        "sku": "6972847420096",
+        "showOnPOS": true,
+        "image": "https://i.vgy.me/W6sXbs.jpg",
+        "_id": "69a18606afa64dd8174ce16d"
+      },
+      {
+        "size": "Twist Bar Pink Bubblegum/Cool Mint",
+        "flavour": "Twist Bar Pink Bubblegum/Cool Mint",
+        "price": 29.99,
+        "cost": 0,
+        "quantity": 10,
+        "cloverItemId": "C8QCD1PFKM20A",
+        "sku": "6972847420058",
+        "showOnPOS": true,
+        "image": "https://i.vgy.me/n12KJG.jpg",
+        "_id": "69a18606afa64dd8174ce16e"
+      },
+      {
+        "size": "Twist Bar Ice Coffee/ Lattee",
+        "flavour": "Twist Bar Ice Coffee/ Lattee",
+        "price": 29.99,
+        "cost": 0,
+        "quantity": 9,
+        "cloverItemId": "SX4TTGGCJDP70",
+        "sku": "6972847420027",
+        "showOnPOS": true,
+        "image": "https://i.vgy.me/lRMF23.jpg",
+        "_id": "69a18606afa64dd8174ce16f"
+      }
+    ],
+    "description": "Twist Bar is an exceptional Disposable Vapes product that delivers an outstanding vaping experience.  Available in multiple sizes: Twist Bar Grape Ice/Blueberry Razz Ice, Twist Bar Blueberry Watermelon/Watermelon Frozen, Twist Bar Mango Ice/ Blackberry Ice, Twist Bar Pink Bubblegum/Cool Mint, Twist Bar Ice Coffee/ Lattee.  With a sweetness level of 5/10, this product delivers a perfectly balanced taste experience. Designed with the adult user in mind, this product adheres to all specifications and regulatory guidelines set by governing authorities. Each unit is manufactured to the highest quality standards, ensuring consistency, safety, and satisfaction. The sleek and convenient design makes it perfect for on-the-go use, while the premium ingredients guarantee a smooth and enjoyable vaping experience. Please note: This product is intended exclusively for adult users aged 19 and over. By purchasing this product, you confirm that you meet the legal age requirements in your jurisdiction. Always use responsibly and in accordance with local laws and regulations.",
+    "inStock": true,
+    "stockCount": 42,
+    "images": [],
+    "price": 29.99,
+    "showOnPOS": true,
+    "otherFlavours": [],
+    "bestseller": false,
+    "sweetnessLevel": 5,
+    "mintLevel": 0,
+    "modifierGroups": [],
+    "taxRates": [
+      {
+        "id": "ZMPX3E0TSQFA4",
+        "name": "Gst",
+        "rate": 500000,
+        "isDefault": false,
+        "items": {
+          "elements": [
+            {
+              "id": "XR5BC4AMWPTER"
+            }
+          ]
+        }
+      },
+      {
+        "id": "BP5648HYM9EW4",
+        "name": "Vape Tax ",
+        "rate": 2000000,
+        "isDefault": false,
+        "items": {
+          "elements": [
+            {
+              "id": "XR5BC4AMWPTER"
+            }
+          ]
+        }
+      }
+    ],
+    "cloverSynced": true,
+    "createdAt": "2026-02-27T09:22:58.552Z",
+    "updatedAt": "2026-02-27T11:54:46.492Z",
+    "__v": 4
+  },
+  {
+    "_id": "69a16272754180a8b5608c32",
+    "productId": "STE8WR34MTNKC",
+    "externalCloverId": "STE8WR34MTNKC",
+    "cloverItemGroupId": "STE8WR34MTNKC",
+    "name": "O2",
+    "brand": "O2",
+    "categories": [
+      {
+        "cloverId": "W38J8AN8KC5SG",
+        "name": "Disposable Vapes",
+        "_id": "69a18606afa64dd8174ce15a"
+      }
+    ],
+    "flavour": "",
+    "variants": [
+      {
+        "size": "O2 Dragonfruit Blue Raspberry",
+        "flavour": "O2 Dragonfruit Blue Raspberry",
+        "price": 19.99,
+        "cost": 0,
+        "quantity": 6,
+        "cloverItemId": "NRDTNWEFPJ702",
+        "sku": "691768369616",
+        "showOnPOS": true,
+        "_id": "69a18606afa64dd8174ce15b"
+      },
+      {
+        "size": "O2 California Cherry",
+        "flavour": "O2 California Cherry",
+        "price": 19.99,
+        "cost": 0,
+        "quantity": 9,
+        "cloverItemId": "9JBG9D31BVCTY",
+        "sku": "691768369791",
+        "showOnPOS": true,
+        "_id": "69a18606afa64dd8174ce15c"
+      },
+      {
+        "size": "O2 Mexican Mango",
+        "flavour": "O2 Mexican Mango",
+        "price": 19.99,
+        "cost": 0,
+        "quantity": 6,
+        "cloverItemId": "X3TRSNEZG19KY",
+        "sku": "691768369593",
+        "showOnPOS": true,
+        "_id": "69a18606afa64dd8174ce15d"
+      },
+      {
+        "size": "O2 Mint Ice",
+        "flavour": "O2 Mint Ice",
+        "price": 19.99,
+        "cost": 0,
+        "quantity": 8,
+        "cloverItemId": "6XS8FKYWQ4V7R",
+        "sku": "691768369579",
+        "showOnPOS": true,
+        "_id": "69a18606afa64dd8174ce15e"
+      },
+      {
+        "size": "O2 Lush Ice",
+        "flavour": "O2 Lush Ice",
+        "price": 19.99,
+        "cost": 0,
+        "quantity": 9,
+        "cloverItemId": "ZBD2DEBMWQFJY",
+        "sku": "691768369692",
+        "showOnPOS": true,
+        "_id": "69a18606afa64dd8174ce15f"
+      }
+    ],
+    "description": "O2 is an exceptional Disposable Vapes product that delivers an outstanding vaping experience.  Available in multiple sizes: O2 Dragonfruit Blue Raspberry, O2 California Cherry, O2 Mexican Mango, O2 Mint Ice, O2 Lush Ice.  With a sweetness level of 5/10, this product delivers a perfectly balanced taste experience. Designed with the adult user in mind, this product adheres to all specifications and regulatory guidelines set by governing authorities. Each unit is manufactured to the highest quality standards, ensuring consistency, safety, and satisfaction. The sleek and convenient design makes it perfect for on-the-go use, while the premium ingredients guarantee a smooth and enjoyable vaping experience. Please note: This product is intended exclusively for adult users aged 19 and over. By purchasing this product, you confirm that you meet the legal age requirements in your jurisdiction. Always use responsibly and in accordance with local laws and regulations.",
+    "inStock": true,
+    "stockCount": 38,
+    "images": [],
+    "price": 19.99,
+    "showOnPOS": true,
+    "otherFlavours": [],
+    "bestseller": false,
+    "sweetnessLevel": 5,
+    "mintLevel": 0,
+    "modifierGroups": [],
+    "taxRates": [
+      {
+        "id": "ZMPX3E0TSQFA4",
+        "name": "Gst",
+        "rate": 500000,
+        "isDefault": false,
+        "items": {
+          "elements": [
+            {
+              "id": "NRDTNWEFPJ702"
+            }
+          ]
+        }
+      },
+      {
+        "id": "BP5648HYM9EW4",
+        "name": "Vape Tax ",
+        "rate": 2000000,
+        "isDefault": false,
+        "items": {
+          "elements": [
+            {
+              "id": "NRDTNWEFPJ702"
+            }
+          ]
+        }
+      }
+    ],
+    "cloverSynced": true,
+    "createdAt": "2026-02-27T09:22:58.311Z",
+    "updatedAt": "2026-02-27T11:54:46.286Z",
+    "__v": 4
+  },
+  {
+    "_id": "69a16272754180a8b5608c24",
+    "productId": "6NFQ4QFJTAE5C",
+    "externalCloverId": "6NFQ4QFJTAE5C",
+    "cloverItemGroupId": "6NFQ4QFJTAE5C",
+    "name": "Juicy Jay King Size",
+    "brand": "Juicy Jay King Size",
+    "categories": [
+      {
+        "cloverId": "Z7KXD96DNTF7J",
+        "name": "Hemp Paper",
+        "_id": "69a18606afa64dd8174ce149"
+      }
+    ],
+    "flavour": "",
+    "variants": [
+      {
+        "size": "Juicy Jay King Size Pineapple",
+        "flavour": "Juicy Jay King Size Pineapple",
+        "price": 2.99,
+        "cost": 0,
+        "quantity": 24,
+        "cloverItemId": "5ANZH7DCGSF5G",
+        "sku": "716165200185",
+        "showOnPOS": true,
+        "_id": "69a18606afa64dd8174ce14a"
+      },
+      {
+        "size": "Juicy Jay King Size Strawberry Kiwi",
+        "flavour": "Juicy Jay King Size Strawberry Kiwi",
+        "price": 2.99,
+        "cost": 0,
+        "quantity": 0,
+        "cloverItemId": "8RP58WHJ22EDE",
+        "sku": "716165179849",
+        "showOnPOS": true,
+        "_id": "69a18606afa64dd8174ce14b"
+      },
+      {
+        "size": "Juicy Jay King Size Bubblegum",
+        "flavour": "Juicy Jay King Size Bubblegum",
+        "price": 2.99,
+        "cost": 0,
+        "quantity": 24,
+        "cloverItemId": "MJ6K6AFJWPN4T",
+        "sku": "716165201199",
+        "showOnPOS": true,
+        "_id": "69a18606afa64dd8174ce14c"
+      },
+      {
+        "size": "Juicy Jay King Size Blueberry",
+        "flavour": "Juicy Jay King Size Blueberry",
+        "price": 2.99,
+        "cost": 0,
+        "quantity": 24,
+        "cloverItemId": "TT16JRFSEW100",
+        "sku": "716165178750",
+        "showOnPOS": true,
+        "_id": "69a18606afa64dd8174ce14d"
+      },
+      {
+        "size": "Juicy Jay King Size Cherry",
+        "flavour": "Juicy Jay King Size Cherry",
+        "price": 2.99,
+        "cost": 0,
+        "quantity": 22,
+        "cloverItemId": "BXS83NJB43ZNR",
+        "sku": "716165174530",
+        "showOnPOS": true,
+        "_id": "69a18606afa64dd8174ce14e"
+      },
+      {
+        "size": "Juicy Jay King Size Blackberry",
+        "flavour": "Juicy Jay King Size Blackberry",
+        "price": 2.99,
+        "cost": 0,
+        "quantity": 24,
+        "cloverItemId": "6EPRKM35GXPH0",
+        "sku": "716165172567",
+        "showOnPOS": true,
+        "_id": "69a18606afa64dd8174ce14f"
+      }
+    ],
+    "description": "Juicy Jay King Size is an exceptional Hemp Paper product that delivers an outstanding user experience.  Available in multiple sizes: Juicy Jay King Size Pineapple, Juicy Jay King Size Strawberry Kiwi, Juicy Jay King Size Bubblegum, Juicy Jay King Size Blueberry, Juicy Jay King Size Cherry, Juicy Jay King Size Blackberry.  With a sweetness level of 5/10, this product delivers a perfectly balanced taste experience. Designed with the adult user in mind, this product adheres to all specifications and regulatory guidelines set by governing authorities. Each unit is manufactured to the highest quality standards, ensuring consistency, safety, and satisfaction. The sleek and convenient design makes it perfect for on-the-go use, while the premium ingredients guarantee a smooth and enjoyable user experience. Please note: This product is intended exclusively for adult users aged 19 and over. By purchasing this product, you confirm that you meet the legal age requirements in your jurisdiction. Always use responsibly and in accordance with local laws and regulations.",
+    "inStock": true,
+    "stockCount": 118,
+    "images": [],
+    "price": 2.99,
+    "showOnPOS": true,
+    "otherFlavours": [],
+    "bestseller": false,
+    "sweetnessLevel": 5,
+    "mintLevel": 0,
+    "modifierGroups": [],
+    "taxRates": [
+      {
+        "id": "ZMPX3E0TSQFA4",
+        "name": "Gst",
+        "rate": 500000,
+        "isDefault": false,
+        "items": {
+          "elements": [
+            {
+              "id": "5ANZH7DCGSF5G"
+            }
+          ]
+        }
+      },
+      {
+        "id": "BR68GZVSQK8BP",
+        "name": "Pst ",
+        "rate": 700000,
+        "isDefault": false,
+        "items": {
+          "elements": [
+            {
+              "id": "5ANZH7DCGSF5G"
+            }
+          ]
+        }
+      }
+    ],
+    "cloverSynced": true,
+    "createdAt": "2026-02-27T09:22:58.059Z",
+    "updatedAt": "2026-02-27T11:54:46.079Z",
+    "__v": 4
+  },
+  {
+    "_id": "69a16271754180a8b5608c16",
+    "productId": "W55DHYWAZFGJR",
+    "externalCloverId": "W55DHYWAZFGJR",
+    "cloverItemGroupId": "W55DHYWAZFGJR",
+    "name": "Juicy Jay Small",
+    "brand": "Juicy Jay Small",
+    "categories": [
+      {
+        "cloverId": "Z7KXD96DNTF7J",
+        "name": "Hemp Paper",
+        "_id": "69a18605afa64dd8174ce137"
+      }
+    ],
+    "flavour": "",
+    "variants": [
+      {
+        "size": "Juicy Jay Small Maple Syrup",
+        "flavour": "Juicy Jay Small Maple Syrup",
+        "price": 2.49,
+        "cost": 2.49,
+        "quantity": 20,
+        "cloverItemId": "D4A26NGPB8R2E",
+        "sku": "716165178644",
+        "showOnPOS": true,
+        "_id": "69a18605afa64dd8174ce138"
+      },
+      {
+        "size": "Juicy Jay Small Bubblegum",
+        "flavour": "Juicy Jay Small Bubblegum",
+        "price": 2.49,
+        "cost": 2.49,
+        "quantity": 20,
+        "cloverItemId": "TDZQ457E3687M",
+        "sku": "716165179450",
+        "showOnPOS": true,
+        "_id": "69a18605afa64dd8174ce139"
+      },
+      {
+        "size": "Juicy Jay Small Peach Cream",
+        "flavour": "Juicy Jay Small Peach Cream",
+        "price": 2.49,
+        "cost": 2.49,
+        "quantity": 20,
+        "cloverItemId": "TB06KQBHPQJPR",
+        "sku": "716165178507",
+        "showOnPOS": true,
+        "_id": "69a18605afa64dd8174ce13a"
+      },
+      {
+        "size": "Juicy Jay Small Grape",
+        "flavour": "Juicy Jay Small Grape",
+        "price": 2.49,
+        "cost": 2.49,
+        "quantity": 20,
+        "cloverItemId": "NBTW69VQJK00E",
+        "sku": "716165178446",
+        "showOnPOS": true,
+        "_id": "69a18605afa64dd8174ce13b"
+      },
+      {
+        "size": "Juicy Jay Small Watermelon",
+        "flavour": "Juicy Jay Small Watermelon",
+        "price": 2.49,
+        "cost": 2.49,
+        "quantity": 18,
+        "cloverItemId": "VAPNS907CNJBR",
+        "sku": "716165178545",
+        "showOnPOS": true,
+        "_id": "69a18605afa64dd8174ce13c"
+      },
+      {
+        "size": "Juicy Jay Small Black Magic",
+        "flavour": "Juicy Jay Small Black Magic",
+        "price": 2.49,
+        "cost": 2.49,
+        "quantity": 19,
+        "cloverItemId": "C1BXECFWST29Y",
+        "sku": "716165176169",
+        "showOnPOS": true,
+        "_id": "69a18605afa64dd8174ce13d"
+      }
+    ],
+    "description": "Juicy Jay Small is an exceptional Hemp Paper product that delivers an outstanding user experience.  Available in multiple sizes: Juicy Jay Small Maple Syrup, Juicy Jay Small Bubblegum, Juicy Jay Small Peach Cream, Juicy Jay Small Grape, Juicy Jay Small Watermelon, Juicy Jay Small Black Magic.  With a sweetness level of 5/10, this product delivers a perfectly balanced taste experience. Designed with the adult user in mind, this product adheres to all specifications and regulatory guidelines set by governing authorities. Each unit is manufactured to the highest quality standards, ensuring consistency, safety, and satisfaction. The sleek and convenient design makes it perfect for on-the-go use, while the premium ingredients guarantee a smooth and enjoyable user experience. Please note: This product is intended exclusively for adult users aged 19 and over. By purchasing this product, you confirm that you meet the legal age requirements in your jurisdiction. Always use responsibly and in accordance with local laws and regulations.",
+    "inStock": true,
+    "stockCount": 117,
+    "images": [],
+    "price": 2.49,
+    "showOnPOS": true,
+    "otherFlavours": [],
+    "bestseller": false,
+    "sweetnessLevel": 5,
+    "mintLevel": 0,
+    "modifierGroups": [],
+    "taxRates": [
+      {
+        "id": "ZMPX3E0TSQFA4",
+        "name": "Gst",
+        "rate": 500000,
+        "isDefault": false,
+        "items": {
+          "elements": [
+            {
+              "id": "D4A26NGPB8R2E"
+            }
+          ]
+        }
+      },
+      {
+        "id": "BR68GZVSQK8BP",
+        "name": "Pst ",
+        "rate": 700000,
+        "isDefault": false,
+        "items": {
+          "elements": [
+            {
+              "id": "D4A26NGPB8R2E"
+            }
+          ]
+        }
+      }
+    ],
+    "cloverSynced": true,
+    "createdAt": "2026-02-27T09:22:57.810Z",
+    "updatedAt": "2026-02-27T11:54:45.865Z",
+    "__v": 4
+  }
+]

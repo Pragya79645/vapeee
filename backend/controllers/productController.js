@@ -1,5 +1,6 @@
 import { uploadToVgyMe } from '../utils/vgyMe.js';
 import xlsx from 'xlsx';
+import fs from 'fs';
 import Product from '../models/productModel.js';
 import Category from '../models/categoryModel.js';
 import User from '../models/userModel.js';
@@ -183,38 +184,55 @@ const addProduct = async (req, res) => {
             }
         });
 
-        // Upload main images
-        const imagesResults = [];
-        for (const image of mainImages) {
+        // Create a list of all images to upload
+        const uploadTasks = [];
+
+        // Main images
+        Object.keys(mainImages).forEach((idx) => {
+            const image = mainImages[idx];
             if (image) {
-                try {
-                    const result = await uploadToVgyMe(image.path);
-                    imagesResults.push({
-                        url: result.url,
-                    });
-                } catch (uploadErr) {
-                    console.error('vgy.me upload failed for file:', image.path, uploadErr);
-                }
+                uploadTasks.push((async () => {
+                    try {
+                        const result = await uploadToVgyMe(image.path);
+                        imagesResults[idx] = { url: result.url };
+                    } catch (uploadErr) {
+                        console.error('vgy.me upload failed for file:', image.path, uploadErr);
+                    } finally {
+                        try { await fs.promises.unlink(image.path); } catch (e) { }
+                    }
+                })());
             }
-        }
+        });
 
-        if (imagesResults.length === 0) {
-            // It's possible to create without main image if variant images exist, but usually we want main image.
-            // Let's warn but allow? Or strict? Previous code was strict.
-            // return res.status(400).json({ success: false, message: "At least one main image is required" });
-        }
-
-        // Upload variant images and assign to parsedVariants
-        for (let i = 0; i < parsedVariants.length; i++) {
-            if (variantImageMap[i]) {
-                try {
-                    const result = await uploadToVgyMe(variantImageMap[i].path);
-                    parsedVariants[i].image = result.url;
-                } catch (uploadErr) {
-                    console.error('vgy.me upload failed for variant file:', variantImageMap[i].path, uploadErr);
-                }
+        // Variant images
+        parsedVariants.forEach((variant, i) => {
+            const image = variantImageMap[i];
+            if (image) {
+                uploadTasks.push((async () => {
+                    try {
+                        const result = await uploadToVgyMe(image.path);
+                        parsedVariants[i].image = result.url;
+                    } catch (uploadErr) {
+                        console.error('vgy.me upload failed for variant file:', image.path, uploadErr);
+                    } finally {
+                        try { await fs.promises.unlink(image.path); } catch (e) { }
+                    }
+                })());
             }
-        }
+        });
+
+        // Other files that might be in req.files but not picked up (cleanup)
+        files.forEach(f => {
+            const isMain = f.fieldname.startsWith('image');
+            const isVariant = f.fieldname.startsWith('variant_image_');
+            if (!isMain && !isVariant) {
+                uploadTasks.push((async () => {
+                    try { await fs.promises.unlink(f.path); } catch (e) { }
+                })());
+            }
+        });
+
+        await Promise.all(uploadTasks);
 
         // Auto-generate description if empty
         let finalDescription = value.description;
@@ -235,7 +253,7 @@ const addProduct = async (req, res) => {
             name: value.name,
             description: finalDescription,
             price: Number(value.price),
-            images: imagesResults,
+            images: imagesResults.filter(Boolean),
             categories: parsedCategories,
             flavour: value.flavour || "",
             variants: parsedVariants,
@@ -541,32 +559,55 @@ const updateProduct = async (req, res) => {
             }
         });
 
+        // Create a list of all images to upload
+        const uploadTasks = [];
+
         // Update main images
-        for (const idx in mainImages) {
+        Object.keys(mainImages).forEach(idx => {
             const file = mainImages[idx];
             if (file) {
-                try {
-                    const result = await uploadToVgyMe(file.path);
-                    product.images[idx] = {
-                        url: result.url,
-                    };
-                } catch (uploadErr) {
-                    console.error('vgy.me upload failed during update for file:', file.path, uploadErr);
-                }
+                uploadTasks.push((async () => {
+                    try {
+                        const result = await uploadToVgyMe(file.path);
+                        product.images[idx] = { url: result.url };
+                    } catch (uploadErr) {
+                        console.error('vgy.me upload failed during update for file:', file.path, uploadErr);
+                    } finally {
+                        try { await fs.promises.unlink(file.path); } catch (e) { }
+                    }
+                })());
             }
-        }
+        });
 
         // Update variant images
-        for (let i = 0; i < parsedVariants.length; i++) {
-            if (variantImageMap[i]) {
-                try {
-                    const result = await uploadToVgyMe(variantImageMap[i].path);
-                    parsedVariants[i].image = result.url;
-                } catch (uploadErr) {
-                    console.error('vgy.me upload failed for variant file:', variantImageMap[i].path, uploadErr);
-                }
+        parsedVariants.forEach((variant, i) => {
+            const file = variantImageMap[i];
+            if (file) {
+                uploadTasks.push((async () => {
+                    try {
+                        const result = await uploadToVgyMe(file.path);
+                        parsedVariants[i].image = result.url;
+                    } catch (uploadErr) {
+                        console.error('vgy.me upload failed for variant file:', file.path, uploadErr);
+                    } finally {
+                        try { await fs.promises.unlink(file.path); } catch (e) { }
+                    }
+                })());
             }
-        }
+        });
+
+        // Cleanup any other files
+        files.forEach(f => {
+            const isMain = f.fieldname.startsWith('image');
+            const isVariant = f.fieldname.startsWith('variant_image_');
+            if (!isMain && !isVariant) {
+                uploadTasks.push((async () => {
+                    try { await fs.promises.unlink(f.path); } catch (e) { }
+                })());
+            }
+        });
+
+        await Promise.all(uploadTasks);
 
         // Clean up product.images if some indices are empty, keep existing ones
         product.productId = value.productId;

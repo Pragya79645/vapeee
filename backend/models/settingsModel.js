@@ -16,7 +16,19 @@ const SlideSchema = new mongoose.Schema({
 const SettingsSchema = new mongoose.Schema({
   navbar: { type: [NavItemSchema], default: [] },
   hero: {
-    slides: { type: [SlideSchema], default: [] }
+    slides: { type: [SlideSchema], default: [] } // Banner slides
+  },
+  featured: {
+    title: { type: String, default: 'New Arrival' },
+    product: SlideSchema, // Reuse SlideSchema for image, title, subtitle, link
+    sideItems: { type: [SlideSchema], default: [] } // 2 side items
+  },
+  bestSellers: {
+    title: { type: String, default: 'BEST SELLERS' },
+    subtitle: { type: String, default: "Discover Knight St. Vape's most popular products! Shop top-rated best sellers." }
+  },
+  grid: {
+    items: { type: [SlideSchema], default: [] } // The 3-6 items below
   }
 }, { timestamps: true });
 

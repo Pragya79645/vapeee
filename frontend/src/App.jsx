@@ -75,7 +75,7 @@ const App = () => {
       </Routes>
       {!isStandalone && !isProductPage && !isCollectionPage && (
         <>
-          <Highlights />
+          {/* <Highlights /> */}
           <LocationMap />
           <FAQ />
         </>
