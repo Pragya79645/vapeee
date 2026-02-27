@@ -19,8 +19,11 @@ const productSchema = new mongoose.Schema({
     cloverItemGroupId: { type: String, index: true, sparse: true }, // ID of the item group if this product represents a group
     name: { type: String, required: true },
     brand: { type: String, index: true }, // Brand name derived from Item Group or manual input
-    // Support multiple categories per product
-    categories: { type: [String], default: [] },
+    // Support multiple categories per product — each tracks Clover ID + name
+    categories: [{
+        cloverId: { type: String, default: '' },
+        name: { type: String, required: true }
+    }],
     flavour: { type: String, default: "" },
     variants: [variantSchema],
     description: { type: String, required: false },
@@ -41,7 +44,7 @@ const productSchema = new mongoose.Schema({
     mintLevel: { type: Number, min: 0, max: 10, default: 0 },
     modifierGroups: { type: [mongoose.Schema.Types.Mixed], default: [] }, // Store modifier groups data
     taxRates: { type: [mongoose.Schema.Types.Mixed], default: [] }, // Store tax rates data
-    revenueClass: { type: String, default: '' } // Store revenue class name or ID
+    cloverSynced: { type: Boolean, default: false }, // Whether this product has been synced to/from Clover
 }, { timestamps: true }); // Auto createdAt and updatedAt
 
 const Product = mongoose.models.Product || mongoose.model("Product", productSchema);

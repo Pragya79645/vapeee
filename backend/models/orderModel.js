@@ -8,6 +8,7 @@ const orderSchema = new mongoose.Schema({
     items: [
         {
             productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
+            cloverItemId: { type: String, default: '' }, // Clover Item ID for inventory tracking
             name: { type: String, required: true },
             variantSize: { type: String, required: true }, // e.g., "10ml", "20ml"
             image: { type: String },

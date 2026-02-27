@@ -5,6 +5,8 @@ import Cart from "../models/cartModel.js";
 import { getIO } from "../socket.js";
 import cloverService from "../services/cloverService.js";
 import { incrementUsageCount } from "./discountController.js";
+import { syncLocalProductStock } from './productController.js';
+import { createLog } from './logController.js';
 
 // Place order using COD Method
 import { calculateOrderTotal } from "../utils/calculateOrder.js";
@@ -61,6 +63,10 @@ const placeOrderCOD = async (req, res) => {
             if (!product) {
                 return res.status(404).json({ success: false, message: `Product not found: ${item.name}` });
             }
+            // Real-time stock sync before placing order
+            await syncLocalProductStock(product);
+            await product.save();
+
             // Figure out requested size from either `variantSize` or legacy `size` field
             const requestedSize = item.variantSize || item.size || 'default';
 
@@ -87,8 +93,20 @@ const placeOrderCOD = async (req, res) => {
             }
 
             // Construct secure item object from DB data
+            // Look up Clover Item ID from the variant for inventory linking
+            let cloverItemId = '';
+            if (product.variants && product.variants.length > 0) {
+                const matchingVariant = product.variants.find(v => v.size === requestedSize);
+                if (matchingVariant && matchingVariant.cloverItemId) {
+                    cloverItemId = matchingVariant.cloverItemId;
+                }
+            } else if (product.externalCloverId) {
+                cloverItemId = product.externalCloverId;
+            }
+
             const orderItem = {
                 productId: product._id,
+                cloverItemId,
                 name: product.name,
                 price: itemPrice, // Use DB price
                 quantity: requestedQty,
@@ -180,6 +198,18 @@ const placeOrderCOD = async (req, res) => {
                     if (io) {
                         io.emit('productUpdated', { product: prod });
                     }
+
+                    // Also decrement Clover inventory
+                    try {
+                        if (cloverService.isConfigured()) {
+                            const orderItem = orderItems.find(oi => oi.productId.toString() === prod._id.toString());
+                            if (orderItem && orderItem.cloverItemId) {
+                                await cloverService.updateInventory(orderItem.cloverItemId, newStock);
+                            }
+                        }
+                    } catch (clvErr) {
+                        console.error('Failed to update Clover inventory:', clvErr.message);
+                    }
                 } catch (e) {
                     console.error('Failed updating product stock after order', e);
                 }
@@ -187,6 +217,16 @@ const placeOrderCOD = async (req, res) => {
         } catch (e) {
             console.error('Stock update after order failed', e);
         }
+
+        // Log Order Placed Action
+        await createLog({
+            userId: userId,
+            userType: 'Customer',
+            actionType: 'ORDER_PLACE',
+            entityId: newOrder._id,
+            entityName: `Order via COD (${items.length} items)`,
+            details: { items, finalAmount }
+        });
 
         return res.status(201).json({ success: true, message: "Order placed successfully with Cash on Delivery." });
     } catch (err) {
@@ -213,20 +253,38 @@ const placeOrderClover = async (req, res) => {
             const product = await Product.findById(item.productId);
             if (!product) return res.status(404).json({ success: false, message: `Product not found` });
 
-            if ((product.stockCount || 0) < item.quantity) {
+            // Real-time stock sync before placing order
+            await syncLocalProductStock(product);
+            await product.save();
+
+            const requestedQty = Number(item.quantity) || 0;
+            const requestedSize = item.variantSize || item.size || 'default';
+
+            if ((product.stockCount || 0) < requestedQty) {
                 return res.status(400).json({ success: false, message: `Not enough stock for ${product.name}` });
             }
 
             // Determine Price (Variant or Base)
             let itemPrice = product.price;
-            const requestedSize = item.variantSize || item.size || 'default';
             if (product.variants && product.variants.length > 0) {
                 const variant = product.variants.find(v => v.size === requestedSize);
                 if (variant) itemPrice = variant.price;
             }
 
+            // Look up Clover Item ID from the variant
+            let cloverItemId = '';
+            if (product.variants && product.variants.length > 0) {
+                const matchingVariant = product.variants.find(v => v.size === requestedSize);
+                if (matchingVariant && matchingVariant.cloverItemId) {
+                    cloverItemId = matchingVariant.cloverItemId;
+                }
+            } else if (product.externalCloverId) {
+                cloverItemId = product.externalCloverId;
+            }
+
             const orderItem = {
                 productId: product._id,
+                cloverItemId,
                 name: product.name,
                 price: itemPrice,
                 quantity: item.quantity,
@@ -321,24 +379,43 @@ const verifyCloverPayment = async (req, res) => {
             await User.findByIdAndUpdate(order.userId, { cartData: {} }, { new: true });
             await Cart.findOneAndUpdate({ userId: order.userId }, { items: [] }, { new: true, upsert: true });
 
-            // Update Stock
+            // Update Stock and sync to Clover
             const io = getIO();
             for (let item of order.items) {
                 const prod = await Product.findById(item.productId);
                 if (prod) {
-                    prod.stockCount = Math.max(0, (prod.stockCount || 0) - (Number(item.quantity) || 0));
+                    const qty = Number(item.quantity) || 0;
+                    prod.stockCount = Math.max(0, (prod.stockCount || 0) - qty);
                     prod.inStock = prod.stockCount > 0;
                     await prod.save();
                     if (io) io.emit('productUpdated', { product: prod });
+
+                    // Sync Clover inventory
+                    try {
+                        if (cloverService.isConfigured() && item.cloverItemId) {
+                            await cloverService.updateInventory(item.cloverItemId, prod.stockCount);
+                        }
+                    } catch (clvErr) {
+                        console.error('Failed to update Clover inventory on payment verify:', clvErr.message);
+                    }
                 }
             }
+
+            // Log Order Placed Action (Paid)
+            await createLog({
+                userId: order.userId,
+                userType: 'Customer',
+                actionType: 'ORDER_PLACE_CLOVER',
+                entityId: order._id,
+                entityName: `Order via Clover (${order.items.length} items)`,
+                details: { items: order.items, amount: order.amount }
+            });
 
             return res.status(200).json({ success: true, message: "Payment verified" });
         } else {
             // Payment failed or cancelled
-            // We might want to mark order as Cancelled or Failed
-            // For now, leave as Pending (Payment: false) or delete?
-            // Usually better to keep record of attempt.
+            order.status = "Failed";
+            await order.save();
             return res.status(200).json({ success: false, message: "Payment not completed" });
         }
 
@@ -454,6 +531,16 @@ const orderStatus = async (req, res) => {
                 console.error('Failed emitting orderUpdated (item update)', e);
             }
 
+            // Log Order Item Status Change
+            await createLog({
+                adminId: req.user?._id, // if admin action
+                userType: 'Admin',
+                actionType: 'ORDER_STATUS_UPDATE',
+                entityId: orderId,
+                entityName: `Order Item ${itemId}`,
+                details: { newStatus: status }
+            });
+
             return res.status(200).json({ success: true, message: "Order item status updated successfully.", order: updatedOrder });
         }
 
@@ -497,6 +584,16 @@ const orderStatus = async (req, res) => {
         } catch (e) {
             console.error('Failed emitting orderUpdated (order-level)', e);
         }
+
+        // Log Order Status Change
+        await createLog({
+            adminId: req.user?._id, // if admin action
+            userType: 'Admin',
+            actionType: 'ORDER_STATUS_UPDATE',
+            entityId: orderId,
+            entityName: `Overall Order`,
+            details: { newStatus: status }
+        });
 
         return res.status(200).json({ success: true, message: "Order status updated successfully.", order: updatedOrder });
 
@@ -561,6 +658,16 @@ const cancelOrderByUser = async (req, res) => {
         } catch (err) {
             console.error('Failed emitting orderUpdated for user cancel', err);
         }
+
+        // Log Order Cancelled by User
+        await createLog({
+            userId: userId,
+            userType: 'Customer',
+            actionType: 'ORDER_CANCEL',
+            entityId: orderId,
+            entityName: `Order Cancelled by User`,
+            details: { items: order.items }
+        });
 
         return res.status(200).json({ success: true, message: 'Order cancelled successfully.', order });
     } catch (error) {

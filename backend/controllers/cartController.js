@@ -1,6 +1,7 @@
 import Cart from "../models/cartModel.js";
 import Product from "../models/productModel.js";
 import { getIO } from "../socket.js";
+import { syncLocalProductStock } from "./productController.js";
 
 // Utility function for input validation
 const validateCartInput = ({ itemId, variantSize, quantity = null }) => {
@@ -29,6 +30,12 @@ const addToCart = async (req, res) => {
             return res.status(404).json({ success: false, message: "Product not found" });
         }
 
+        // Real-time stock sync
+        const changed = await syncLocalProductStock(product);
+        if (changed) {
+            await product.save();
+        }
+
         // Find the variant price
         let variantPrice = product.price;
         if (product.variants && product.variants.length > 0) {
@@ -40,7 +47,7 @@ const addToCart = async (req, res) => {
 
         // Find or create cart
         let cart = await Cart.findOne({ userId });
-        
+
         if (!cart) {
             cart = new Cart({
                 userId,
@@ -113,6 +120,13 @@ const updateCart = async (req, res) => {
                 // Check requested quantity against product stock
                 const prod = await Product.findById(itemId);
                 if (!prod) return res.status(404).json({ success: false, message: 'Product not found' });
+
+                // Real-time stock sync
+                const changed = await syncLocalProductStock(prod);
+                if (changed) {
+                    await prod.save();
+                }
+
                 if (quantity > (prod.stockCount || 0)) {
                     return res.status(400).json({ success: false, message: `Only ${prod.stockCount || 0} units available for this product` });
                 }
@@ -148,7 +162,7 @@ const getUserCart = async (req, res) => {
     try {
         const userId = req.user._id;
         const cart = await Cart.findOne({ userId }).populate('items.productId', 'name images');
-        
+
         if (!cart) {
             return res.status(200).json({ success: true, cartData: { items: [] } });
         }

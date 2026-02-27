@@ -1,0 +1,51 @@
+Connected to MongoDB
+--- BEFORE FIX ---
+[
+  {
+    "name": "Allo 25K",
+    "cloverSynced": false,
+    "hasCloverSyncedField": true
+  },
+  {
+    "name": "Level X G2Pro Battery",
+    "cloverSynced": false,
+    "hasCloverSyncedField": true
+  },
+  {
+    "name": "Tray Cover",
+    "cloverSynced": false,
+    "hasCloverSyncedField": true
+  },
+  {
+    "name": "Vapresso Pods",
+    "cloverSynced": false,
+    "hasCloverSyncedField": true
+  }
+]
+Saved Allo 25K
+Saved Level X G2Pro Battery
+Saved Tray Cover
+Saved Vapresso Pods
+--- AFTER FIX ---
+[
+  {
+    "name": "Allo 25K",
+    "cloverSynced": true,
+    "hasCloverSyncedField": true
+  },
+  {
+    "name": "Level X G2Pro Battery",
+    "cloverSynced": true,
+    "hasCloverSyncedField": true
+  },
+  {
+    "name": "Tray Cover",
+    "cloverSynced": true,
+    "hasCloverSyncedField": true
+  },
+  {
+    "name": "Vapresso Pods",
+    "cloverSynced": true,
+    "hasCloverSyncedField": true
+  }
+]

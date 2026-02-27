@@ -16,6 +16,7 @@ import settingsRoute from './routes/settingsRoute.js';
 import cloverRoute from './routes/cloverRoute.js';
 import discountRoute from './routes/discountRoute.js';
 import wishlistRoute from './routes/wishlistRoute.js';
+import logRoute from './routes/logRoute.js';
 
 // App Config
 const app = express();
@@ -59,6 +60,7 @@ app.use('/api/category', categoryRoute);
 app.use('/api/cart/', cartRoute);
 app.use('/api/order', orderRoute);
 app.use('/api/settings', settingsRoute);
+app.use('/api/logs', logRoute);
 app.use('/api/clover', cloverRoute);
 app.use('/api/discount', discountRoute);
 app.use('/api/wishlist', wishlistRoute);

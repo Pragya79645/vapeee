@@ -5,7 +5,6 @@ import { toast } from 'react-toastify';
 import { useParams, useNavigate } from "react-router";
 import { io } from 'socket.io-client';
 
-const CATEGORIES = ["Vape", "E-cigarette", "Pods", "Accessories", "E-liquid"];
 const MAX_IMAGE_SIZE_MB = 2;
 
 const Add = () => {
@@ -16,7 +15,7 @@ const Add = () => {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
-    const [categoriesList, setCategoriesList] = useState(CATEGORIES);
+    const [categoriesList, setCategoriesList] = useState([]);
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [flavour, setFlavour] = useState("");
     const [variants, setVariants] = useState([{ size: "", flavour: "", price: "", cost: "", quantity: "", showOnPOS: true, image: null, imageFile: null }]);
@@ -27,6 +26,7 @@ const Add = () => {
     const [sweetnessLevel, setSweetnessLevel] = useState(5);
     const [mintLevel, setMintLevel] = useState(0);
     const [loading, setLoading] = useState(false);
+    const [cloverInfo, setCloverInfo] = useState(null); // {cloverSynced, externalCloverId, cloverItemGroupId}
 
     const isValidImage = (file) =>
         file && file.type.startsWith("image/") && file.size <= MAX_IMAGE_SIZE_MB * 1024 * 1024;
@@ -96,8 +96,10 @@ const Add = () => {
             formData.append("name", name);
             formData.append("description", description);
             formData.append("price", price);
-            // send categories as JSON string
-            formData.append("categories", JSON.stringify(selectedCategories));
+            // send categories as JSON string (already objects with cloverId+name)
+            formData.append("categories", JSON.stringify(selectedCategories.map(c =>
+                typeof c === 'string' ? c : JSON.stringify(c)
+            ).length > 0 ? selectedCategories : []));
             formData.append("flavour", flavour);
             formData.append("stockCount", stockCount);
             formData.append("inStock", inStock);
@@ -230,7 +232,9 @@ const Add = () => {
                     setName(p.name || "");
                     setDescription(p.description || "");
                     setPrice(p.price ?? "");
-                    setSelectedCategories(p.categories || []);
+                    setSelectedCategories(
+                        (p.categories || []).map(c => typeof c === 'string' ? { cloverId: '', name: c } : c)
+                    );
                     setFlavour(p.flavour || "");
                     setVariants((p.variants && p.variants.length > 0) ? p.variants : [{ size: "", price: "", cost: "", quantity: "", showOnPOS: true }]);
                     setStockCount(p.stockCount ?? 0);
@@ -239,6 +243,11 @@ const Add = () => {
                     setMintLevel(p.mintLevel ?? 0);
                     setShowOnPOS(p.showOnPOS ?? true);
                     setBestseller(p.bestseller ?? false);
+                    setCloverInfo({
+                        cloverSynced: p.cloverSynced || false,
+                        externalCloverId: p.externalCloverId || null,
+                        cloverItemGroupId: p.cloverItemGroupId || null
+                    });
                     // Prefill images with existing URLs (strings)
                     const imgs = (p.images || []).map(img => img.url);
                     while (imgs.length < 4) imgs.push(null);
@@ -277,7 +286,9 @@ const Add = () => {
                         setName(payloadProduct.name || "");
                         setDescription(payloadProduct.description || "");
                         setPrice(payloadProduct.price ?? "");
-                        setSelectedCategories(payloadProduct.categories || []);
+                        setSelectedCategories(
+                            (payloadProduct.categories || []).map(c => typeof c === 'string' ? { cloverId: '', name: c } : c)
+                        );
                         setFlavour(payloadProduct.flavour || "");
                         setVariants((payloadProduct.variants && payloadProduct.variants.length > 0)
                             ? payloadProduct.variants.map(v => ({ ...v, imageFile: null })) // Ensure local state props exist
@@ -323,9 +334,31 @@ const Add = () => {
                     </div>
                     <div>
                         <h1 className="text-2xl font-semibold">{id ? 'Edit Product' : 'Add Product'}</h1>
-                        <p className="text-sm text-gray-500">Fill product details. Fields marked required must be completed.</p>
+                        <p className="text-sm text-gray-500">
+                            Fill product details. <a href="/how-to-use" className="text-blue-600 underline ml-1 text-xs">Read the Clover guide</a>. Fields marked <span className="text-red-500">*</span> are required.
+                        </p>
                     </div>
                 </div>
+
+                {/* Clover Sync Badge (only when editing) */}
+                {id && cloverInfo && (
+                    <div className="flex items-center gap-2">
+                        {cloverInfo.cloverSynced ? (
+                            <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-green-50 text-green-700 border border-green-200">
+                                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                                Clover Synced
+                            </span>
+                        ) : (
+                            <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-yellow-50 text-yellow-700 border border-yellow-200">
+                                <span className="w-2 h-2 bg-yellow-500 rounded-full"></span>
+                                Not Synced
+                            </span>
+                        )}
+                        {cloverInfo.externalCloverId && (
+                            <span className="text-[10px] text-gray-400 font-mono" title="Clover ID">{cloverInfo.externalCloverId}</span>
+                        )}
+                    </div>
+                )}
 
                 <div className="flex items-center gap-3">
                     <button
@@ -384,7 +417,7 @@ const Add = () => {
             </div>
 
             <div className="w-full">
-                <p className="mb-2 text-base font-medium">Product ID</p>
+                <p className="mb-2 text-base font-medium">Product ID <span className="text-red-500">*</span></p>
                 <input
                     type="text"
                     className="w-full max-w-[560px] px-3 py-3 border rounded-md text-sm"
@@ -396,7 +429,7 @@ const Add = () => {
             </div>
 
             <div className="w-full">
-                <p className="mb-2 text-base font-medium">Product Name</p>
+                <p className="mb-2 text-base font-medium">Product Name <span className="text-red-500">*</span></p>
                 <input
                     type="text"
                     className="w-full max-w-[560px] px-3 py-3 border rounded-md text-sm"
@@ -422,33 +455,39 @@ const Add = () => {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full items-start">
                 {/* Left: categories (span 2 columns on desktop) */}
                 <div className="sm:col-span-2">
-                    <p className="mb-2 text-base font-medium">Product Categories (Required)</p>
+                    <p className="mb-2 text-base font-medium">Product Categories <span className="text-red-500">*</span></p>
 
                     {/* Selected category chips */}
                     <div className="flex flex-wrap gap-2 mb-3">
                         {selectedCategories.length === 0 && (
                             <span className="text-sm text-gray-400">No categories selected</span>
                         )}
-                        {selectedCategories.map((c) => (
-                            <button
-                                key={c}
-                                type="button"
-                                onClick={() => setSelectedCategories(prev => prev.filter(x => x !== c))}
-                                className="category-chip"
-                            >
-                                {c} <span className="ml-2 text-xs">✕</span>
-                            </button>
-                        ))}
+                        {selectedCategories.map((c) => {
+                            const catName = typeof c === 'string' ? c : c.name;
+                            const isCloverLinked = typeof c === 'object' && c.cloverId;
+                            return (
+                                <button
+                                    key={catName}
+                                    type="button"
+                                    onClick={() => setSelectedCategories(prev => prev.filter(x => (typeof x === 'string' ? x : x.name) !== catName))}
+                                    className="category-chip"
+                                >
+                                    {isCloverLinked && <span className="w-1.5 h-1.5 bg-green-500 rounded-full mr-1"></span>}
+                                    {catName} <span className="ml-2 text-xs">✕</span>
+                                </button>
+                            );
+                        })}
                     </div>
 
                     {/* Checkbox list for better differentiation */}
                     <div className="category-list border rounded p-3 h-40 overflow-auto bg-white">
                         {categoriesList.map((cat) => {
-                            const name = cat.name || cat;
-                            const checked = selectedCategories.includes(name);
+                            const catName = cat.name || cat;
+                            const catCloverId = cat.cloverId || '';
+                            const checked = selectedCategories.some(sc => (typeof sc === 'string' ? sc : sc.name) === catName);
                             return (
                                 <label
-                                    key={name}
+                                    key={catName}
                                     className={`category-item flex items-center justify-between px-3 py-2 mb-1 rounded ${checked ? 'category-item-checked' : ''}`}
                                 >
                                     <div className="flex items-center gap-3">
@@ -456,11 +495,15 @@ const Add = () => {
                                             type="checkbox"
                                             checked={checked}
                                             onChange={() => {
-                                                if (checked) setSelectedCategories(prev => prev.filter(x => x !== name));
-                                                else setSelectedCategories(prev => [...prev, name]);
+                                                if (checked) {
+                                                    setSelectedCategories(prev => prev.filter(x => (typeof x === 'string' ? x : x.name) !== catName));
+                                                } else {
+                                                    setSelectedCategories(prev => [...prev, { cloverId: catCloverId, name: catName }]);
+                                                }
                                             }}
                                         />
-                                        <span className="text-sm">{name}</span>
+                                        <span className="text-sm">{catName}</span>
+                                        {catCloverId && <span className="w-1.5 h-1.5 bg-green-500 rounded-full" title="Clover linked"></span>}
                                     </div>
                                     <span className="text-xs text-gray-400">{checked ? 'Selected' : ''}</span>
                                 </label>

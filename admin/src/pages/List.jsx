@@ -260,6 +260,9 @@ const List = () => {
 
             if (res.data.success) {
                 toast.update(tId, { render: res.data.message, type: "success", isLoading: false, autoClose: 3000 });
+                if (res.data.warning) {
+                    toast.warn(res.data.warning, { autoClose: 8000 });
+                }
                 fetchProducts(1); // Refresh list
             } else {
                 toast.update(tId, { render: res.data.message, type: "error", isLoading: false, autoClose: 3000 });
@@ -275,9 +278,12 @@ const List = () => {
 
     return (
         <>
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-3">
-                <p className="text-xl">All Products List</p>
-                <div className="flex gap-2 w-full sm:w-auto">
+            <div className="w-full flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                <div>
+                    <h1 className="text-2xl font-bold">All Products List</h1>
+                    <p className="text-sm text-gray-500 mt-1">Manage your inventory. Changes sync to Clover. <a href="/how-to-use" className="text-blue-600 hover:underline">Learn more.</a></p>
+                </div>
+                <div className="flex items-center gap-2 flex-wrap w-full sm:w-auto">
                     <form onSubmit={handleSearch} className="flex gap-2 w-full sm:w-auto">
                         <input
                             type="text"
@@ -377,13 +383,20 @@ const List = () => {
                                     )}
                                 </div>
                                 <div className="min-w-0">
-                                    <p className="truncate font-medium">{product.name}</p>
-                                    <p className="text-xs text-gray-500 truncate">{(product.categories || []).join(', ')}</p>
+                                    <p className="truncate font-medium flex items-center gap-1">
+                                        {product.name}
+                                        {product.cloverSynced ? (
+                                            <span className="w-2 h-2 bg-green-500 rounded-full flex-shrink-0" title="Clover synced"></span>
+                                        ) : (
+                                            <span className="w-2 h-2 bg-yellow-400 rounded-full flex-shrink-0" title="Not synced to Clover"></span>
+                                        )}
+                                    </p>
+                                    <p className="text-xs text-gray-500 truncate">{(product.categories || []).map(c => typeof c === 'string' ? c : c.name).join(', ')}</p>
                                 </div>
                             </div>
 
                             <p className="font-medium text-center">{currency + (product.price ?? 0)}</p>
-                            <p className="hidden md:block">{(product.categories || []).join(', ') || ''}</p>
+                            <p className="hidden md:block">{(product.categories || []).map(c => typeof c === 'string' ? c : c.name).join(', ') || ''}</p>
                             <p className="text-center">{product.inStock ? 'Yes' : 'No'}</p>
                             <p className="text-center">{product.stockCount ?? 0}</p>
                             <p className="text-center">{product.showOnPOS ? 'Yes' : 'No'}</p>

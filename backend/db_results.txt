@@ -1,0 +1,29 @@
+Connected to MongoDB
+--- TARGET PRODUCTS START ---
+[
+  {
+    "_id": "69a157a95e5c6f1f7b779bfd",
+    "productId": "EA7ZGCPNEJNAW",
+    "externalCloverId": "5YT93C5SPK0RP",
+    "name": "Allo 25K"
+  },
+  {
+    "_id": "69a157aa5e5c6f1f7b779c17",
+    "productId": "Q71R5PEZ0Y0YJ",
+    "externalCloverId": "W78SXKC45J2Y0",
+    "name": "Level X G2Pro Battery"
+  },
+  {
+    "_id": "69a157ab5e5c6f1f7b779c20",
+    "productId": "V19XJVJPNHK5M",
+    "externalCloverId": "7371H3FR5SNF2",
+    "name": "Tray Cover"
+  },
+  {
+    "_id": "69a157ac5e5c6f1f7b779c2a",
+    "productId": "5VTQC28NANYFP",
+    "externalCloverId": "D043ACK6S89QG",
+    "name": "Vapresso Pods"
+  }
+]
+--- TARGET PRODUCTS END ---

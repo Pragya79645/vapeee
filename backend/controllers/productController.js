@@ -7,16 +7,83 @@ import Cart from '../models/cartModel.js';
 import { productSchema } from "../validation/productValidation.js";
 import { getIO } from '../socket.js';
 import cloverService from '../services/cloverService.js';
+import { createLog } from './logController.js';
 import ModifierGroup from '../models/modifierGroupModel.js';
 import ItemGroup from '../models/itemGroupModel.js';
+
+// Normalize categories input to [{cloverId, name}] format
+// Accepts: strings, arrays of strings, arrays of objects, or JSON strings
+async function normalizeCategoryInput(raw) {
+    if (!raw) return [];
+    let parsed = raw;
+
+    try {
+        if (typeof parsed === 'string') {
+            parsed = JSON.parse(parsed);
+        }
+        // Handle double-stringified input
+        if (typeof parsed === 'string') {
+            parsed = JSON.parse(parsed);
+        }
+    } catch (e) {
+        // If parsing fails, it remains as the original 'raw' string/value
+    }
+
+    if (!Array.isArray(parsed)) parsed = [parsed];
+
+    const result = [];
+    for (let item of parsed) {
+        if (!item) continue;
+
+        let name = '';
+        let cloverId = '';
+
+        // Handle string entries
+        if (typeof item === 'string') {
+            try {
+                // Try to parse if the string itself is JSON
+                const inner = JSON.parse(item);
+                if (inner && typeof inner === 'object') item = inner;
+            } catch (e) { }
+        }
+
+        if (typeof item === 'string') {
+            name = item.trim();
+        } else if (typeof item === 'object') {
+            // Robust check for name property or corrupted character indexes
+            if (item.name) {
+                name = String(item.name).trim();
+            } else if (item['0'] !== undefined) {
+                let reconstructed = '';
+                let i = 0;
+                while (item[String(i)] !== undefined) {
+                    reconstructed += item[String(i)];
+                    i++;
+                }
+                name = reconstructed.trim();
+            }
+            cloverId = item.cloverId || '';
+        }
+
+        if (name) {
+            if (!cloverId) {
+                const cat = await Category.findOne({ name: new RegExp(`^${name}$`, 'i') });
+                cloverId = cat?.cloverId || '';
+            }
+            result.push({ cloverId, name });
+        }
+    }
+    return result;
+}
 
 // Helper function to generate detailed description based on product information
 const generateDescription = (productData) => {
     const name = productData.name || 'This product';
     const flavour = productData.flavour || 'unique flavor';
-    const categories = productData.categories && productData.categories.length > 0
-        ? productData.categories.join(', ')
-        : 'vaping';
+    const cats = productData.categories && productData.categories.length > 0
+        ? productData.categories.map(c => typeof c === 'string' ? c : c.name)
+        : [];
+    const categories = cats.length > 0 ? cats.join(', ') : 'vaping';
 
     // Calculate total pods/units based on variants
     let podInfo = '';
@@ -94,9 +161,8 @@ const addProduct = async (req, res) => {
             ? (typeof value.otherFlavours === "string" ? JSON.parse(value.otherFlavours) : value.otherFlavours)
             : [];
 
-        const parsedCategories = value.categories
-            ? (typeof value.categories === 'string' ? JSON.parse(value.categories) : value.categories)
-            : [];
+        // Normalize categories to [{cloverId, name}] format
+        const parsedCategories = await normalizeCategoryInput(value.categories);
 
         // Process uploaded images (req.files is array from upload.any())
         // Main images: image1, image2, image3, image4
@@ -181,6 +247,7 @@ const addProduct = async (req, res) => {
             bestseller: value.bestseller,
             sweetnessLevel: value.sweetnessLevel !== undefined ? Number(value.sweetnessLevel) : 5,
             mintLevel: value.mintLevel !== undefined ? Number(value.mintLevel) : 0,
+            cloverSynced: false, // Will be set to true after successful Clover sync
         });
 
         await product.save();
@@ -227,6 +294,7 @@ const addProduct = async (req, res) => {
                                 }
                             }
                         }
+                        product.cloverSynced = true;
                         await product.save(); // Save Clover IDs
                         cloverSync = { status: 'success', message: 'Synced to Clover' };
                     }
@@ -246,6 +314,7 @@ const addProduct = async (req, res) => {
                         if (product.stockCount !== undefined) {
                             await cloverService.updateInventory(cloverItem.id, product.stockCount);
                         }
+                        product.cloverSynced = true;
                         await product.save();
                         cloverSync = { status: 'success', message: 'Synced to Clover' };
                     }
@@ -256,6 +325,16 @@ const addProduct = async (req, res) => {
             cloverSync = { status: 'failed', message: syncErr.message };
             // Don't fail the request, just log and return status
         }
+
+        // Log the action
+        await createLog({
+            adminId: req.user._id, // Assume admin trigger
+            userType: 'Admin',
+            actionType: 'PRODUCT_ADD',
+            entityId: product._id,
+            entityName: product.name,
+            details: { productId: product.productId, initialStock: product.stockCount }
+        });
 
         res.json({ success: true, message: "Product added successfully", cloverSync });
     } catch (error) {
@@ -279,7 +358,7 @@ const listProducts = async (req, res) => {
                 $or: [
                     { name: searchRegex },
                     { description: searchRegex },
-                    { categories: searchRegex },
+                    { 'categories.name': searchRegex },
                     { productId: searchRegex }
                 ]
             };
@@ -323,6 +402,16 @@ const removeProduct = async (req, res) => {
         if (!product) {
             return res.status(404).json({ success: false, message: "Product not found" });
         }
+
+        // Log deletion
+        await createLog({
+            adminId: req.user._id,
+            userType: 'Admin',
+            actionType: 'PRODUCT_DELETE',
+            entityId: id,
+            entityName: product.name,
+            details: { productId: product.productId }
+        });
 
         // Delete each image from Cloudinary
         await Promise.all(
@@ -385,6 +474,11 @@ const singleProduct = async (req, res) => {
             return res.status(404).json({ success: false, message: "Product not found" });
         }
 
+        const changed = await syncLocalProductStock(product);
+        if (changed) {
+            await product.save();
+        }
+
         res.status(200).json({ success: true, product });
 
     } catch (error) {
@@ -424,9 +518,7 @@ const updateProduct = async (req, res) => {
             ? (typeof value.variants === "string" ? JSON.parse(value.variants) : value.variants)
             : [];
 
-        const parsedCategories = value.categories
-            ? (typeof value.categories === 'string' ? JSON.parse(value.categories) : value.categories)
-            : [];
+        const parsedCategories = await normalizeCategoryInput(value.categories);
 
         const parsedOtherFlavours = value.otherFlavours
             ? (typeof value.otherFlavours === 'string' ? JSON.parse(value.otherFlavours) : value.otherFlavours)
@@ -868,7 +960,7 @@ const importProducts = async (req, res) => {
                     brand: row['Brand Name'] || '',
                     flavour: row['Flavour'] || '',
                     puffCount: row['Puff Count'] || '',
-                    categories: row['Category'] ? String(row['Category']).split(',').map(c => c.trim()) : [],
+                    categoriesRaw: row['Category'] ? String(row['Category']).split(',').map(c => c.trim()) : [],
                     images: [
                         row['Image URL 1'],
                         row['Image URL 2'],
@@ -916,6 +1008,9 @@ const importProducts = async (req, res) => {
             let description = `Brand: ${d.brand || ''}\nPuff Count: ${d.puff || ''}\nNicotine: ${d.nicotine || ''}\nType: ${d.type || ''}`;
             if (d.sr) description = `Sr No: ${d.sr}\n` + description;
 
+            // Normalize categories for this imported product
+            const normalizedCats = await normalizeCategoryInput(p.categoriesRaw);
+
             operations.push({
                 updateOne: {
                     filter: { productId: p.productId },
@@ -924,12 +1019,13 @@ const importProducts = async (req, res) => {
                             name: p.name,
                             price: p.price,
                             description: description,
-                            categories: p.categories,
+                            categories: normalizedCats,
                             flavour: p.flavour,
                             variants: p.variants,
                             sweetnessLevel: p.sweetnessLevel,
                             mintLevel: p.mintLevel,
                             bestseller: p.bestseller,
+                            cloverSynced: false, // Imported products are NOT Clover-synced
                             ...(p.images.length > 0 && { images: p.images })
                         },
                         $setOnInsert: {
@@ -950,7 +1046,11 @@ const importProducts = async (req, res) => {
             await Product.bulkWrite(operations);
         }
 
-        res.json({ success: true, message: `${successCount} products processed successfully` });
+        res.json({
+            success: true,
+            message: `${successCount} products processed successfully`,
+            warning: 'Imported products are saved locally but NOT synced to Clover. Run a Clover sync or edit products individually to push them to Clover.'
+        });
 
     } catch (error) {
         console.error("Import Products Error:", error);
@@ -965,8 +1065,8 @@ const exportProducts = async (req, res) => {
         const data = [];
 
         products.forEach((p, index) => {
-            // Flatten categories
-            const categoryStr = (p.categories || []).join(', ');
+            // Flatten categories — handle both old string format and new object format
+            const categoryStr = (p.categories || []).map(c => typeof c === 'string' ? c : c.name).join(', ');
 
             // Extract description fields
             const descLines = (p.description || '').split('\n');
@@ -1134,4 +1234,47 @@ const clearDatabase = async (req, res) => {
     }
 };
 
-export { addProduct, listProducts, removeProduct, singleProduct, updateProduct, deleteProducts, downloadTemplate, importProducts, exportProducts, clearDatabase };
+// Helper to incrementally sync local stock from Clover
+const syncLocalProductStock = async (product) => {
+    if (!product || !product.cloverSynced) return false;
+    let changed = false;
+
+    try {
+        if (product.variants && product.variants.length > 0) {
+            let totalStock = 0;
+            for (let v of product.variants) {
+                if (v.cloverItemId) {
+                    const stockData = await cloverService.getItemStock(v.cloverItemId);
+                    if (stockData && stockData.quantity !== undefined && stockData.quantity !== null) {
+                        const newQty = Math.max(0, stockData.quantity);
+                        if (v.quantity !== newQty) {
+                            v.quantity = newQty;
+                            changed = true;
+                        }
+                    }
+                }
+                totalStock += (Number(v.quantity) || 0);
+            }
+            if (product.stockCount !== totalStock) {
+                product.stockCount = totalStock;
+                product.inStock = totalStock > 0;
+                changed = true;
+            }
+        } else if (product.externalCloverId) {
+            const stockData = await cloverService.getItemStock(product.externalCloverId);
+            if (stockData && stockData.quantity !== undefined && stockData.quantity !== null) {
+                const newQty = Math.max(0, stockData.quantity);
+                if (product.stockCount !== newQty) {
+                    product.stockCount = newQty;
+                    product.inStock = newQty > 0;
+                    changed = true;
+                }
+            }
+        }
+    } catch (err) {
+        console.error('Error syncing local stock from Clover:', err.message);
+    }
+    return changed;
+};
+
+export { addProduct, listProducts, removeProduct, singleProduct, updateProduct, deleteProducts, downloadTemplate, importProducts, exportProducts, clearDatabase, syncLocalProductStock };

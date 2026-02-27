@@ -1,0 +1,548 @@
+Connected to MongoDB
+Checking 281 products...
+Validation failed for 14" Silicon Water Pipe: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989421"}]
+Validation failed for 8" Arsenal Mirage Bong: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"o","2":"n","3":"g","4":"s","cloverId":"","_id":"69a15ce1304092ded0989423"}]
+Validation failed for Aresenal 6 Shooter Bong: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"o","2":"n","3":"g","4":"s","cloverId":"","_id":"69a15ce1304092ded0989425"}]
+Validation failed for Aresenal Garden Blooms Glass Bong 10": Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"o","2":"n","3":"g","4":"s","cloverId":"","_id":"69a15ce1304092ded0989427"}]
+Validation failed for Arsenal Ashtray: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989429"}]
+Validation failed for Arsenal Comic Bloom  & Leaf Glass 6" Bong: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"o","2":"n","3":"g","4":"s","cloverId":"","_id":"69a15ce1304092ded098942b"}]
+Validation failed for Arsenal Comic Bloom Bong 6": Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"o","2":"n","3":"g","4":"s","cloverId":"","_id":"69a15ce1304092ded098942d"}]
+Validation failed for Arsenal Diamond Grinder: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"G","1":"r","2":"i","3":"n","4":"d","5":"e","6":"r","cloverId":"","_id":"69a15ce1304092ded098942f"}]
+Validation failed for Arsenal grinder 50MM: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"G","1":"r","2":"i","3":"n","4":"d","5":"e","6":"r","cloverId":"","_id":"69a15ce1304092ded0989431"}]
+Validation failed for Arsenal Grinder 55 MM: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"G","1":"r","2":"i","3":"n","4":"d","5":"e","6":"r","cloverId":"","_id":"69a15ce1304092ded0989433"}]
+Validation failed for Arsenal Honey Grid Straight Shooter10": Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"o","2":"n","3":"g","4":"s","cloverId":"","_id":"69a15ce1304092ded0989435"}]
+Validation failed for Arsenal Mesopotamian Bong: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"o","2":"n","3":"g","4":"s","cloverId":"","_id":"69a15ce1304092ded0989437"}]
+Validation failed for Arsenal Petal Jewel Glass Rig 8": Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"o","2":"n","3":"g","4":"s","cloverId":"","_id":"69a15ce1304092ded0989439"}]
+Validation failed for Arsenal Spooky Ghost Bong 10": Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"o","2":"n","3":"g","4":"s","cloverId":"","_id":"69a15ce1304092ded098943b"}]
+Validation failed for Arsenal Straight Shooter Bong Green: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"o","2":"n","3":"g","4":"s","cloverId":"","_id":"69a15ce1304092ded098943d"}]
+Validation failed for Belmont Ks: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"C","1":"i","2":"g","3":"a","4":"r","5":"e","6":"t","7":"t","8":"e","cloverId":"","_id":"69a15ce1304092ded098943f"}]
+Validation failed for Belmont Regular: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"C","1":"i","2":"g","3":"a","4":"r","5":"e","6":"t","7":"t","8":"e","cloverId":"","_id":"69a15ce1304092ded0989441"}]
+Validation failed for Belmont Select KS: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"C","1":"i","2":"g","3":"a","4":"r","5":"e","6":"t","7":"t","8":"e","cloverId":"","_id":"69a15ce1304092ded0989443"}]
+Validation failed for Belmont Select Regular: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"C","1":"i","2":"g","3":"a","4":"r","5":"e","6":"t","7":"t","8":"e","cloverId":"","_id":"69a15ce1304092ded0989445"}]
+Validation failed for BIC REGULAR: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"L","1":"i","2":"g","3":"h","4":"t","5":"e","6":"r","cloverId":"","_id":"69a15ce1304092ded0989447"}]
+Validation failed for BIC Small: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"L","1":"i","2":"g","3":"h","4":"t","5":"e","6":"r","cloverId":"","_id":"69a15ce1304092ded0989449"}]
+Validation failed for Black Label Bong: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"o","2":"n","3":"g","4":"s","cloverId":"","_id":"69a15ce1304092ded098944b"}]
+Validation failed for Bong 1pc: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"o","2":"n","3":"g","4":"s","cloverId":"","_id":"69a15ce1304092ded098944d"}]
+Validation failed for Bong Banger: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"o","2":"n","3":"g","4":" ","5":"A","6":"c","7":"e","8":"s","9":"s","10":"o","11":"r","12":"i","13":"e","14":"s","cloverId":"","_id":"69a15ce1304092ded098944f"}]
+Validation failed for Bong Bowl: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"o","2":"n","3":"g","4":" ","5":"A","6":"c","7":"e","8":"s","9":"s","10":"o","11":"r","12":"i","13":"e","14":"s","cloverId":"","_id":"69a15ce1304092ded0989451"}]
+Validation failed for Bong Downstem: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"o","2":"n","3":"g","4":" ","5":"A","6":"c","7":"e","8":"s","9":"s","10":"o","11":"r","12":"i","13":"e","14":"s","cloverId":"","_id":"69a15ce1304092ded0989453"}]
+Validation failed for Canada Light: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"L","1":"i","2":"g","3":"h","4":"t","5":"e","6":"r","cloverId":"","_id":"69a15ce1304092ded0989455"}]
+Validation failed for Candy Kitty Glass Bong: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"o","2":"n","3":"g","4":"s","cloverId":"","_id":"69a15ce1304092ded0989457"}]
+Validation failed for Cheech & Chong Rolling Tray: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989459"}]
+Validation failed for Cheech& Chong Rolling Tray: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded098945b"}]
+Validation failed for Chicken Drumstick Pipe: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded098945d"}]
+Validation failed for Chicken Water Pipe Silicone: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded098945f"}]
+Validation failed for Clipper Butane 16 ML: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"u","2":"t","3":"a","4":"n","5":"e","cloverId":"","_id":"69a15ce1304092ded0989461"}]
+Validation failed for Clipper Lighter: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"L","1":"i","2":"g","3":"h","4":"t","5":"e","6":"r","cloverId":"","_id":"69a15ce1304092ded0989463"}]
+Validation failed for Cocoyaya Hooka: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"H","1":"o","2":"o","3":"k","4":"a","cloverId":"","_id":"69a15ce1304092ded0989465"}]
+Validation failed for Creep Skull 8" Pipe: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989467"}]
+Validation failed for Crosaint Pipe: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989469"}]
+Validation failed for Cubex Coil: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded098946b"}]
+Validation failed for Cylinderical Ring Bong: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"o","2":"n","3":"g","4":"s","cloverId":"","_id":"69a15ce1304092ded098946d"}]
+Validation failed for Dabber: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded098946f"}]
+Validation failed for Dschinni Rox Silver Hooka: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"H","1":"o","2":"o","3":"k","4":"a","cloverId":"","_id":"69a15ce1304092ded0989471"}]
+Validation failed for Fighter Hand Pipe: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989473"}]
+Validation failed for Forest Mini Tray: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989475"}]
+Validation failed for Frosted Galss Neon Bong Gift Set: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"o","2":"n","3":"g","4":"s","cloverId":"","_id":"69a15ce1304092ded0989477"}]
+Validation failed for Frosted Glass 24" Gun Bong: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"o","2":"n","3":"g","4":"s","cloverId":"","_id":"69a15ce1304092ded0989479"}]
+Validation failed for Frosted Glass Pink Bong Gift Set: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"o","2":"n","3":"g","4":"s","cloverId":"","_id":"69a15ce1304092ded098947b"}]
+Validation failed for Frosted Glass Purple Bong Gift Set: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"o","2":"n","3":"g","4":"s","cloverId":"","_id":"69a15ce1304092ded098947d"}]
+Validation failed for G- Rollz Grafitti Tray: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded098947f"}]
+Validation failed for G- Rollz Narcos Metal Small Worldwide: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989481"}]
+Validation failed for G-Rollz Narcos: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989483"}]
+Validation failed for G- Rollz Pet Tray: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989485"}]
+Validation failed for G- Rollz War Tray: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989487"}]
+Validation failed for G- Rollz Worldwide: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989489"}]
+Validation failed for G-Rollz Amsterdam Rolling Tray: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded098948b"}]
+Validation failed for G-Rollz Amsterdam Tray: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded098948d"}]
+Validation failed for G-Rollz Blunt Rolling Tray: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded098948f"}]
+Validation failed for G-Rollz Licking Mouth Rolling Tray: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989491"}]
+Validation failed for G-Rollz Panda Rolling Tray: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989493"}]
+Validation failed for G-rollz Tray Mouth Lick Medium: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989495"}]
+Validation failed for G4 Classic Gift Set: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"V","1":"a","2":"p","3":"e","4":" ","5":"D","6":"e","7":"v","8":"i","9":"c","10":"e","11":"s","12":" ","13":"A","14":"n","15":"d","16":" ","17":"P","18":"o","19":"d","20":"s","cloverId":"","_id":"69a15ce1304092ded0989497"}]
+Validation failed for Gelato Cream Pre Roll: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"F","1":"l","2":"a","3":"v","4":"o","5":"u","6":"r","7":"e","8":"d","9":" ","10":"P","11":"r","12":"e","13":" ","14":"R","15":"o","16":"l","17":"l","18":"s","cloverId":"","_id":"69a15ce1304092ded0989499"}]
+Validation failed for Girl Mini Rolling Tray: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded098949c"}]
+Validation failed for Glass Bong N5: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded09894a1"}]
+Validation failed for Glowing Skeleton Pipe: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded09894a3"}]
+Validation failed for Gr- Rollz Narcos: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded09894a5"}]
+Validation failed for Green Goddess Glass Bong Cleaner: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"o","2":"n","3":"g","4":" ","5":"A","6":"c","7":"e","8":"s","9":"s","10":"o","11":"r","12":"i","13":"e","14":"s","cloverId":"","_id":"69a15ce1304092ded09894a7"}]
+Validation failed for Green Goddess Silicon Bong Cleaner: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"o","2":"n","3":"g","4":" ","5":"A","6":"c","7":"e","8":"s","9":"s","10":"o","11":"r","12":"i","13":"e","14":"s","cloverId":"","_id":"69a15ce1304092ded09894a9"}]
+Validation failed for Halloween Pumpkin Pipe: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded09894ab"}]
+Validation failed for Hooka: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"H","1":"o","2":"o","3":"k","4":"a","cloverId":"","_id":"69a15ce1304092ded09894ad"}]
+Validation failed for Hookah Tong: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"H","1":"o","2":"o","3":"k","4":"a","cloverId":"","_id":"69a15ce1304092ded09894af"}]
+Validation failed for Ice Cream  Pipe: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded09894b1"}]
+Validation failed for Ice Cream Cone Brown And Pink Pipe: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded09894b3"}]
+Validation failed for Isopropyl Alcohol: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"o","2":"n","3":"g","4":" ","5":"A","6":"c","7":"e","8":"s","9":"s","10":"o","11":"r","12":"i","13":"e","14":"s","cloverId":"","_id":"69a15ce1304092ded09894b5"}]
+Validation failed for King Palm Honeyv Poit & Kiwi Duo: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded09894b7"}]
+Validation failed for Margarita Pre Roll: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"F","1":"l","2":"a","3":"v","4":"o","5":"u","6":"r","7":"e","8":"d","9":" ","10":"P","11":"r","12":"e","13":" ","14":"R","15":"o","16":"l","17":"l","18":"s","cloverId":"","_id":"69a15ce1304092ded09894b9"}]
+Validation failed for Mint Saunf: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"n","2":"a","3":"c","4":"k","5":"s","cloverId":"","_id":"69a15ce1304092ded09894bb"}]
+Validation failed for Monster Eye Pipe: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded09894bd"}]
+Validation failed for Moon Cloud Silicone Pipe: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded09894bf"}]
+Validation failed for Nibo Butane: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"u","2":"t","3":"a","4":"n","5":"e","cloverId":"","_id":"69a15ce1304092ded09894c1"}]
+Validation failed for Nic Out Cigaratte Filter 30pcs: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded09894c3"}]
+Validation failed for Og 14" Red Colour Bong: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"o","2":"n","3":"g","4":"s","cloverId":"","_id":"69a15ce1304092ded09894c5"}]
+Validation failed for OG Honeydrip Hipe Bong: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"o","2":"n","3":"g","4":"s","cloverId":"","_id":"69a15ce1304092ded09894c7"}]
+Validation failed for Orbit Glass Cover: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded09894c9"}]
+Validation failed for Pal Mall Smooth Extra KS: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"C","1":"i","2":"g","3":"a","4":"r","5":"e","6":"t","7":"t","8":"e","cloverId":"","_id":"69a15ce1304092ded09894cb"}]
+Validation failed for Pall Mall Bold Extra KS: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"C","1":"i","2":"g","3":"a","4":"r","5":"e","6":"t","7":"t","8":"e","cloverId":"","_id":"69a15ce1304092ded09894cd"}]
+Validation failed for Pall Mall Bold KS: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"C","1":"i","2":"g","3":"a","4":"r","5":"e","6":"t","7":"t","8":"e","cloverId":"","_id":"69a15ce1304092ded09894cf"}]
+Validation failed for Pall Mall Bold Regular: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"C","1":"i","2":"g","3":"a","4":"r","5":"e","6":"t","7":"t","8":"e","cloverId":"","_id":"69a15ce1304092ded09894d1"}]
+Validation failed for Pall Mall Full KS: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"C","1":"i","2":"g","3":"a","4":"r","5":"e","6":"t","7":"t","8":"e","cloverId":"","_id":"69a15ce1304092ded09894d3"}]
+Validation failed for Pall Mall Full Regular: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"C","1":"i","2":"g","3":"a","4":"r","5":"e","6":"t","7":"t","8":"e","cloverId":"","_id":"69a15ce1304092ded09894d5"}]
+Validation failed for Pall Mall Smooth KS: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"C","1":"i","2":"g","3":"a","4":"r","5":"e","6":"t","7":"t","8":"e","cloverId":"","_id":"69a15ce1304092ded09894d7"}]
+Validation failed for Pall Mall Smooth Regular: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"C","1":"i","2":"g","3":"a","4":"r","5":"e","6":"t","7":"t","8":"e","cloverId":"","_id":"69a15ce1304092ded09894d9"}]
+Validation failed for Panasonic AAA4 Battery: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"a","2":"t","3":"t","4":"e","5":"r","6":"y","cloverId":"","_id":"69a15ce1304092ded09894db"}]
+Validation failed for Panasonic C2 Battery: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"a","2":"t","3":"t","4":"e","5":"r","6":"y","cloverId":"","_id":"69a15ce1304092ded09894dd"}]
+Validation failed for Panasonic D2: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"a","2":"t","3":"t","4":"e","5":"r","6":"y","cloverId":"","_id":"69a15ce1304092ded09894df"}]
+Validation failed for Panchranga Saunf: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"n","2":"a","3":"c","4":"k","5":"s","cloverId":"","_id":"69a15ce1304092ded09894e1"}]
+Validation failed for Pastic Grinder: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"G","1":"r","2":"i","3":"n","4":"d","5":"e","6":"r","cloverId":"","_id":"69a15ce1304092ded09894e3"}]
+Validation failed for Peach Pineapple Pre Roll: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"F","1":"l","2":"a","3":"v","4":"o","5":"u","6":"r","7":"e","8":"d","9":" ","10":"P","11":"r","12":"e","13":" ","14":"R","15":"o","16":"l","17":"l","18":"s","cloverId":"","_id":"69a15ce1304092ded09894e5"}]
+Validation failed for Pink & Black Silicone Breaker Pipe: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded09894e7"}]
+Validation failed for Pipe: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded09894e9"}]
+Validation failed for Raw 1 1/4 Ethereal Gold Classic Slim: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded09894eb"}]
+Validation failed for Raw Aluminium Tube: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded09894ed"}]
+Validation failed for Raw Artesano 1 1/4 Paper With Tip And Tray: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded09894ef"}]
+Validation failed for Raw Ashtray: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded09894f1"}]
+Validation failed for Raw Black 1 1/4 Rolling Paper: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded09894f3"}]
+Validation failed for Raw Black King Size Slim Rolling Paper: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded09894f5"}]
+Validation failed for Raw Brazil Tray: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded09894f7"}]
+Validation failed for Raw Classic 1 1/4Rolling Paper: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded09894f9"}]
+Validation failed for Raw Classic Black Tip: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded09894fb"}]
+Validation failed for Raw Classic King Size Cone: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded09894fd"}]
+Validation failed for Raw Classic King Size Slim Rolling Paper: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded09894ff"}]
+Validation failed for Raw Cone 1 1/4: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989501"}]
+Validation failed for Raw Donut Large Tray: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989503"}]
+Validation failed for Raw Ghost Large Tray: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989505"}]
+Validation failed for Raw Gold Cone: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"H","1":"e","2":"m","3":"p","4":" ","5":"P","6":"a","7":"p","8":"e","9":"r","cloverId":"","_id":"69a15ce1304092ded0989507"}]
+Validation failed for Raw Gold King Size Rolling Paper: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"H","1":"e","2":"m","3":"p","4":" ","5":"P","6":"a","7":"p","8":"e","9":"r","cloverId":"","_id":"69a15ce1304092ded0989509"}]
+Validation failed for Raw Grinder: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"G","1":"r","2":"i","3":"n","4":"d","5":"e","6":"r","cloverId":"","_id":"69a15ce1304092ded098950b"}]
+Validation failed for Raw King Size Organic Cone: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded098950d"}]
+Validation failed for Raw Large Mettalic Tray: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded098950f"}]
+Validation failed for Raw Mini Tray: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989511"}]
+Validation failed for Raw Oraginc Rolling Paper 1 1/4: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989513"}]
+Validation failed for Raw Organic 1 1/4 Size Paper: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989515"}]
+Validation failed for Raw Organic Hemp Kingsize Slim Rolling Paper: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989517"}]
+Validation failed for Raw Perporated Gummed Tips: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989519"}]
+Validation failed for Raw Pre Roll Tips -200: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded098951b"}]
+Validation failed for Raw Pre Rolled Wide Tips 180: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded098951d"}]
+Validation failed for Raw Pro Tips 24 Ct: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded098951f"}]
+Validation failed for Raw Rasta Rolling Tray: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989521"}]
+Validation failed for Raw Rolling Machine King Size: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989523"}]
+Validation failed for Raw Sativa Tray: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989525"}]
+Validation failed for Raw Tray: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989527"}]
+Validation failed for Red Bull 355 Ml: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"e","2":"v","3":"e","4":"r","5":"a","6":"g","7":"e","8":"s","cloverId":"","_id":"69a15ce1304092ded0989529"}]
+Validation failed for RedBull 250 Ml 4 Pack: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"e","2":"v","3":"e","4":"r","5":"a","6":"g","7":"e","8":"s","cloverId":"","_id":"69a15ce1304092ded098952b"}]
+Validation failed for Rhino Choco: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"n","2":"a","3":"c","4":"k","5":"s","cloverId":"","_id":"69a15ce1304092ded098952d"}]
+Validation failed for Riffle Gun Silicone Pipe11": Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded098952f"}]
+Validation failed for Ronson Butane 290ML: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"u","2":"t","3":"a","4":"n","5":"e","cloverId":"","_id":"69a15ce1304092ded0989531"}]
+Validation failed for Silicone Breaker Pipe: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989533"}]
+Validation failed for Skeleton Rolling Tray: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989535"}]
+Validation failed for Skull Silicone Pipe: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989537"}]
+Validation failed for Smoke Aresenal Satray Tray: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989539"}]
+Validation failed for Smoke Arsenal Blue Cookie: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded098953b"}]
+Validation failed for Smoke Arsenal Fuck You Tray: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded098953d"}]
+Validation failed for Somke Aresenal Chicago Day Tray: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded098953f"}]
+Validation failed for Sparkle Kitty Leaf Glass Bong: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"o","2":"n","3":"g","4":"s","cloverId":"","_id":"69a15ce1304092ded0989541"}]
+Validation failed for Spooky Ghost Bong: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"o","2":"n","3":"g","4":"s","cloverId":"","_id":"69a15ce1304092ded0989543"}]
+Validation failed for Three King Coal: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989545"}]
+Validation failed for Twizzlers Candle: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"C","1":"a","2":"n","3":"d","4":"l","5":"e","6":"s","cloverId":"","_id":"69a15ce1304092ded0989547"}]
+Validation failed for Unicorn Silicone Pipe: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989549"}]
+Validation failed for Uwell G4 Classic: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"V","1":"a","2":"p","3":"e","4":" ","5":"D","6":"e","7":"v","8":"i","9":"c","10":"e","11":"s","12":" ","13":"A","14":"n","15":"d","16":" ","17":"P","18":"o","19":"d","20":"s","cloverId":"","_id":"69a15ce1304092ded098954b"}]
+Validation failed for Water 250 Ml: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"e","2":"v","3":"e","4":"r","5":"a","6":"g","7":"e","8":"s","cloverId":"","_id":"69a15ce1304092ded098954d"}]
+Validation failed for YoCan Portable Battery: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"a","2":"t","3":"t","4":"e","5":"r","6":"y","cloverId":"","_id":"69a15ce1304092ded098954f"}]
+Validation failed for Zengaz B Jet Flame Lighter: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989551"}]
+Validation failed for Zengaz Jet Flame Lighter: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"L","1":"i","2":"g","3":"h","4":"t","5":"e","6":"r","cloverId":"","_id":"69a15ce1304092ded0989553"}]
+Validation failed for Zengaz Metal Lighter: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989555"}]
+Validation failed for Zig Zag Rolling Machine 1 1/4: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989557"}]
+Validation failed for Zig Zag Slow Burning 1 1/4: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989559"}]
+Validation failed for Zigzag Cutcorner Slow Burning Regular: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded098955b"}]
+Validation failed for Zigzag Kutcorner: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded098955d"}]
+Validation failed for Zigzag Utra Thin 1 1\4: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded098955f"}]
+Validation failed for Flavour Beast Unleashed Juice Epic: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"N","1":"i","2":"c","3":" ","4":"S","5":"a","6":"l","7":"t","8":" ","9":"e","10":"-","11":"j","12":"u","13":"i","14":"c","15":"e","cloverId":"","_id":"69a15ce1304092ded0989561"}]
+Validation failed for Oxva Pods Oxva 0.: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"V","1":"a","2":"p","3":"e","4":" ","5":"D","6":"e","7":"v","8":"i","9":"c","10":"e","11":"s","12":" ","13":"A","14":"n","15":"d","16":" ","17":"P","18":"o","19":"d","20":"s","cloverId":"","_id":"69a15ce1304092ded098956f"}]
+Validation failed for Elfbar Moonlight 70k: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"D","1":"i","2":"s","3":"p","4":"o","5":"s","6":"a","7":"b","8":"l","9":"e","10":" ","11":"V","12":"a","13":"p","14":"e","15":"s","cloverId":"","_id":"69a15ce1304092ded0989573"}]
+Validation failed for ElfBar 1800: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"D","1":"i","2":"s","3":"p","4":"o","5":"s","6":"a","7":"b","8":"l","9":"e","10":" ","11":"V","12":"a","13":"p","14":"e","15":"s","cloverId":"","_id":"69a15ce1304092ded098957f"}]
+Validation failed for Beco Slim Hybrid: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"D","1":"i","2":"s","3":"p","4":"o","5":"s","6":"a","7":"b","8":"l","9":"e","10":" ","11":"V","12":"a","13":"p","14":"e","15":"s","cloverId":"","_id":"69a15ce1304092ded0989589"}]
+Validation failed for Beco Slim: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"D","1":"i","2":"s","3":"p","4":"o","5":"s","6":"a","7":"b","8":"l","9":"e","10":" ","11":"V","12":"a","13":"p","14":"e","15":"s","cloverId":"","_id":"69a15ce1304092ded0989598"}]
+Validation failed for Fog Pro X: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"D","1":"i","2":"s","3":"p","4":"o","5":"s","6":"a","7":"b","8":"l","9":"e","10":" ","11":"V","12":"a","13":"p","14":"e","15":"s","cloverId":"","_id":"69a15ce1304092ded098959f"}]
+Validation failed for Gcore Juice 30 ML 10 MG: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"F","1":"r","2":"e","3":"e","4":"b","5":"a","6":"s","7":"e","8":" ","9":"e","10":"-","11":"j","12":"u","13":"i","14":"c","15":"e","cloverId":"","_id":"69a15ce1304092ded09895a8"}]
+Validation failed for Gcore Juices 30 Ml 20 Mg: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"N","1":"i","2":"c","3":" ","4":"S","5":"a","6":"l","7":"t","8":" ","9":"e","10":"-","11":"j","12":"u","13":"i","14":"c","15":"e","cloverId":"","_id":"69a15ce1304092ded09895b5"}]
+Validation failed for Abt e - juice: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"N","1":"i","2":"c","3":" ","4":"S","5":"a","6":"l","7":"t","8":" ","9":"e","10":"-","11":"j","12":"u","13":"i","14":"c","15":"e","cloverId":"","_id":"69a15ce1304092ded09895d7"}]
+Validation failed for ABT: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"D","1":"i","2":"s","3":"p","4":"o","5":"s","6":"a","7":"b","8":"l","9":"e","10":" ","11":"V","12":"a","13":"p","14":"e","15":"s","cloverId":"","_id":"69a15ce1304092ded09895e1"}]
+Validation failed for Flavour Beast Juice: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"N","1":"i","2":"c","3":" ","4":"S","5":"a","6":"l","7":"t","8":" ","9":"e","10":"-","11":"j","12":"u","13":"i","14":"c","15":"e","cloverId":"","_id":"69a15ce1304092ded098960c"}]
+Validation failed for Level X G2 Ultra: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"C","1":"l","2":"o","3":"s","4":"e","5":"d","6":" ","7":"P","8":"o","9":"d","10":" ","11":"V","12":"a","13":"p","14":"i","15":"n","16":"g","17":" ","18":"D","19":"e","20":"v","21":"i","22":"c","23":"e","24":" ","25":"&","26":" ","27":"P","28":"o","29":"d","30":"s","cloverId":"","_id":"69a15ce1304092ded098962f"}]
+Validation failed for Uhaul: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"U","1":"h","2":"a","3":"u","4":"l","5":" ","6":"S","7":"u","8":"p","9":"p","10":"l","11":"i","12":"e","13":"s","cloverId":"","_id":"69a15ce1304092ded098963f"}]
+Validation failed for Maven Torch Lighter: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"L","1":"i","2":"g","3":"h","4":"t","5":"e","6":"r","cloverId":"","_id":"69a15ce1304092ded0989643"}]
+Validation failed for Nic Bar Fire N Ice: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"D","1":"i","2":"s","3":"p","4":"o","5":"s","6":"a","7":"b","8":"l","9":"e","10":" ","11":"V","12":"a","13":"p","14":"e","15":"s","cloverId":"","_id":"69a15ce1304092ded0989647"}]
+Validation failed for Flavour Beast Mode Max 2: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"D","1":"i","2":"s","3":"p","4":"o","5":"s","6":"a","7":"b","8":"l","9":"e","10":" ","11":"V","12":"a","13":"p","14":"e","15":"s","cloverId":"","_id":"69a15ce1304092ded0989657"}]
+Validation failed for Smok Coil Rpm: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"V","1":"a","2":"p","3":"e","4":" ","5":"D","6":"e","7":"v","8":"i","9":"c","10":"e","11":"s","12":" ","13":"A","14":"n","15":"d","16":" ","17":"P","18":"o","19":"d","20":"s","cloverId":"","_id":"69a15ce1304092ded0989661"}]
+Validation failed for Flavour Beast Gushing Juice: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"N","1":"i","2":"c","3":" ","4":"S","5":"a","6":"l","7":"t","8":" ","9":"e","10":"-","11":"j","12":"u","13":"i","14":"c","15":"e","cloverId":"","_id":"69a15ce1304092ded0989667"}]
+Validation failed for Yocan Orbit Wax Vapouriser: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"W","1":"e","2":"e","3":"d","4":" ","5":"V","6":"a","7":"p","8":"o","9":"u","10":"r","11":"i","12":"s","13":"e","14":"r","cloverId":"","_id":"69a15ce1304092ded0989672"}]
+Validation failed for Relx Pod Pro 2: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"C","1":"l","2":"o","3":"s","4":"e","5":"d","6":" ","7":"P","8":"o","9":"d","10":" ","11":"V","12":"a","13":"p","14":"i","15":"n","16":"g","17":" ","18":"D","19":"e","20":"v","21":"i","22":"c","23":"e","24":" ","25":"&","26":" ","27":"P","28":"o","29":"d","30":"s","cloverId":"","_id":"69a15ce1304092ded0989675"}]
+Validation failed for Flavour Beast Juice 60 ml: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"N","1":"i","2":"c","3":" ","4":"S","5":"a","6":"l","7":"t","8":" ","9":"e","10":"-","11":"j","12":"u","13":"i","14":"c","15":"e","cloverId":"","_id":"69a15ce1304092ded0989683"}]
+Validation failed for G4 Pro Koko Uwell: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"V","1":"a","2":"p","3":"e","4":" ","5":"D","6":"e","7":"v","8":"i","9":"c","10":"e","11":"s","12":" ","13":"A","14":"n","15":"d","16":" ","17":"P","18":"o","19":"d","20":"s","cloverId":"","_id":"69a15ce1304092ded098968b"}]
+Validation failed for Relx Essential 2 Device: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"C","1":"l","2":"o","3":"s","4":"e","5":"d","6":" ","7":"P","8":"o","9":"d","10":" ","11":"V","12":"a","13":"p","14":"i","15":"n","16":"g","17":" ","18":"D","19":"e","20":"v","21":"i","22":"c","23":"e","24":" ","25":"&","26":" ","27":"P","28":"o","29":"d","30":"s","cloverId":"","_id":"69a15ce1304092ded098968f"}]
+Validation failed for Relx Infinity 2 Device: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"C","1":"l","2":"o","3":"s","4":"e","5":"d","6":" ","7":"P","8":"o","9":"d","10":" ","11":"V","12":"a","13":"p","14":"i","15":"n","16":"g","17":" ","18":"D","19":"e","20":"v","21":"i","22":"c","23":"e","24":" ","25":"&","26":" ","27":"P","28":"o","29":"d","30":"s","cloverId":"","_id":"69a15ce1304092ded0989692"}]
+Validation failed for Allo Sync Pods: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"C","1":"l","2":"o","3":"s","4":"e","5":"d","6":" ","7":"P","8":"o","9":"d","10":" ","11":"V","12":"a","13":"p","14":"i","15":"n","16":"g","17":" ","18":"D","19":"e","20":"v","21":"i","22":"c","23":"e","24":" ","25":"&","26":" ","27":"P","28":"o","29":"d","30":"s","cloverId":"","_id":"69a15ce1304092ded0989695"}]
+Validation failed for Elfbar BC10000: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"D","1":"i","2":"s","3":"p","4":"o","5":"s","6":"a","7":"b","8":"l","9":"e","10":" ","11":"V","12":"a","13":"p","14":"e","15":"s","cloverId":"","_id":"69a15ce1304092ded09896b0"}]
+Validation failed for Smok Nord 5 Vaping Device: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"V","1":"a","2":"p","3":"e","4":" ","5":"D","6":"e","7":"v","8":"i","9":"c","10":"e","11":"s","12":" ","13":"A","14":"n","15":"d","16":" ","17":"P","18":"o","19":"d","20":"s","cloverId":"","_id":"69a15ce1304092ded09896bc"}]
+Validation failed for Flavour Beast Sippin Juice: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"N","1":"i","2":"c","3":" ","4":"S","5":"a","6":"l","7":"t","8":" ","9":"e","10":"-","11":"j","12":"u","13":"i","14":"c","15":"e","cloverId":"","_id":"69a15ce1304092ded09896bf"}]
+Validation failed for Smoke Buddy: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded09896c2"}]
+Validation failed for Elfbar 12k: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"D","1":"i","2":"s","3":"p","4":"o","5":"s","6":"a","7":"b","8":"l","9":"e","10":" ","11":"V","12":"a","13":"p","14":"e","15":"s","cloverId":"","_id":"69a15ce1304092ded09896cd"}]
+Validation failed for Gcore Juice 60 Ml (20mg): Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"N","1":"i","2":"c","3":" ","4":"S","5":"a","6":"l","7":"t","8":" ","9":"e","10":"-","11":"j","12":"u","13":"i","14":"c","15":"e","cloverId":"","_id":"69a15ce1304092ded09896d9"}]
+Validation failed for G4 UWell: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"V","1":"a","2":"p","3":"e","4":" ","5":"D","6":"e","7":"v","8":"i","9":"c","10":"e","11":"s","12":" ","13":"A","14":"n","15":"d","16":" ","17":"P","18":"o","19":"d","20":"s","cloverId":"","_id":"69a15ce1304092ded09896e6"}]
+Validation failed for G4 Mini Uwell: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"V","1":"a","2":"p","3":"e","4":" ","5":"D","6":"e","7":"v","8":"i","9":"c","10":"e","11":"s","12":" ","13":"A","14":"n","15":"d","16":" ","17":"P","18":"o","19":"d","20":"s","cloverId":"","_id":"69a15ce1304092ded09896ea"}]
+Validation failed for G4 Pro Uwell: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"V","1":"a","2":"p","3":"e","4":" ","5":"D","6":"e","7":"v","8":"i","9":"c","10":"e","11":"s","12":" ","13":"A","14":"n","15":"d","16":" ","17":"P","18":"o","19":"d","20":"s","cloverId":"","_id":"69a15ce1304092ded09896f1"}]
+Validation failed for Allo 2500: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"D","1":"i","2":"s","3":"p","4":"o","5":"s","6":"a","7":"b","8":"l","9":"e","10":" ","11":"V","12":"a","13":"p","14":"e","15":"s","cloverId":"","_id":"69a15ce1304092ded09896f7"}]
+Validation failed for Allo 500: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"D","1":"i","2":"s","3":"p","4":"o","5":"s","6":"a","7":"b","8":"l","9":"e","10":" ","11":"V","12":"a","13":"p","14":"e","15":"s","cloverId":"","_id":"69a15ce1304092ded0989702"}]
+Validation failed for Masking 0.1mg Nicotine Disposable: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"D","1":"i","2":"s","3":"p","4":"o","5":"s","6":"a","7":"b","8":"l","9":"e","10":" ","11":"V","12":"a","13":"p","14":"e","15":"s","cloverId":"","_id":"69a15ce1304092ded0989715"}]
+Validation failed for Crave Juice Cinna: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"N","1":"i","2":"c","3":" ","4":"S","5":"a","6":"l","7":"t","8":" ","9":"e","10":"-","11":"j","12":"u","13":"i","14":"c","15":"e","cloverId":"","_id":"69a15ce1304092ded0989719"}]
+Validation failed for Pava Pods 0.: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"V","1":"a","2":"p","3":"e","4":" ","5":"D","6":"e","7":"v","8":"i","9":"c","10":"e","11":"s","12":" ","13":"A","14":"n","15":"d","16":" ","17":"P","18":"o","19":"d","20":"s","cloverId":"","_id":"69a15ce1304092ded098971b"}]
+Validation failed for Ice Nic: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"D","1":"i","2":"s","3":"p","4":"o","5":"s","6":"a","7":"b","8":"l","9":"e","10":" ","11":"V","12":"a","13":"p","14":"e","15":"s","cloverId":"","_id":"69a15ce1304092ded0989725"}]
+Validation failed for Pava Horiz AI: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"V","1":"a","2":"p","3":"e","4":" ","5":"D","6":"e","7":"v","8":"i","9":"c","10":"e","11":"s","12":" ","13":"A","14":"n","15":"d","16":" ","17":"P","18":"o","19":"d","20":"s","cloverId":"","_id":"69a15ce1304092ded0989731"}]
+Validation failed for Pava Horiz Pro: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"V","1":"a","2":"p","3":"e","4":" ","5":"D","6":"e","7":"v","8":"i","9":"c","10":"e","11":"s","12":" ","13":"A","14":"n","15":"d","16":" ","17":"P","18":"o","19":"d","20":"s","cloverId":"","_id":"69a15ce1304092ded0989734"}]
+Validation failed for Pava Horiz Ultra: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"V","1":"a","2":"p","3":"e","4":" ","5":"D","6":"e","7":"v","8":"i","9":"c","10":"e","11":"s","12":" ","13":"A","14":"n","15":"d","16":" ","17":"P","18":"o","19":"d","20":"s","cloverId":"","_id":"69a15ce1304092ded0989737"}]
+Validation failed for Marley Grinder: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"G","1":"r","2":"i","3":"n","4":"d","5":"e","6":"r","cloverId":"","_id":"69a15ce1304092ded098973a"}]
+Validation failed for Elfbar Gh20000: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"D","1":"i","2":"s","3":"p","4":"o","5":"s","6":"a","7":"b","8":"l","9":"e","10":" ","11":"V","12":"a","13":"p","14":"e","15":"s","cloverId":"","_id":"69a15ce1304092ded098973d"}]
+Validation failed for Level X G2 Battery: Product validation failed: categories.0.name: Path `name` is required., categories.1.name: Path `name` is required.
+Categories: [{"0":"C","1":"l","2":"o","3":"s","4":"e","5":"d","6":" ","7":"P","8":"o","9":"d","10":" ","11":"V","12":"a","13":"p","14":"i","15":"n","16":"g","17":" ","18":"D","19":"e","20":"v","21":"i","22":"c","23":"e","24":" ","25":"&","26":" ","27":"P","28":"o","29":"d","30":"s","cloverId":"","_id":"69a15ce1304092ded0989746"},{"0":"V","1":"a","2":"p","3":"e","4":" ","5":"D","6":"e","7":"v","8":"i","9":"c","10":"e","11":"s","12":" ","13":"A","14":"n","15":"d","16":" ","17":"P","18":"o","19":"d","20":"s","cloverId":"","_id":"69a15ce1304092ded0989747"}]
+Validation failed for Geek Vape Coil .: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"V","1":"a","2":"p","3":"e","4":" ","5":"D","6":"e","7":"v","8":"i","9":"c","10":"e","11":"s","12":" ","13":"A","14":"n","15":"d","16":" ","17":"P","18":"o","19":"d","20":"s","cloverId":"","_id":"69a15ce1304092ded098974c"}]
+Validation failed for Geek Vape Pods: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"V","1":"a","2":"p","3":"e","4":" ","5":"D","6":"e","7":"v","8":"i","9":"c","10":"e","11":"s","12":" ","13":"A","14":"n","15":"d","16":" ","17":"P","18":"o","19":"d","20":"s","cloverId":"","_id":"69a15ce1304092ded0989750"}]
+Validation failed for Voopoo Tank: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"V","1":"a","2":"p","3":"e","4":" ","5":"D","6":"e","7":"v","8":"i","9":"c","10":"e","11":"s","12":" ","13":"A","14":"n","15":"d","16":" ","17":"P","18":"o","19":"d","20":"s","cloverId":"","_id":"69a15ce1304092ded0989753"}]
+Validation failed for Voopoo Coils .: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"V","1":"a","2":"p","3":"e","4":" ","5":"D","6":"e","7":"v","8":"i","9":"c","10":"e","11":"s","12":" ","13":"A","14":"n","15":"d","16":" ","17":"P","18":"o","19":"d","20":"s","cloverId":"","_id":"69a15ce1304092ded0989756"}]
+Validation failed for Twelve Monki 6 Mg Juice: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"F","1":"r","2":"e","3":"e","4":"b","5":"a","6":"s","7":"e","8":" ","9":"e","10":"-","11":"j","12":"u","13":"i","14":"c","15":"e","cloverId":"","_id":"69a15ce1304092ded098975a"}]
+Validation failed for Allo Sync Device: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"C","1":"l","2":"o","3":"s","4":"e","5":"d","6":" ","7":"P","8":"o","9":"d","10":" ","11":"V","12":"a","13":"p","14":"i","15":"n","16":"g","17":" ","18":"D","19":"e","20":"v","21":"i","22":"c","23":"e","24":" ","25":"&","26":" ","27":"P","28":"o","29":"d","30":"s","cloverId":"","_id":"69a15ce1304092ded0989760"}]
+Validation failed for Typhos SE: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"V","1":"a","2":"p","3":"e","4":" ","5":"D","6":"e","7":"v","8":"i","9":"c","10":"e","11":"s","12":" ","13":"A","14":"n","15":"d","16":" ","17":"P","18":"o","19":"d","20":"s","cloverId":"","_id":"69a15ce1304092ded0989763"}]
+Validation failed for UWell pod G: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"V","1":"a","2":"p","3":"e","4":" ","5":"D","6":"e","7":"v","8":"i","9":"c","10":"e","11":"s","12":" ","13":"A","14":"n","15":"d","16":" ","17":"P","18":"o","19":"d","20":"s","cloverId":"","_id":"69a15ce1304092ded0989769"}]
+Validation failed for Bazooka: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"D","1":"i","2":"s","3":"p","4":"o","5":"s","6":"a","7":"b","8":"l","9":"e","10":" ","11":"V","12":"a","13":"p","14":"e","15":"s","cloverId":"","_id":"69a15ce1304092ded0989770"}]
+Validation failed for Rivo Bar: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"D","1":"i","2":"s","3":"p","4":"o","5":"s","6":"a","7":"b","8":"l","9":"e","10":" ","11":"V","12":"a","13":"p","14":"e","15":"s","cloverId":"","_id":"69a15ce1304092ded0989778"}]
+Validation failed for Prime Whip Cream Charger: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"W","1":"h","2":"i","3":"p","4":"p","5":"e","6":"d","7":" ","8":"C","9":"r","10":"e","11":"a","12":"m","13":" ","14":"C","15":"h","16":"a","17":"r","18":"g","19":"e","20":"r","cloverId":"","_id":"69a15ce1304092ded098978e"}]
+Validation failed for Vapresso Xros 4 Mini: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"V","1":"a","2":"p","3":"e","4":" ","5":"D","6":"e","7":"v","8":"i","9":"c","10":"e","11":"s","12":" ","13":"A","14":"n","15":"d","16":" ","17":"P","18":"o","19":"d","20":"s","cloverId":"","_id":"69a15ce1304092ded0989792"}]
+Validation failed for Level X G2: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"C","1":"l","2":"o","3":"s","4":"e","5":"d","6":" ","7":"P","8":"o","9":"d","10":" ","11":"V","12":"a","13":"p","14":"i","15":"n","16":"g","17":" ","18":"D","19":"e","20":"v","21":"i","22":"c","23":"e","24":" ","25":"&","26":" ","27":"P","28":"o","29":"d","30":"s","cloverId":"","_id":"69a15ce1304092ded0989798"}]
+Validation failed for Allo Juice: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"N","1":"i","2":"c","3":" ","4":"S","5":"a","6":"l","7":"t","8":" ","9":"e","10":"-","11":"j","12":"u","13":"i","14":"c","15":"e","cloverId":"","_id":"69a15ce1304092ded09897a6"}]
+Validation failed for G3 Lite Uwell: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"V","1":"a","2":"p","3":"e","4":" ","5":"D","6":"e","7":"v","8":"i","9":"c","10":"e","11":"s","12":" ","13":"A","14":"n","15":"d","16":" ","17":"P","18":"o","19":"d","20":"s","cloverId":"","_id":"69a15ce1304092ded09897b5"}]
+Validation failed for G3 Lite Koko Uwell: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"V","1":"a","2":"p","3":"e","4":" ","5":"D","6":"e","7":"v","8":"i","9":"c","10":"e","11":"s","12":" ","13":"A","14":"n","15":"d","16":" ","17":"P","18":"o","19":"d","20":"s","cloverId":"","_id":"69a15ce1304092ded09897bf"}]
+Validation failed for Smok Pods: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"V","1":"a","2":"p","3":"e","4":" ","5":"D","6":"e","7":"v","8":"i","9":"c","10":"e","11":"s","12":" ","13":"A","14":"n","15":"d","16":" ","17":"P","18":"o","19":"d","20":"s","cloverId":"","_id":"69a15ce1304092ded09897c4"}]
+Validation failed for Twelve Monki Juice: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"N","1":"i","2":"c","3":" ","4":"S","5":"a","6":"l","7":"t","8":" ","9":"e","10":"-","11":"j","12":"u","13":"i","14":"c","15":"e","cloverId":"","_id":"69a15ce1304092ded09897cc"}]
+Validation failed for Flavour Beast Cravin Juice 20 Mg: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"N","1":"i","2":"c","3":" ","4":"S","5":"a","6":"l","7":"t","8":" ","9":"e","10":"-","11":"j","12":"u","13":"i","14":"c","15":"e","cloverId":"","_id":"69a15ce1304092ded09897d3"}]
+Validation failed for Flavour Beast Freebase 3mg Juice: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"F","1":"r","2":"e","3":"e","4":"b","5":"a","6":"s","7":"e","8":" ","9":"e","10":"-","11":"j","12":"u","13":"i","14":"c","15":"e","cloverId":"","_id":"69a15ce1304092ded09897dc"}]
+Validation failed for Yocan Draco Electric Grinder: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"G","1":"r","2":"i","3":"n","4":"d","5":"e","6":"r","cloverId":"","_id":"69a15ce1304092ded09897e6"}]
+Validation failed for Raw Rasta Grinder: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"G","1":"r","2":"i","3":"n","4":"d","5":"e","6":"r","cloverId":"","_id":"69a15ce1304092ded09897ec"}]
+Validation failed for Allo 25K: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"D","1":"i","2":"s","3":"p","4":"o","5":"s","6":"a","7":"b","8":"l","9":"e","10":" ","11":"V","12":"a","13":"p","14":"e","15":"s","cloverId":"","_id":"69a15ce1304092ded09897ef"}]
+Validation failed for Level X G2Pro Battery: Product validation failed: categories.0.name: Path `name` is required., categories.1.name: Path `name` is required.
+Categories: [{"0":"C","1":"l","2":"o","3":"s","4":"e","5":"d","6":" ","7":"P","8":"o","9":"d","10":" ","11":"V","12":"a","13":"p","14":"i","15":"n","16":"g","17":" ","18":"D","19":"e","20":"v","21":"i","22":"c","23":"e","24":" ","25":"&","26":" ","27":"P","28":"o","29":"d","30":"s","cloverId":"","_id":"69a15ce1304092ded0989804"},{"0":"V","1":"a","2":"p","3":"e","4":" ","5":"D","6":"e","7":"v","8":"i","9":"c","10":"e","11":"s","12":" ","13":"A","14":"n","15":"d","16":" ","17":"P","18":"o","19":"d","20":"s","cloverId":"","_id":"69a15ce1304092ded0989805"}]
+Validation failed for Tray Cover: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989809"}]
+Validation failed for Vapresso Pods: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"V","1":"a","2":"p","3":"e","4":" ","5":"D","6":"e","7":"v","8":"i","9":"c","10":"e","11":"s","12":" ","13":"A","14":"n","15":"d","16":" ","17":"P","18":"o","19":"d","20":"s","cloverId":"","_id":"69a15ce1304092ded098980e"}]
+Validation failed for Uwell GPP PODS: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"V","1":"a","2":"p","3":"e","4":" ","5":"D","6":"e","7":"v","8":"i","9":"c","10":"e","11":"s","12":" ","13":"A","14":"n","15":"d","16":" ","17":"P","18":"o","19":"d","20":"s","cloverId":"","_id":"69a15ce1304092ded0989814"}]
+Validation failed for Typhos Pods 0.: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"V","1":"a","2":"p","3":"e","4":" ","5":"D","6":"e","7":"v","8":"i","9":"c","10":"e","11":"s","12":" ","13":"A","14":"n","15":"d","16":" ","17":"P","18":"o","19":"d","20":"s","cloverId":"","_id":"69a15ce1304092ded0989819"}]
+Validation failed for Vfeel V1: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"D","1":"i","2":"s","3":"p","4":"o","5":"s","6":"a","7":"b","8":"l","9":"e","10":" ","11":"V","12":"a","13":"p","14":"e","15":"s","cloverId":"","_id":"69a15ce1304092ded098981c"}]
+Validation failed for Storage Tin: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded098983d"}]
+Validation failed for Next P M Original KS: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"C","1":"i","2":"g","3":"a","4":"r","5":"e","6":"t","7":"t","8":"e","cloverId":"","_id":"69a15ce1304092ded0989842"}]
+Validation failed for Marlboro: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"C","1":"i","2":"g","3":"a","4":"r","5":"e","6":"t","7":"t","8":"e","cloverId":"","_id":"69a15ce1304092ded0989844"}]
+Validation failed for Coco Diamond Coal: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded0989849"}]
+Validation failed for Abt Twist: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"D","1":"i","2":"s","3":"p","4":"o","5":"s","6":"a","7":"b","8":"l","9":"e","10":" ","11":"V","12":"a","13":"p","14":"e","15":"s","cloverId":"","_id":"69a15ce1304092ded098984c"}]
+Validation failed for Magna MG50: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"D","1":"i","2":"s","3":"p","4":"o","5":"s","6":"a","7":"b","8":"l","9":"e","10":" ","11":"V","12":"a","13":"p","14":"e","15":"s","cloverId":"","_id":"69a15ce1304092ded0989857"}]
+Validation failed for Red Bull 250 Ml: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"e","2":"v","3":"e","4":"r","5":"a","6":"g","7":"e","8":"s","cloverId":"","_id":"69a15ce1304092ded098985e"}]
+Validation failed for Funflips: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"n","2":"a","3":"c","4":"k","5":"s","cloverId":"","_id":"69a15ce1304092ded0989864"}]
+Validation failed for Oyes Puffs: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"n","2":"a","3":"c","4":"k","5":"s","cloverId":"","_id":"69a15ce1304092ded098986b"}]
+Validation failed for Flavour Beast Hydra 18k: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"D","1":"i","2":"s","3":"p","4":"o","5":"s","6":"a","7":"b","8":"l","9":"e","10":" ","11":"V","12":"a","13":"p","14":"e","15":"s","cloverId":"","_id":"69a15ce1304092ded0989870"}]
+Validation failed for Onek Air 1000 Puffs: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"D","1":"i","2":"s","3":"p","4":"o","5":"s","6":"a","7":"b","8":"l","9":"e","10":" ","11":"V","12":"a","13":"p","14":"e","15":"s","cloverId":"","_id":"69a15ce1304092ded098987f"}]
+Validation failed for Sniper: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"D","1":"i","2":"s","3":"p","4":"o","5":"s","6":"a","7":"b","8":"l","9":"e","10":" ","11":"V","12":"a","13":"p","14":"e","15":"s","cloverId":"","_id":"69a15ce1304092ded098988c"}]
+Validation failed for Fog 16 Series: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"D","1":"i","2":"s","3":"p","4":"o","5":"s","6":"a","7":"b","8":"l","9":"e","10":" ","11":"V","12":"a","13":"p","14":"e","15":"s","cloverId":"","_id":"69a15ce1304092ded098989a"}]
+Validation failed for Stash Can: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded09898bb"}]
+Validation failed for Wacky Smoking Kit: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded09898c0"}]
+Validation failed for Raw Storage Box B: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"m","2":"o","3":"k","4":"i","5":"n","6":"g","7":" ","8":"A","9":"c","10":"c","11":"e","12":"s","13":"o","14":"r","15":"i","16":"e","17":"s","cloverId":"","_id":"69a15ce1304092ded09898c3"}]
+Validation failed for Smoke Odor Air Freshner: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"A","1":"i","2":"r","3":" ","4":"F","5":"r","6":"e","7":"s","8":"h","9":"n","10":"e","11":"r","12":" ","cloverId":"","_id":"69a15ce1304092ded09898c6"}]
+Validation failed for Scent Bomb Gel Disk: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"A","1":"i","2":"r","3":" ","4":"F","5":"r","6":"e","7":"s","8":"h","9":"n","10":"e","11":"r","12":" ","cloverId":"","_id":"69a15ce1304092ded09898d2"}]
+Validation failed for Bong Water: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"o","2":"n","3":"g","4":" ","5":"A","6":"c","7":"e","8":"s","9":"s","10":"o","11":"r","12":"i","13":"e","14":"s","cloverId":"","_id":"69a15ce1304092ded09898d8"}]
+Validation failed for Smoke Odour Candle: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"C","1":"a","2":"n","3":"d","4":"l","5":"e","6":"s","cloverId":"","_id":"69a15ce1304092ded09898e1"}]
+Validation failed for High Tea Self Rolling Wraps: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"H","1":"e","2":"m","3":"p","4":" ","5":"P","6":"a","7":"p","8":"e","9":"r","cloverId":"","_id":"69a15ce1304092ded09898ee"}]
+Validation failed for T&T 420 Grinder: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"G","1":"r","2":"i","3":"n","4":"d","5":"e","6":"r","cloverId":"","_id":"69a15ce1304092ded09898f3"}]
+Validation failed for Yo Can Draco Mini Electric Grinder: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"G","1":"r","2":"i","3":"n","4":"d","5":"e","6":"r","cloverId":"","_id":"69a15ce1304092ded09898f7"}]
+Validation failed for Incense Sticks: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"A","1":"i","2":"r","3":" ","4":"F","5":"r","6":"e","7":"s","8":"h","9":"n","10":"e","11":"r","12":" ","cloverId":"","_id":"69a15ce1304092ded09898fa"}]
+Validation failed for Mist Nova: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"W","1":"e","2":"e","3":"d","4":" ","5":"V","6":"a","7":"p","8":"o","9":"u","10":"r","11":"i","12":"s","13":"e","14":"r","cloverId":"","_id":"69a15ce1304092ded0989904"}]
+Validation failed for YoCan CubeX: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"W","1":"e","2":"e","3":"d","4":" ","5":"V","6":"a","7":"p","8":"o","9":"u","10":"r","11":"i","12":"s","13":"e","14":"r","cloverId":"","_id":"69a15ce1304092ded0989908"}]
+Validation failed for YoCan Hit 2: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"W","1":"e","2":"e","3":"d","4":" ","5":"V","6":"a","7":"p","8":"o","9":"u","10":"r","11":"i","12":"s","13":"e","14":"r","cloverId":"","_id":"69a15ce1304092ded098990b"}]
+Validation failed for YoCan Vane2: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"W","1":"e","2":"e","3":"d","4":" ","5":"V","6":"a","7":"p","8":"o","9":"u","10":"r","11":"i","12":"s","13":"e","14":"r","cloverId":"","_id":"69a15ce1304092ded098990e"}]
+Validation failed for YoCan iCan: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"W","1":"e","2":"e","3":"d","4":" ","5":"V","6":"a","7":"p","8":"o","9":"u","10":"r","11":"i","12":"s","13":"e","14":"r","cloverId":"","_id":"69a15ce1304092ded0989911"}]
+Validation failed for Uwell G3 Pro Device: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"V","1":"a","2":"p","3":"e","4":" ","5":"D","6":"e","7":"v","8":"i","9":"c","10":"e","11":"s","12":" ","13":"A","14":"n","15":"d","16":" ","17":"P","18":"o","19":"d","20":"s","cloverId":"","_id":"69a15ce1304092ded0989914"}]
+Validation failed for Uwell GK 3 Device: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"V","1":"a","2":"p","3":"e","4":" ","5":"D","6":"e","7":"v","8":"i","9":"c","10":"e","11":"s","12":" ","13":"A","14":"n","15":"d","16":" ","17":"P","18":"o","19":"d","20":"s","cloverId":"","_id":"69a15ce1304092ded0989919"}]
+Validation failed for Juicy Jay Small: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"H","1":"e","2":"m","3":"p","4":" ","5":"P","6":"a","7":"p","8":"e","9":"r","cloverId":"","_id":"69a15ce1304092ded098991e"}]
+Validation failed for Juicy Jay King Size: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"H","1":"e","2":"m","3":"p","4":" ","5":"P","6":"a","7":"p","8":"e","9":"r","cloverId":"","_id":"69a15ce1304092ded0989925"}]
+Validation failed for O2: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"D","1":"i","2":"s","3":"p","4":"o","5":"s","6":"a","7":"b","8":"l","9":"e","10":" ","11":"V","12":"a","13":"p","14":"e","15":"s","cloverId":"","_id":"69a15ce1304092ded098992c"}]
+Validation failed for Twist Bar: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"D","1":"i","2":"s","3":"p","4":"o","5":"s","6":"a","7":"b","8":"l","9":"e","10":" ","11":"V","12":"a","13":"p","14":"e","15":"s","cloverId":"","_id":"69a15ce1304092ded0989932"}]
+Validation failed for Draggg: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"D","1":"i","2":"s","3":"p","4":"o","5":"s","6":"a","7":"b","8":"l","9":"e","10":" ","11":"V","12":"a","13":"p","14":"e","15":"s","cloverId":"","_id":"69a15ce1304092ded0989938"}]
+Validation failed for Beast Nic 4000 Puff: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"D","1":"i","2":"s","3":"p","4":"o","5":"s","6":"a","7":"b","8":"l","9":"e","10":" ","11":"V","12":"a","13":"p","14":"e","15":"s","cloverId":"","_id":"69a15ce1304092ded0989943"}]
+Validation failed for Duracell AA: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"B","1":"a","2":"t","3":"t","4":"e","5":"r","6":"y","cloverId":"","_id":"69a15ce1304092ded0989949"}]
+Validation failed for Royal Honey: Product validation failed: categories.0.name: Path `name` is required.
+Categories: [{"0":"S","1":"n","2":"a","3":"c","4":"k","5":"s","cloverId":"","_id":"69a15ce1304092ded098994c"}]

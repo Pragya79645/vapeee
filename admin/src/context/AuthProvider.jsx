@@ -2,15 +2,12 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
 import { toast } from "react-toastify";
-import { useSync } from './SyncContext';
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-
-    const { runSyncFrom, runSyncTo, autoSyncEnabled } = useSync();
 
     const checkAuth = async () => {
         try {
@@ -23,21 +20,6 @@ export const AuthProvider = ({ children }) => {
             setUser(null);
         } finally {
             setLoading(false);
-            // Trigger automatic Clover sync (both FROM and TO) in the background after auth check
-            if (autoSyncEnabled) {
-                (async () => {
-                    try {
-                        if (typeof runSyncFrom === 'function') {
-                            await runSyncFrom();
-                        }
-                        if (typeof runSyncTo === 'function') {
-                            await runSyncTo();
-                        }
-                    } catch (e) {
-                        console.error('Auto sync failed', e);
-                    }
-                })();
-            }
         }
     };
 

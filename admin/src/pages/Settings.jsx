@@ -6,6 +6,7 @@ const Settings = () => {
   const [loading, setLoading] = useState(false);
   const [navbar, setNavbar] = useState([]);
   const [hero, setHero] = useState({ slides: [] });
+  const [products, setProducts] = useState([]);
 
   const fetchSettings = async () => {
     try {
@@ -29,7 +30,21 @@ const Settings = () => {
     }
   };
 
-  useEffect(() => { fetchSettings(); }, []);
+  const fetchProducts = async () => {
+    try {
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/product/list?limit=500`);
+      if (res.data.success) {
+        setProducts(res.data.products || []);
+      }
+    } catch (err) {
+      console.error('Failed to fetch products', err);
+    }
+  };
+
+  useEffect(() => {
+    fetchSettings();
+    fetchProducts();
+  }, []);
 
   const addNavItem = () => setNavbar([...navbar, { label: '', href: '' }]);
   const updateNavItem = (i, field, value) => {
@@ -44,6 +59,22 @@ const Settings = () => {
   };
   const removeSlide = (i) => setHero({ slides: (hero.slides || []).filter((_, idx) => idx !== i) });
   const slidesBySlot = (slot) => (hero.slides || []).map((s, idx) => ({ ...s, __idx: idx })).filter(s => s.slot === slot);
+
+  const handleProductPick = (i, productId) => {
+    const prod = products.find(p => p._id === productId);
+    if (!prod) return;
+    const thumb = (prod.images && prod.images[0] && (prod.images[0].secure_url || prod.images[0].url)) || prod.image || '';
+
+    const newSlides = [...(hero.slides || [])];
+    newSlides[i] = {
+      ...newSlides[i],
+      src: thumb || newSlides[i].src,
+      title: prod.name || newSlides[i].title,
+      subtitle: prod.flavour || newSlides[i].subtitle,
+      link: `/product/${prod._id}`
+    };
+    setHero({ slides: newSlides });
+  };
 
   const onSave = async () => {
     setLoading(true);
@@ -86,15 +117,33 @@ const Settings = () => {
         <p className="text-sm text-gray-500 mb-3">Banner slides appear in the main hero carousel. Each slide has its own image, title and subtitle.</p>
         <div className="space-y-3">
           {slidesBySlot('banner').map((s) => (
-            <div key={s.__idx} className="flex gap-2 items-start">
-              <input value={s.src} onChange={e => updateSlide(s.__idx, 'src', e.target.value)} placeholder="Image URL" className="px-3 py-2 border rounded-md flex-1" />
+            <div key={s.__idx} className="flex flex-col gap-2 p-3 border rounded-md bg-gray-50 items-start">
+              <div className="w-full flex items-center justify-between">
+                <select
+                  className="px-3 py-1.5 border rounded border-blue-300 bg-blue-50 text-blue-800 text-sm outline-none"
+                  onChange={(e) => handleProductPick(s.__idx, e.target.value)}
+                  defaultValue=""
+                >
+                  <option value="" disabled>Auto-fill from a Product...</option>
+                  {products.map(p => (
+                    <option key={p._id} value={p._id}>{p.name} {p.flavour ? `(${p.flavour})` : ''}</option>
+                  ))}
+                </select>
+                <button onClick={() => removeSlide(s.__idx)} className="px-2 py-1 bg-red-100 text-red-700 rounded-md text-sm">Remove</button>
+              </div>
+
+              <div className="flex gap-2 w-full mt-2">
+                <input value={s.src} onChange={e => updateSlide(s.__idx, 'src', e.target.value)} placeholder="Image URL" className="px-3 py-2 border rounded-md flex-1" />
+                <div className="w-96 flex flex-col gap-2">
+                  <input value={s.title} onChange={e => updateSlide(s.__idx, 'title', e.target.value)} placeholder="Title" className="px-3 py-2 border rounded-md w-full" />
+                  <input value={s.subtitle} onChange={e => updateSlide(s.__idx, 'subtitle', e.target.value)} placeholder="Subtitle" className="px-3 py-2 border rounded-md w-full" />
+                  <input value={s.link} onChange={e => updateSlide(s.__idx, 'link', e.target.value)} placeholder="Page Link (e.g. /product/123)" className="px-3 py-2 border rounded-md w-full" />
+                </div>
+              </div>
               <div className="w-64">
                 <input value={s.title} onChange={e => updateSlide(s.__idx, 'title', e.target.value)} placeholder="Title" className="px-3 py-2 border rounded-md w-full mb-2" />
                 <input value={s.subtitle} onChange={e => updateSlide(s.__idx, 'subtitle', e.target.value)} placeholder="Subtitle" className="px-3 py-2 border rounded-md w-full mb-2" />
                 <input value={s.link} onChange={e => updateSlide(s.__idx, 'link', e.target.value)} placeholder="Page Link (e.g. /product/123)" className="px-3 py-2 border rounded-md w-full" />
-              </div>
-              <div className="flex flex-col gap-2">
-                <button onClick={() => removeSlide(s.__idx)} className="px-2 py-1 bg-red-100 text-red-700 rounded-md">Remove</button>
               </div>
             </div>
           ))}
@@ -109,14 +158,32 @@ const Settings = () => {
         <p className="text-sm text-gray-500 mb-3">These images appear as the three grid items below the main banner. Each has its own title/subtitle.</p>
         <div className="space-y-3">
           {slidesBySlot('grid').map((s) => (
-            <div key={s.__idx} className="flex gap-2 items-start">
-              <input value={s.src} onChange={e => updateSlide(s.__idx, 'src', e.target.value)} placeholder="Image URL" className="px-3 py-2 border rounded-md flex-1" />
+            <div key={s.__idx} className="flex flex-col gap-2 p-3 border rounded-md bg-gray-50 items-start">
+              <div className="w-full flex items-center justify-between">
+                <select
+                  className="px-3 py-1.5 border rounded border-blue-300 bg-blue-50 text-blue-800 text-sm outline-none"
+                  onChange={(e) => handleProductPick(s.__idx, e.target.value)}
+                  defaultValue=""
+                >
+                  <option value="" disabled>Auto-fill from a Product...</option>
+                  {products.map(p => (
+                    <option key={p._id} value={p._id}>{p.name} {p.flavour ? `(${p.flavour})` : ''}</option>
+                  ))}
+                </select>
+                <button onClick={() => removeSlide(s.__idx)} className="px-2 py-1 bg-red-100 text-red-700 rounded-md text-sm">Remove</button>
+              </div>
+
+              <div className="flex gap-2 w-full mt-2">
+                <input value={s.src} onChange={e => updateSlide(s.__idx, 'src', e.target.value)} placeholder="Image URL" className="px-3 py-2 border rounded-md flex-1" />
+                <div className="w-96 flex flex-col gap-2">
+                  <input value={s.title} onChange={e => updateSlide(s.__idx, 'title', e.target.value)} placeholder="Title" className="px-3 py-2 border rounded-md w-full" />
+                  <input value={s.subtitle} onChange={e => updateSlide(s.__idx, 'subtitle', e.target.value)} placeholder="Subtitle" className="px-3 py-2 border rounded-md w-full" />
+                  <input value={s.link} onChange={e => updateSlide(s.__idx, 'link', e.target.value)} placeholder="Page Link (e.g. /product/123)" className="px-3 py-2 border rounded-md w-full" />
+                </div>
+              </div>
               <div className="w-64">
                 <input value={s.title} onChange={e => updateSlide(s.__idx, 'title', e.target.value)} placeholder="Title" className="px-3 py-2 border rounded-md w-full mb-2" />
                 <input value={s.subtitle} onChange={e => updateSlide(s.__idx, 'subtitle', e.target.value)} placeholder="Subtitle" className="px-3 py-2 border rounded-md w-full" />
-              </div>
-              <div className="flex flex-col gap-2">
-                <button onClick={() => removeSlide(s.__idx)} className="px-2 py-1 bg-red-100 text-red-700 rounded-md">Remove</button>
               </div>
             </div>
           ))}

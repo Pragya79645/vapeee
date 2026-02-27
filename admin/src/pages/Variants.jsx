@@ -7,7 +7,7 @@ import { useSync } from '../context/SyncContext';
 const Variants = () => {
     const [itemGroups, setItemGroups] = useState([]);
     const [loading, setLoading] = useState(false);
-    const { runSyncFrom, syncFromStatus } = useSync();
+    const { runSyncFromClover, syncStatus } = useSync();
 
     const fetchItemGroups = async () => {
         try {
@@ -27,10 +27,10 @@ const Variants = () => {
 
     useEffect(() => {
         fetchItemGroups();
-    }, [syncFromStatus]); // Refresh when sync status changes
+    }, [syncStatus]); // Refresh when sync status changes
 
     const handleSync = async () => {
-        await runSyncFrom();
+        await runSyncFromClover();
         fetchItemGroups();
     };
 
@@ -40,10 +40,10 @@ const Variants = () => {
                 <h2 className="text-xl">Item Groups (Variants)</h2>
                 <button
                     onClick={handleSync}
-                    disabled={syncFromStatus === 'working'}
+                    disabled={syncStatus === 'working'}
                     className="bg-[#FFB81C] text-white px-4 py-2 rounded-md disabled:opacity-50"
                 >
-                    {syncFromStatus === 'working' ? 'Syncing...' : 'Sync from Clover'}
+                    {syncStatus === 'working' ? 'Syncing...' : 'Sync from Clover'}
                 </button>
             </div>
 

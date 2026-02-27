@@ -156,7 +156,10 @@ const Categories = () => {
   return (
     <div>
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-3">
-        <h2 className="text-xl">Categories</h2>
+        <div>
+          <h2 className="text-xl">Categories</h2>
+          <p className="text-xs text-gray-400 mt-1">Categories with <span className="inline-block w-2 h-2 bg-green-500 rounded-full mx-0.5"></span> are linked to Clover.</p>
+        </div>
         <div className="flex gap-2 w-full sm:w-auto">
           <input
             type="text"
@@ -218,8 +221,14 @@ const Categories = () => {
                   />
                 </div>
                 <div className="min-w-0">
-                  <p className="font-medium text-base truncate">{cat.name}</p>
-                  <p className="text-xs text-gray-400 truncate">ID: <span className="text-gray-600">{cat.categoryId}</span></p>
+                  <p className="font-medium text-base truncate flex items-center gap-1.5">
+                    {cat.name}
+                    {cat.cloverLinked && <span className="w-2 h-2 bg-green-500 rounded-full flex-shrink-0" title="Clover linked"></span>}
+                  </p>
+                  <p className="text-xs text-gray-400 truncate">
+                    ID: <span className="text-gray-600 font-mono">{cat.categoryId}</span>
+                    {cat.cloverId && <span className="ml-2 text-green-600">Clover: {cat.cloverId}</span>}
+                  </p>
                 </div>
               </div>
 

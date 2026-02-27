@@ -462,6 +462,24 @@ class CloverService {
     }
   }
 
+  async getItemStock(itemId) {
+    if (!this.merchantId || !this.apiToken) return null;
+    try {
+      const response = await fetch(`${this.baseUrl}/${this.merchantId}/item_stocks/${itemId}`, {
+        method: 'GET',
+        headers: this.getHeaders()
+      });
+      if (!response.ok) {
+        if (response.status === 404) return null;
+        throw new Error(`Clover API Error: ${response.statusText}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error(`Error fetching stock for item ${itemId} from Clover: `, error);
+      return null;
+    }
+  }
+
   async addItemToCategory(itemId, categoryId) {
     if (!this.merchantId || !this.apiToken) return null;
     try {

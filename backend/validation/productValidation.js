@@ -1,10 +1,16 @@
 import Joi from "joi";
 
+const categoryObjectSchema = Joi.object({
+    cloverId: Joi.string().allow('', null).optional(),
+    name: Joi.string().required()
+});
+
 const variantSchema = Joi.object({
     size: Joi.string().required(),
     price: Joi.number().positive().required(),
     quantity: Joi.number().integer().min(0).required(),
     flavour: Joi.string().allow('', null).optional(),
+    cost: Joi.number().min(0).allow(null, '').optional(),
     sku: Joi.string().allow('', null).optional(),
     image: Joi.string().allow('', null).optional(),
     cloverItemId: Joi.string().allow('', null).optional()
@@ -15,8 +21,9 @@ export const productSchema = Joi.object({
     name: Joi.string().min(2).max(100).required(),
     description: Joi.string().min(10).optional().allow(''),
     price: Joi.number().positive().required(),
-    // allow multiple categories (array) or single category string
+    // allow categories as array of objects {cloverId, name}, array of strings, or JSON string
     categories: Joi.alternatives().try(
+        Joi.array().items(categoryObjectSchema),
         Joi.array().items(Joi.string()),
         Joi.string()
     ).optional(),

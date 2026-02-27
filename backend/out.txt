@@ -1,0 +1,4 @@
+S9 => Error: S9 validation failed: categories.0: Cast to [[string]] failed for value "[ { cloverId: '', name: 'Battery' } ]" (type string) at path "categories.0" because of "CastError"
+S10 => Error: S10 validation failed: categories.0: Cast to [[string]] failed for value "[ { cloverId: '', name: 'Battery' } ]" (type string) at path "categories.0" because of "CastError"
+S11 => Error: S11 validation failed: categories.0: Cast to [string] failed for value "[ { cloverId: '', name: 'Battery' } ]" (type string) at path "categories.0" because of "CastError"
+S12 => Error: S12 validation failed: categories.0: Cast to [string] failed for value "[ { cloverId: '', name: 'Battery' } ]" (type string) at path "categories.0" because of "CastError"

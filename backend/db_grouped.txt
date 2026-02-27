@@ -1,0 +1,587 @@
+[
+  {
+    "_id": "69a157a95e5c6f1f7b779bfd",
+    "productId": "EA7ZGCPNEJNAW",
+    "externalCloverId": "5YT93C5SPK0RP",
+    "cloverItemGroupId": "clover_group_5YT93C5SPK0RP",
+    "name": "Allo 25K",
+    "brand": "Allo 25K",
+    "categories": [
+      "Disposable Vapes"
+    ],
+    "flavour": "",
+    "variants": [
+      {
+        "size": "Allo 25K White Peach Razz",
+        "flavour": "Allo 25K White Peach Razz",
+        "price": 36.99,
+        "cost": 0,
+        "quantity": 4,
+        "cloverItemId": "EA7ZGCPNEJNAW",
+        "sku": "810014089744",
+        "showOnPOS": true,
+        "_id": "69a157a95e5c6f1f7b779bfe"
+      },
+      {
+        "size": "Allo 25K Strawberry Banana ",
+        "flavour": "Allo 25K Strawberry Banana ",
+        "price": 29.99,
+        "cost": 0,
+        "quantity": 4,
+        "cloverItemId": "S0X8VB0WE5YSG",
+        "sku": "810014084640",
+        "showOnPOS": true,
+        "_id": "69a157a95e5c6f1f7b779bff"
+      },
+      {
+        "size": "Allo 25K Lemon Lime Cranberry",
+        "flavour": "Allo 25K Lemon Lime Cranberry",
+        "price": 36.99,
+        "cost": 0,
+        "quantity": 4,
+        "cloverItemId": "94869HTDZ6V7W",
+        "sku": "810014084596",
+        "showOnPOS": true,
+        "_id": "69a157a95e5c6f1f7b779c00"
+      },
+      {
+        "size": "Allo 25K Watermelon Ice",
+        "flavour": "Allo 25K Watermelon Ice",
+        "price": 36.99,
+        "cost": 0,
+        "quantity": 5,
+        "cloverItemId": "JJYK0XJ95APVJ",
+        "sku": "810014084664",
+        "showOnPOS": true,
+        "_id": "69a157a95e5c6f1f7b779c01"
+      },
+      {
+        "size": "Allo 25K Lychee Ice",
+        "flavour": "Allo 25K Lychee Ice",
+        "price": 36.99,
+        "cost": 0,
+        "quantity": 7,
+        "cloverItemId": "YDZKK1KZXAV5R",
+        "sku": "810014080734",
+        "showOnPOS": true,
+        "_id": "69a157a95e5c6f1f7b779c02"
+      },
+      {
+        "size": "Allo 25K Lychee Watermelon Strawberry",
+        "flavour": "Allo 25K Lychee Watermelon Strawberry",
+        "price": 36.99,
+        "cost": 0,
+        "quantity": 4,
+        "cloverItemId": "SKK2WCNWGJ136",
+        "sku": "810014080727",
+        "showOnPOS": true,
+        "_id": "69a157a95e5c6f1f7b779c03"
+      },
+      {
+        "size": "Allo 25K Blueberry Ice",
+        "flavour": "Allo 25K Blueberry Ice",
+        "price": 36.99,
+        "cost": 0,
+        "quantity": 5,
+        "cloverItemId": "5P2H3G86Z3MBY",
+        "sku": "810014084534",
+        "showOnPOS": true,
+        "_id": "69a157a95e5c6f1f7b779c04"
+      },
+      {
+        "size": "Allo 25K Blue Raspberry Lemon",
+        "flavour": "Allo 25K Blue Raspberry Lemon",
+        "price": 36.99,
+        "cost": 0,
+        "quantity": 6,
+        "cloverItemId": "0K8EF1CEZ89YM",
+        "sku": "810014084558",
+        "showOnPOS": true,
+        "_id": "69a157a95e5c6f1f7b779c05"
+      },
+      {
+        "size": "Allo 25K Mango Ice",
+        "flavour": "Allo 25K Mango Ice",
+        "price": 36.99,
+        "cost": 0,
+        "quantity": 2,
+        "cloverItemId": "GRB63B43YB94Y",
+        "sku": "810014089720",
+        "showOnPOS": true,
+        "_id": "69a157a95e5c6f1f7b779c06"
+      },
+      {
+        "size": "Allo 25K Spearmint",
+        "flavour": "Allo 25K Spearmint",
+        "price": 36.99,
+        "cost": 0,
+        "quantity": 3,
+        "cloverItemId": "W9BR2G3V3D7Y6",
+        "sku": "810014084633",
+        "showOnPOS": true,
+        "_id": "69a157a95e5c6f1f7b779c07"
+      },
+      {
+        "size": "Allo 25K Pineapple Ice",
+        "flavour": "Allo 25K Pineapple Ice",
+        "price": 36.99,
+        "cost": 0,
+        "quantity": 2,
+        "cloverItemId": "69TBN21BAA77C",
+        "sku": "810014084619",
+        "showOnPOS": true,
+        "_id": "69a157a95e5c6f1f7b779c08"
+      },
+      {
+        "size": "Allo 25K Juicy Mango",
+        "flavour": "Allo 25K Juicy Mango",
+        "price": 36.99,
+        "cost": 0,
+        "quantity": 4,
+        "cloverItemId": "JX0K3QVFDYA0W",
+        "sku": "810014084589",
+        "showOnPOS": true,
+        "_id": "69a157a95e5c6f1f7b779c09"
+      },
+      {
+        "size": "Allo 25K Pomegranate Ice",
+        "flavour": "Allo 25K Pomegranate Ice",
+        "price": 36.99,
+        "cost": 0,
+        "quantity": 5,
+        "cloverItemId": "EP9QP0H6F8KQ6",
+        "sku": "810014084626",
+        "showOnPOS": true,
+        "_id": "69a157a95e5c6f1f7b779c0a"
+      },
+      {
+        "size": "Allo 25K Peach",
+        "flavour": "Allo 25K Peach",
+        "price": 36.99,
+        "cost": 0,
+        "quantity": 7,
+        "cloverItemId": "ZJ4JCJH0HGYF2",
+        "sku": "810014084602",
+        "showOnPOS": true,
+        "_id": "69a157a95e5c6f1f7b779c0b"
+      },
+      {
+        "size": "Allo 25K Polar Chill",
+        "flavour": "Allo 25K Polar Chill",
+        "price": 36.99,
+        "cost": 0,
+        "quantity": 6,
+        "cloverItemId": "CBYRPJ1A8KQSP",
+        "sku": "810014089737",
+        "showOnPOS": true,
+        "_id": "69a157a95e5c6f1f7b779c0c"
+      },
+      {
+        "size": "Allo 25K Fuji Apple Ice",
+        "flavour": "Allo 25K Fuji Apple Ice",
+        "price": 36.99,
+        "cost": 0,
+        "quantity": 3,
+        "cloverItemId": "HJCWM32QCT9A4",
+        "sku": "810014084565",
+        "showOnPOS": true,
+        "_id": "69a157a95e5c6f1f7b779c0d"
+      },
+      {
+        "size": "Allo 25K Blue Raspberry",
+        "flavour": "Allo 25K Blue Raspberry",
+        "price": 36.99,
+        "cost": 0,
+        "quantity": 5,
+        "cloverItemId": "XR8Y25AKPBYXY",
+        "sku": "810014084541",
+        "showOnPOS": true,
+        "_id": "69a157a95e5c6f1f7b779c0e"
+      },
+      {
+        "size": "Allo 25K Grape Ice",
+        "flavour": "Allo 25K Grape Ice",
+        "price": 36.99,
+        "cost": 0,
+        "quantity": 4,
+        "cloverItemId": "NRAAZH75CP740",
+        "sku": "810014084572",
+        "showOnPOS": true,
+        "_id": "69a157a95e5c6f1f7b779c0f"
+      },
+      {
+        "size": "Allo 25K Banana Ice",
+        "flavour": "Allo 25K Banana Ice",
+        "price": 36.99,
+        "cost": 0,
+        "quantity": 5,
+        "cloverItemId": "JTABGJYFG4JQY",
+        "sku": "810014084527",
+        "showOnPOS": true,
+        "_id": "69a157a95e5c6f1f7b779c10"
+      },
+      {
+        "size": "Allo 25K Strawberry Kiwi",
+        "flavour": "Allo 25K Strawberry Kiwi",
+        "price": 36.99,
+        "cost": 0,
+        "quantity": 5,
+        "cloverItemId": "Y6N0JM872GYXT",
+        "sku": "810014084657",
+        "showOnPOS": true,
+        "_id": "69a157a95e5c6f1f7b779c11"
+      }
+    ],
+    "description": "",
+    "inStock": true,
+    "stockCount": 90,
+    "images": [],
+    "price": 29.99,
+    "showOnPOS": true,
+    "otherFlavours": [],
+    "bestseller": false,
+    "sweetnessLevel": 5,
+    "mintLevel": 0,
+    "modifierGroups": [],
+    "taxRates": [
+      {
+        "id": "ZMPX3E0TSQFA4",
+        "name": "Gst",
+        "rate": 500000,
+        "isDefault": false,
+        "items": {
+          "elements": [
+            {
+              "id": "EA7ZGCPNEJNAW"
+            }
+          ]
+        }
+      },
+      {
+        "id": "BP5648HYM9EW4",
+        "name": "Vape Tax ",
+        "rate": 2000000,
+        "isDefault": false,
+        "items": {
+          "elements": [
+            {
+              "id": "EA7ZGCPNEJNAW"
+            }
+          ]
+        }
+      }
+    ],
+    "revenueClass": "",
+    "createdAt": "2026-02-27T08:36:57.626Z",
+    "updatedAt": "2026-02-27T08:36:57.626Z",
+    "__v": 0,
+    "cloverSynced": true
+  },
+  {
+    "_id": "69a157aa5e5c6f1f7b779c17",
+    "productId": "Q71R5PEZ0Y0YJ",
+    "externalCloverId": "W78SXKC45J2Y0",
+    "cloverItemGroupId": "clover_group_W78SXKC45J2Y0",
+    "name": "Level X G2Pro Battery",
+    "brand": "Level X G2Pro Battery",
+    "categories": [
+      "Closed Pod Vaping Device & Pods",
+      "Vape Devices And Pods"
+    ],
+    "flavour": "",
+    "variants": [
+      {
+        "size": "Level X G2Pro Battery Pink",
+        "flavour": "Level X G2Pro Battery Pink",
+        "price": 19.99,
+        "cost": 0,
+        "quantity": 10,
+        "cloverItemId": "Q71R5PEZ0Y0YJ",
+        "sku": "827152191185",
+        "showOnPOS": true,
+        "_id": "69a157aa5e5c6f1f7b779c18"
+      },
+      {
+        "size": "Level X G2Pro Battery Black",
+        "flavour": "Level X G2Pro Battery Black",
+        "price": 19.99,
+        "cost": 0,
+        "quantity": 5,
+        "cloverItemId": "WJYSWFMWQTSB8",
+        "sku": "827152191208",
+        "showOnPOS": true,
+        "_id": "69a157aa5e5c6f1f7b779c19"
+      },
+      {
+        "size": "Level X G2Pro Battery White ",
+        "flavour": "Level X G2Pro Battery White ",
+        "price": 19.99,
+        "cost": 0,
+        "quantity": 5,
+        "cloverItemId": "305QP0KH2SEDA",
+        "sku": "",
+        "showOnPOS": true,
+        "_id": "69a157aa5e5c6f1f7b779c1a"
+      }
+    ],
+    "description": "",
+    "inStock": true,
+    "stockCount": 20,
+    "images": [],
+    "price": 19.99,
+    "showOnPOS": true,
+    "otherFlavours": [],
+    "bestseller": false,
+    "sweetnessLevel": 5,
+    "mintLevel": 0,
+    "modifierGroups": [],
+    "taxRates": [
+      {
+        "id": "ZMPX3E0TSQFA4",
+        "name": "Gst",
+        "rate": 500000,
+        "isDefault": false,
+        "items": {
+          "elements": [
+            {
+              "id": "Q71R5PEZ0Y0YJ"
+            }
+          ]
+        }
+      },
+      {
+        "id": "BP5648HYM9EW4",
+        "name": "Vape Tax ",
+        "rate": 2000000,
+        "isDefault": false,
+        "items": {
+          "elements": [
+            {
+              "id": "Q71R5PEZ0Y0YJ"
+            }
+          ]
+        }
+      }
+    ],
+    "revenueClass": "",
+    "createdAt": "2026-02-27T08:36:58.675Z",
+    "updatedAt": "2026-02-27T08:36:58.675Z",
+    "__v": 0,
+    "cloverSynced": true
+  },
+  {
+    "_id": "69a157ab5e5c6f1f7b779c20",
+    "productId": "V19XJVJPNHK5M",
+    "externalCloverId": "7371H3FR5SNF2",
+    "cloverItemGroupId": "clover_group_7371H3FR5SNF2",
+    "name": "Tray Cover",
+    "brand": "Tray Cover",
+    "categories": [
+      "Smoking Accesories"
+    ],
+    "flavour": "",
+    "variants": [
+      {
+        "size": "Tray Cover Sugar Skull",
+        "flavour": "Tray Cover Sugar Skull",
+        "price": 5.99,
+        "cost": 0,
+        "quantity": 1,
+        "cloverItemId": "V19XJVJPNHK5M",
+        "sku": "767571927258",
+        "showOnPOS": true,
+        "_id": "69a157ab5e5c6f1f7b779c21"
+      },
+      {
+        "size": "Tray Cover Dragon Blunt",
+        "flavour": "Tray Cover Dragon Blunt",
+        "price": 5.99,
+        "cost": 0,
+        "quantity": 1,
+        "cloverItemId": "ZT0Y3GH43AYQA",
+        "sku": "767571927432",
+        "showOnPOS": true,
+        "_id": "69a157ab5e5c6f1f7b779c22"
+      },
+      {
+        "size": "Tray Cover All Seeing Eye",
+        "flavour": "Tray Cover All Seeing Eye",
+        "price": 5.99,
+        "cost": 0,
+        "quantity": 0,
+        "cloverItemId": "7CHF21R21VC3G",
+        "sku": "767571927340",
+        "showOnPOS": true,
+        "_id": "69a157ab5e5c6f1f7b779c23"
+      },
+      {
+        "size": "Tray Cover Blueberry Kush",
+        "flavour": "Tray Cover Blueberry Kush",
+        "price": 5.99,
+        "cost": 0,
+        "quantity": 0,
+        "cloverItemId": "BC0AVV9MHA330",
+        "sku": "767571927289",
+        "showOnPOS": true,
+        "_id": "69a157ab5e5c6f1f7b779c24"
+      }
+    ],
+    "description": "",
+    "inStock": true,
+    "stockCount": 2,
+    "images": [],
+    "price": 5.99,
+    "showOnPOS": true,
+    "otherFlavours": [],
+    "bestseller": false,
+    "sweetnessLevel": 5,
+    "mintLevel": 0,
+    "modifierGroups": [],
+    "taxRates": [
+      {
+        "id": "ZMPX3E0TSQFA4",
+        "name": "Gst",
+        "rate": 500000,
+        "isDefault": false,
+        "items": {
+          "elements": [
+            {
+              "id": "V19XJVJPNHK5M"
+            }
+          ]
+        }
+      },
+      {
+        "id": "BR68GZVSQK8BP",
+        "name": "Pst ",
+        "rate": 700000,
+        "isDefault": false,
+        "items": {
+          "elements": [
+            {
+              "id": "V19XJVJPNHK5M"
+            }
+          ]
+        }
+      }
+    ],
+    "revenueClass": "",
+    "createdAt": "2026-02-27T08:36:59.812Z",
+    "updatedAt": "2026-02-27T08:36:59.812Z",
+    "__v": 0,
+    "cloverSynced": true
+  },
+  {
+    "_id": "69a157ac5e5c6f1f7b779c2a",
+    "productId": "5VTQC28NANYFP",
+    "externalCloverId": "D043ACK6S89QG",
+    "cloverItemGroupId": "clover_group_D043ACK6S89QG",
+    "name": "Vapresso Pods",
+    "brand": "Vapresso Pods",
+    "categories": [
+      "Vape Devices And Pods"
+    ],
+    "flavour": "",
+    "variants": [
+      {
+        "size": "Vapresso Pods 0.6",
+        "flavour": "Vapresso Pods 0.6",
+        "price": 6.99,
+        "cost": 0,
+        "quantity": 11,
+        "cloverItemId": "5VTQC28NANYFP",
+        "sku": "6943498632824",
+        "showOnPOS": true,
+        "_id": "69a157ac5e5c6f1f7b779c2b"
+      },
+      {
+        "size": "Vapresso Pods 1.2",
+        "flavour": "Vapresso Pods 1.2",
+        "price": 6.99,
+        "cost": 0,
+        "quantity": 8,
+        "cloverItemId": "C9RDP8XX4R8P8",
+        "sku": "6943498697571",
+        "showOnPOS": true,
+        "_id": "69a157ac5e5c6f1f7b779c2c"
+      },
+      {
+        "size": "Vapresso Pods 0.4",
+        "flavour": "Vapresso Pods 0.4",
+        "price": 6.99,
+        "cost": 0,
+        "quantity": 25,
+        "cloverItemId": "VK2T1WWVTCP4G",
+        "sku": "6943498664887",
+        "showOnPOS": true,
+        "_id": "69a157ac5e5c6f1f7b779c2d"
+      },
+      {
+        "size": "Vapresso Pods 0.8",
+        "flavour": "Vapresso Pods 0.8",
+        "price": 6.99,
+        "cost": 0,
+        "quantity": 3,
+        "cloverItemId": "0XWZQ2XTZ78GR",
+        "sku": "6943498697618",
+        "showOnPOS": true,
+        "_id": "69a157ac5e5c6f1f7b779c2e"
+      },
+      {
+        "size": "Vapresso Pods 1.0",
+        "flavour": "Vapresso Pods 1.0",
+        "price": 6.99,
+        "cost": 0,
+        "quantity": 8,
+        "cloverItemId": "P8PBB2HMR8K8W",
+        "sku": "6943498697595",
+        "showOnPOS": true,
+        "_id": "69a157ac5e5c6f1f7b779c2f"
+      }
+    ],
+    "description": "",
+    "inStock": true,
+    "stockCount": 55,
+    "images": [],
+    "price": 6.99,
+    "showOnPOS": true,
+    "otherFlavours": [],
+    "bestseller": false,
+    "sweetnessLevel": 5,
+    "mintLevel": 0,
+    "modifierGroups": [],
+    "taxRates": [
+      {
+        "id": "ZMPX3E0TSQFA4",
+        "name": "Gst",
+        "rate": 500000,
+        "isDefault": false,
+        "items": {
+          "elements": [
+            {
+              "id": "5VTQC28NANYFP"
+            }
+          ]
+        }
+      },
+      {
+        "id": "BP5648HYM9EW4",
+        "name": "Vape Tax ",
+        "rate": 2000000,
+        "isDefault": false,
+        "items": {
+          "elements": [
+            {
+              "id": "5VTQC28NANYFP"
+            }
+          ]
+        }
+      }
+    ],
+    "revenueClass": "",
+    "createdAt": "2026-02-27T08:37:00.863Z",
+    "updatedAt": "2026-02-27T08:37:00.863Z",
+    "__v": 0,
+    "cloverSynced": true
+  }
+]

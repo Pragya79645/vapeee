@@ -1,0 +1,9 @@
+Connected to MongoDB (ecommerce)
+Checking 75 products...
+Debug Product 0: 14" Silicon Water Pipe
+Categories: ["Smoking Accesories"]
+Is Corrupted: true
+Debug Product 1: 8" Arsenal Mirage Bong
+Categories: ["Bongs"]
+Is Corrupted: true
+Successfully repaired 71 products.

@@ -1,28 +1,37 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
+import { initSocket } from '../socket';
 
 const SyncContext = createContext();
 
 export const useSync = () => useContext(SyncContext);
 
 export const SyncProvider = ({ children }) => {
-    const [syncFromStatus, setSyncFromStatus] = useState('idle'); // idle | working | success | error
-    const [syncToStatus, setSyncToStatus] = useState('idle'); // idle | working | success | error
-    const [autoSyncEnabled, setAutoSyncEnabled] = useState(() => {
-        const saved = localStorage.getItem('autoSyncEnabled');
-        return saved !== null ? JSON.parse(saved) : false;
-    });
+    const [syncStatus, setSyncStatus] = useState('idle'); // idle | working | success | error
+    const [lastReport, setLastReport] = useState(null);
+    const [syncMessage, setSyncMessage] = useState('');
 
     useEffect(() => {
-        localStorage.setItem('autoSyncEnabled', JSON.stringify(autoSyncEnabled));
-    }, [autoSyncEnabled]);
+        const backendUrl = import.meta.env.VITE_BACKEND_URL;
+        if (!backendUrl) return;
 
-    const toggleAutoSync = useCallback(() => {
-        setAutoSyncEnabled(prev => !prev);
+        const socket = initSocket(backendUrl);
+        if (!socket) return;
+
+        const onProgress = (data) => {
+            if (data && data.message) setSyncMessage(data.message);
+        };
+
+        socket.on('syncProgress', onProgress);
+        return () => {
+            try { socket.off('syncProgress', onProgress); } catch (e) { }
+        };
     }, []);
 
-    const runSyncFrom = useCallback(async () => {
+    // Single sync function — pull from Clover (the source of truth)
+    const runSyncFromClover = useCallback(async () => {
         try {
-            setSyncFromStatus('working');
+            setSyncStatus('working');
+            setSyncMessage('Starting sync process...');
             const base = import.meta.env.VITE_BACKEND_URL || '';
             const url = `${base.replace(/\/$/, '')}/api/admin/sync/clover`;
             const token = localStorage.getItem('admin_token');
@@ -37,49 +46,21 @@ export const SyncProvider = ({ children }) => {
             });
             if (!res.ok) throw new Error(`Sync failed: ${res.status}`);
             const json = await res.json();
-            console.log('Clover sync FROM result', json);
-            setSyncFromStatus('success');
-            setTimeout(() => setSyncFromStatus('idle'), 3000);
+            console.log('Clover sync result', json);
+            setLastReport(json.report || null);
+            setSyncStatus('success');
+            setTimeout(() => setSyncStatus('idle'), 4000);
             return json;
         } catch (err) {
-            console.error('Sync FROM error', err);
-            setSyncFromStatus('error');
-            setTimeout(() => setSyncFromStatus('idle'), 4000);
-            throw err;
-        }
-    }, []);
-
-    const runSyncTo = useCallback(async () => {
-        try {
-            setSyncToStatus('working');
-            const base = import.meta.env.VITE_BACKEND_URL || '';
-            const url = `${base.replace(/\/$/, '')}/api/admin/sync/clover`;
-            const token = localStorage.getItem('admin_token');
-            const res = await fetch(url, {
-                method: 'POST',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                    ...(token ? { 'Authorization': `Bearer ${token}` } : {})
-                },
-                body: JSON.stringify({ mode: 'push' })
-            });
-            if (!res.ok) throw new Error(`Sync failed: ${res.status}`);
-            const json = await res.json();
-            console.log('Clover sync TO result', json);
-            setSyncToStatus('success');
-            setTimeout(() => setSyncToStatus('idle'), 3000);
-            return json;
-        } catch (err) {
-            console.error('Sync TO error', err);
-            setSyncToStatus('error');
-            setTimeout(() => setSyncToStatus('idle'), 4000);
+            console.error('Sync error', err);
+            setSyncStatus('error');
+            setTimeout(() => setSyncStatus('idle'), 5000);
             throw err;
         }
     }, []);
 
     return (
-        <SyncContext.Provider value={{ syncFromStatus, syncToStatus, runSyncFrom, runSyncTo, autoSyncEnabled, toggleAutoSync }}>
+        <SyncContext.Provider value={{ syncStatus, lastReport, syncMessage, runSyncFromClover }}>
             {children}
         </SyncContext.Provider>
     );
