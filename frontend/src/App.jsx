@@ -32,6 +32,7 @@ import ProductHighlights from "./components/highlights";
 import Hero from "./components/Hero";
 import Highlights from "./components/highlights";
 import Chatbot from "./components/Chatbot";
+import VersionCheck from "./components/VersionCheck";
 
 const App = () => {
   const location = useLocation();
@@ -47,6 +48,7 @@ const App = () => {
 
   return (
     <div className="px-4 sm:px-[5%] md:px-[7%] lg:px-[9%]">
+      <VersionCheck />
       <ToastContainer />
       <Navbar />
       <CategoryNav />

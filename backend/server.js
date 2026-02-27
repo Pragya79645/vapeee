@@ -20,6 +20,7 @@ import logRoute from './routes/logRoute.js';
 
 // App Config
 const app = express();
+app.set('trust proxy', 1); // Allow express-rate-limit to trust reverse proxy (e.g., Render)
 const PORT = process.env.PORT || 4000;
 
 // Middleware

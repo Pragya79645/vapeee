@@ -14,6 +14,7 @@ import { useSync } from './context/SyncContext';
 import Login from "./components/Login";
 import HowToUse from "./pages/HowToUse";
 import Logs from "./pages/Logs";
+import VersionCheck from "./components/VersionCheck";
 
 const App = () => {
   const { loading, user } = useAuth();
@@ -22,6 +23,7 @@ const App = () => {
 
   return (
     <div className="bg-gray-50 min-h-screen">
+      <VersionCheck />
       <ToastContainer />
       {
         !user ?
