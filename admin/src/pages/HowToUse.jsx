@@ -59,9 +59,7 @@ const HowToUse = () => {
             {/* Imports */}
             <section className="mb-8">
                 <h2 className="text-xl font-semibold mb-3 text-blue-700">4. Excel Imports</h2>
-                <p className="text-gray-600 mb-2">
-                    You can mass-import products using the <strong>Import from Excel</strong> button on the List page.
-                </p>
+
                 <ul className="list-disc pl-5 text-gray-600 space-y-1">
                     <li><strong>Important:</strong> Products imported via Excel are <em>NOT</em> automatically sent to Clover. They will get a yellow "Not Synced" badge.</li>
                     <li>To sync an imported product to Clover, you must edit it and click <strong>Update</strong>.</li>

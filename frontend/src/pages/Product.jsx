@@ -207,9 +207,7 @@ function Product() {
 
                     {/* Stock & POS */}
                     <div className='mt-3'>
-                        {!isOutOfStock ? (
-                            <p className='text-green-600'>In stock: {currentStock ?? '—'}</p>
-                        ) : (
+                        {isOutOfStock && (
                             <p className='text-red-600'>Out of stock</p>
                         )}
                     </div>
