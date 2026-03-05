@@ -14,7 +14,7 @@ import { calculateOrderTotal } from "../utils/calculateOrder.js";
 // Helper to get tax and delivery settings
 const getOrderSettings = async () => {
     let taxRate = 0;
-    let deliveryFee = 0; // Default fallback
+    let deliveryFee = 10; // Default delivery fee is $10
 
     try {
         if (cloverService.isConfigured()) {
@@ -27,11 +27,12 @@ const getOrderSettings = async () => {
                 taxRate = totalRate / 10000000;
             }
 
-            // Get Delivery Fee
+            // Get Delivery Fee from Clover (if configured)
             const serviceCharge = await cloverService.getDefaultServiceCharge();
             if (serviceCharge && serviceCharge.enabled && serviceCharge.amount) {
                 deliveryFee = serviceCharge.amount / 100;
             }
+            // Otherwise keep the default $10
         }
     } catch (e) {
         console.error("Failed to fetch settings for order calculation:", e);
@@ -314,6 +315,9 @@ const placeOrderClover = async (req, res) => {
         });
         const finalAmount = calculation.total;
 
+        console.log('[Order] Calculation breakdown:', JSON.stringify(calculation, null, 2));
+        console.log('[Order] Settings:', JSON.stringify(settings, null, 2));
+
         // Create pending order
         const newOrder = new Order({
             userId,
@@ -349,7 +353,7 @@ const placeOrderClover = async (req, res) => {
 
         console.log('[Order] User details:', { email: user.email, name: user.name });
 
-        const session = await cloverService.createCheckoutSession(newOrder, user, returnUrl, cancelUrl);
+        const session = await cloverService.createCheckoutSession(newOrder, user, returnUrl, cancelUrl, calculation);
         if (!session || !session.href) {
             console.error('[Order] Clover session creation failed - no session URL returned');
             return res.status(500).json({ success: false, message: "Failed to create Clover session" });

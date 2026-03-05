@@ -386,13 +386,14 @@ class CloverService {
     }
   }
 
-  async createCheckoutSession(orderData, userData, returnUrl, cancelUrl) {
+  async createCheckoutSession(orderData, userData, returnUrl, cancelUrl, calculation = {}) {
     if (!this.merchantId || !this.apiToken) {
       console.error('[Clover] createCheckoutSession called but service not configured');
       throw new Error('Clover service not configured');
     }
     try {
       console.log('[Clover] Creating checkout session for order:', orderData._id);
+      console.log('[Clover] Calculation received:', JSON.stringify(calculation, null, 2));
       
       // Construct line items for Hosted Checkout
       const lineItems = (orderData.items || []).map(item => ({
@@ -405,6 +406,30 @@ class CloverService {
       // Get customer name parts
       const firstName = orderData.address?.firstName || userData.name?.split(' ')[0] || 'Customer';
       const lastName = orderData.address?.lastName || userData.name?.split(' ').slice(1).join(' ') || '';
+
+      // Extract shipping and tax from calculation
+      const shippingFee = calculation.shippingFee || 0;
+      const taxAmount = calculation.tax || 0;
+      
+      console.log('[Clover] Shipping fee:', shippingFee, 'Tax amount:', taxAmount);
+
+      // Add shipping as a line item if applicable
+      if (shippingFee > 0) {
+        lineItems.push({
+          name: 'Shipping',
+          price: Math.round(shippingFee * 100), // cents
+          unitQty: 1
+        });
+      }
+
+      // Add tax as a line item if applicable
+      if (taxAmount > 0) {
+        lineItems.push({
+          name: 'Estimated taxes',
+          price: Math.round(taxAmount * 100), // cents
+          unitQty: 1
+        });
+      }
 
       const payload = {
         customer: {
