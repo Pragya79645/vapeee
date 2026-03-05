@@ -387,8 +387,13 @@ class CloverService {
   }
 
   async createCheckoutSession(orderData, userData, returnUrl, cancelUrl) {
-    if (!this.merchantId || !this.apiToken) return null;
+    if (!this.merchantId || !this.apiToken) {
+      console.error('[Clover] createCheckoutSession called but service not configured');
+      throw new Error('Clover service not configured');
+    }
     try {
+      console.log('[Clover] Creating checkout session for order:', orderData._id);
+      
       // Construct line items for Hosted Checkout
       const lineItems = (orderData.items || []).map(item => ({
         name: item.name,
@@ -397,12 +402,16 @@ class CloverService {
         note: item.variantSize || ''
       }));
 
+      // Get customer name parts
+      const firstName = orderData.address?.firstName || userData.name?.split(' ')[0] || 'Customer';
+      const lastName = orderData.address?.lastName || userData.name?.split(' ').slice(1).join(' ') || '';
+
       const payload = {
         customer: {
           email: userData.email || '',
-          firstName: orderData.address.firstName || userData.name?.split(' ')[0] || '',
-          lastName: orderData.address.lastName || userData.name?.split(' ')[1] || '',
-          phoneNumber: orderData.phone
+          firstName: firstName,
+          lastName: lastName,
+          phoneNumber: orderData.phone || ''
         },
         shoppingCart: {
           lineItems: lineItems
@@ -414,6 +423,8 @@ class CloverService {
         }
       };
 
+      console.log('[Clover] Checkout session payload:', JSON.stringify(payload, null, 2));
+
       // Hosted Checkout Endpoint
       // Sandbox: apisandbox.dev.clover.com/invoicingcheckoutservice/v1/checkouts
       // Prod: api.clover.com/invoicingcheckoutservice/v1/checkouts
@@ -424,23 +435,30 @@ class CloverService {
 
       const url = `${checkoutBaseUrl}/invoicingcheckoutservice/v1/checkouts`;
 
+      console.log('[Clover] Making request to:', url);
+      console.log('[Clover] Using merchant ID:', this.merchantId);
+      console.log('[Clover] Environment:', this.env);
+
       const response = await fetch(url, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${this.apiToken}`,
           'Content-Type': 'application/json',
-          'X-Clover-Merchant-Id': this.merchantId // Sometimes required for global services
+          'X-Clover-Merchant-Id': this.merchantId
         },
         body: JSON.stringify(payload)
       });
 
       if (!response.ok) {
         const errText = await response.text();
-        console.error(`Clover createCheckoutSession failed: ${response.status} ${errText}`);
-        throw new Error(`Clover Checkout Error: ${response.statusText}`);
+        console.error(`[Clover] createCheckoutSession failed: ${response.status} ${response.statusText}`);
+        console.error(`[Clover] Error response body:`, errText);
+        throw new Error(`Clover Checkout Error: ${response.status} ${response.statusText} - ${errText}`);
       }
 
-      return await response.json();
+      const result = await response.json();
+      console.log('[Clover] Checkout session created successfully:', result.id);
+      return result;
     } catch (error) {
       console.error('Error creating Clover checkout session:', error);
       throw error;

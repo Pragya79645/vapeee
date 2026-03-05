@@ -138,13 +138,13 @@ function PlaceOrder() {
                 items: orderItems,
                 amount: finalAmount,
                 address: {
+                    firstName: user?.name?.split(' ')[0] || 'Customer',
+                    lastName: user?.name?.split(' ').slice(1).join(' ') || '',
                     street: formData.street,
                     city: formData.city,
                     state: formData.state,
                     zip: formData.zipcode,
-                    country: formData.country,
-                    firstName: user?.name?.split(' ')[0] || '',
-                    lastName: user?.name?.split(' ')[1] || ''
+                    country: formData.country
                 },
                 // Include discount information if applied
                 discountCode: discount ? discount.code : null,
@@ -179,6 +179,7 @@ function PlaceOrder() {
                             // Redirect to Clover Hosted Checkout
                             window.location.href = res.data.sessionUrl;
                         } else {
+                            console.error('Clover payment initiation failed:', res.data);
                             toast.error(res.data.message || "Failed to initiate payment.");
                         }
                         break;

@@ -331,29 +331,39 @@ const placeOrderClover = async (req, res) => {
 
         // Create Clover Checkout Session
         if (!cloverService.isConfigured()) {
+            console.error('[Order] Clover service not configured');
             return res.status(500).json({ success: false, message: "Clover not configured" });
         }
 
         const returnUrl = `${origin}/verify?orderId=${newOrder._id}&success=true`;
         const cancelUrl = `${origin}/verify?orderId=${newOrder._id}&success=false`;
 
+        console.log('[Order] Creating Clover session with return URL:', returnUrl);
+
         // Fetch user details for Clover checkout
         const user = await User.findById(userId).select('email name');
         if (!user) {
+            console.error('[Order] User not found for order:', userId);
             return res.status(404).json({ success: false, message: "User not found" });
         }
 
+        console.log('[Order] User details:', { email: user.email, name: user.name });
+
         const session = await cloverService.createCheckoutSession(newOrder, user, returnUrl, cancelUrl);
         if (!session || !session.href) {
+            console.error('[Order] Clover session creation failed - no session URL returned');
             return res.status(500).json({ success: false, message: "Failed to create Clover session" });
         }
+
+        console.log('[Order] Clover session created successfully:', session.id);
 
         // Return the redirect URL
         return res.status(200).json({ success: true, sessionUrl: session.href, orderId: newOrder._id });
 
     } catch (error) {
-        console.error("Error placing Clover order:", error);
-        return res.status(500).json({ success: false, message: error.message });
+        console.error("[Order] Error placing Clover order:", error);
+        console.error("[Order] Error stack:", error.stack);
+        return res.status(500).json({ success: false, message: error.message || "Internal server error" });
     }
 };
 

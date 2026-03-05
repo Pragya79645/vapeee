@@ -42,4 +42,24 @@ const getCheckoutSettings = async (req, res) => {
     }
 };
 
-export { handleWebhook, getCheckoutSettings };
+// Diagnostic endpoint to check Clover configuration
+const getCloverStatus = async (req, res) => {
+    try {
+        const status = {
+            configured: cloverService.isConfigured(),
+            environment: process.env.CLOVER_ENV || 'not set',
+            merchantIdSet: !!process.env.CLOVER_MERCHANT_ID,
+            apiTokenSet: !!process.env.CLOVER_API_TOKEN,
+            merchantIdLength: process.env.CLOVER_MERCHANT_ID?.length || 0,
+            apiTokenLength: process.env.CLOVER_API_TOKEN?.length || 0
+        };
+        
+        console.log('[Clover] Status check:', status);
+        res.json({ success: true, status });
+    } catch (error) {
+        console.error('Error checking Clover status:', error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+export { handleWebhook, getCheckoutSettings, getCloverStatus };
