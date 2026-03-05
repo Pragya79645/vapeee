@@ -386,7 +386,7 @@ class CloverService {
     }
   }
 
-  async createCheckoutSession(orderData, returnUrl, cancelUrl) {
+  async createCheckoutSession(orderData, userData, returnUrl, cancelUrl) {
     if (!this.merchantId || !this.apiToken) return null;
     try {
       // Construct line items for Hosted Checkout
@@ -399,9 +399,9 @@ class CloverService {
 
       const payload = {
         customer: {
-          email: orderData.userId.email || '',
-          firstName: orderData.address.firstName || '', // Assuming these fields exist or are passed
-          lastName: orderData.address.lastName || '',
+          email: userData.email || '',
+          firstName: orderData.address.firstName || userData.name?.split(' ')[0] || '',
+          lastName: orderData.address.lastName || userData.name?.split(' ')[1] || '',
           phoneNumber: orderData.phone
         },
         shoppingCart: {

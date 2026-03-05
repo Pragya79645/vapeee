@@ -240,7 +240,15 @@ const placeOrderClover = async (req, res) => {
     try {
         const userId = req.user._id;
         const { phone, items, address, discountCode } = req.body;
-        const origin = req.headers.origin || 'http://localhost:5173'; // Fallback for dev
+        
+        // Clover requires HTTPS URLs in production mode
+        // Use production URL if Clover is in production, otherwise use request origin
+        let origin = req.headers.origin || 'http://localhost:5173';
+        
+        // If Clover is in production mode, force use of production HTTPS URL
+        if (process.env.CLOVER_ENV === 'production') {
+            origin = 'https://knightstvapeshop.ca'; // Your production frontend URL
+        }
 
         // Basic validation
         if (!phone || !items || !Array.isArray(items) || items.length === 0) {
@@ -329,7 +337,13 @@ const placeOrderClover = async (req, res) => {
         const returnUrl = `${origin}/verify?orderId=${newOrder._id}&success=true`;
         const cancelUrl = `${origin}/verify?orderId=${newOrder._id}&success=false`;
 
-        const session = await cloverService.createCheckoutSession(newOrder, returnUrl, cancelUrl);
+        // Fetch user details for Clover checkout
+        const user = await User.findById(userId).select('email name');
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found" });
+        }
+
+        const session = await cloverService.createCheckoutSession(newOrder, user, returnUrl, cancelUrl);
         if (!session || !session.href) {
             return res.status(500).json({ success: false, message: "Failed to create Clover session" });
         }
