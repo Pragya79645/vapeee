@@ -63,7 +63,7 @@ const Wishlist = () => {
     const handleMoveToCart = async (productId) => {
         const product = wishlistProducts.find(p => p._id === productId);
         const hasVariants = product && product.variants && product.variants.length > 0;
-        
+
         let variantSize = 'default';
         if (hasVariants) {
             variantSize = selectedVariants[productId] || product.variants[0].size;
@@ -127,8 +127,8 @@ const Wishlist = () => {
                     {wishlistProducts.map((product) => {
                         const hasVariants = product.variants && product.variants.length > 0;
                         const selectedSize = selectedVariants[product._id];
-                        const selectedVariant = hasVariants 
-                            ? product.variants.find(v => v.size === selectedSize) 
+                        const selectedVariant = hasVariants
+                            ? product.variants.find(v => v.size === selectedSize)
                             : null;
                         const displayPrice = selectedVariant ? selectedVariant.price : product.price;
 
@@ -136,8 +136,8 @@ const Wishlist = () => {
                             <div key={product._id} className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
                                 <div className="relative">
                                     <img
-                                        src={product.images?.[0]?.url || ''}
-                                        alt={product.name}
+                                        src={selectedVariant && selectedVariant.image ? selectedVariant.image : (product.images?.[0]?.url || '')}
+                                        alt={selectedVariant && selectedVariant.flavour ? selectedVariant.flavour : product.name}
                                         className="w-full h-48 object-cover"
                                         onError={(e) => { e.currentTarget.src = ''; }}
                                     />
@@ -175,11 +175,10 @@ const Wishlist = () => {
                                                     <button
                                                         key={variant.size}
                                                         onClick={() => handleVariantChange(product._id, variant.size)}
-                                                        className={`px-3 py-1 text-xs border ${
-                                                            selectedSize === variant.size
+                                                        className={`px-3 py-1 text-xs border ${selectedSize === variant.size
                                                                 ? 'bg-black text-white border-black'
                                                                 : 'bg-white text-gray-700 border-gray-300 hover:border-black'
-                                                        }`}
+                                                            }`}
                                                     >
                                                         {variant.size}
                                                     </button>

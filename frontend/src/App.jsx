@@ -12,6 +12,7 @@ import Orders from "./pages/Orders";
 import PlaceOrder from "./pages/PlaceOrder";
 import Notifications from "./pages/Notifications";
 import Verify from "./pages/Verify";
+import Wishlist from "./pages/Wishlist";
 
 import Profile from "./pages/Profile";
 import { Routes, Route, Navigate, useLocation } from "react-router";
@@ -68,6 +69,7 @@ const App = () => {
 
         <Route path="/product/:productId" element={<Product />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/wishlist" element={<Wishlist />} />
 
         <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
         <Route path="/notifications" element={<PrivateRoute><Notifications /></PrivateRoute>} />
